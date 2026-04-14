@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>🌈 虹杂 启动！</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1a0a28">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/icon-512.svg">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { min-height: 100vh; background: linear-gradient(135deg, #0a0518 0%, #1a0a28 50%, #0a0518 100%); font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; color: #fff; overflow-x: hidden; }
@@ -201,6 +206,7 @@ function resetDraw(){
 }
 document.getElementById('nameInput').addEventListener('keyup',function(e){ if(e.key==='Enter') startDraw(); });
 var musicOn=false; function toggleMusic(){ var bgm=document.getElementById('bgm'); var btn=document.getElementById('musicBtn'); if(musicOn){ bgm.pause(); btn.textContent='🔇'; btn.classList.remove('playing'); musicOn=false; } else { bgm.play().catch(()=>{}); btn.textContent='🎵'; btn.classList.add('playing'); musicOn=true; } }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
 </script>
 </body>
 </html>
