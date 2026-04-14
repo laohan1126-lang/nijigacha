@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宫下爱 · Circle of Love</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #05000f; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: system-ui, sans-serif; overflow: hidden; position: relative; }
+
+/* 深色渐变背景 */
+body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 30%, #1a0030 0%, #05000f 60%); z-index: 0; }
+
+/* ===== 第一段：逐帧动画 ===== */
+.run-stage { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; transition: opacity .8s ease; }
+.run-stage.hidden { opacity: 0; pointer-events: none; }
+.run-video { width: 100%; max-width: 640px; height: auto; border-radius: 4px; image-rendering: auto; }
+
+/* ===== 第二段：卡面特效 ===== */
+.card-stage { position: fixed; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 1s ease; pointer-events: none; }
+.card-stage.active { opacity: 1; pointer-events: all; }
+
+/* 环形光芒 */
+.rings { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 21; pointer-events: none; }
+.ring { position: absolute; top: 50%; left: 50%; border-radius: 50%; border: 2px solid transparent; transform: translate(-50%,-50%) rotate(0deg); }
+.ring:nth-child(1){width:220px;height:220px;border-color:rgba(255,100,180,.7);border-right-color:transparent;animation:spin 2.5s linear infinite}
+.ring:nth-child(2){width:280px;height:280px;border-color:rgba(200,120,255,.5);border-bottom-color:transparent;animation:spin 3.5s linear infinite reverse}
+.ring:nth-child(3){width:350px;height:350px;border-color:rgba(100,180,255,.4);border-top-color:transparent;animation:spin 4.5s linear infinite}
+.ring:nth-child(4){width:420px;height:420px;border-color:rgba(255,150,100,.3);border-left-color:transparent;animation:spin 6s linear infinite reverse}
+@keyframes spin { to{transform:translate(-50%,-50%) rotate(360deg)} }
+
+/* 聚光 */
+.spotlight { position: fixed; top: 15%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(ellipse at center, rgba(255,100,180,.12) 0%, transparent 70%); z-index: 21; pointer-events: none; animation: spot-breathe 3s ease-in-out infinite; }
+@keyframes spot-breathe { 0%,100%{opacity:.7;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.1)} }
+
+/* 粒子 */
+.particles { position: fixed; top: 50%; left: 50%; z-index: 22; pointer-events: none; }
+.particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; opacity: 0; }
+@keyframes burst { 0%{opacity:1;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)} }
+
+/* 卡片 */
+.card-wrap { position: relative; z-index: 30; text-align: center; transform: scale(.6) translateY(40px); transition: all .8s cubic-bezier(.4,0,.2,1); }
+.card-stage.active .card-wrap { transform: scale(1) translateY(0); }
+.card { width: 210px; height: 300px; border-radius: 20px; background: linear-gradient(145deg, #1a0a25, #0d0320); border: 2px solid rgba(255,100,180,.5); box-shadow: 0 0 50px rgba(255,100,180,.35), 0 20px 70px rgba(0,0,0,.6); display: flex; flex-direction: column; align-items: center; padding: 22px; position: relative; overflow: hidden; }
+.card::before { content: ''; position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent 0deg, rgba(255,100,180,.08) 60deg, transparent 120deg, rgba(200,120,255,.08) 180deg, transparent 240deg, rgba(100,180,255,.08) 300deg, transparent 360deg); animation: card-conic 5s linear infinite; }
+@keyframes card-conic { to{transform:rotate(360deg)} }
+.card-inner { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
+.avatar { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #ff64b4, #c878ff); display: flex; align-items: center; justify-content: center; font-size: 42px; box-shadow: 0 0 30px rgba(255,100,180,.5); margin-bottom: 12px; }
+.name { color: #fff; font-size: 17px; font-weight: bold; text-shadow: 0 0 10px rgba(255,100,180,.4); }
+.sub { color: rgba(255,255,255,.5); font-size: 11px; margin: 4px 0 10px; }
+.rarity-badge { padding: 4px 18px; border-radius: 20px; background: linear-gradient(90deg, #ff64b4, #c878ff); color: #fff; font-size: 11px; font-weight: bold; letter-spacing: 2px; box-shadow: 0 0 20px rgba(255,100,180,.4); }
+.attr { display: flex; gap: 6px; margin-top: 10px; }
+.attr-dot { width: 10px; height: 10px; border-radius: 50%; }
+.song-tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; margin-top: 10px; border: 1px solid rgba(255,100,180,.3); color: rgba(255,255,255,.5); }
+
+/* 歌曲信息 */
+.song-info { margin-top: 24px; color: rgba(255,255,255,.5); font-size: 13px; opacity: 0; transform: translateY(10px); transition: all .6s ease 1s; }
+.card-stage.active .song-info { opacity: 1; transform: translateY(0); }
+.song-title { color: #ff64b4; font-size: 15px; font-weight: bold; margin-top: 6px; }
+
+/* 底部光晕 */
+.bottom-glow { position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); width: 700px; height: 350px; background: radial-gradient(ellipse at top, rgba(200,120,255,.2) 0%, transparent 70%); z-index: 1; animation: glow-pulse 2.5s ease-in-out infinite; }
+@keyframes glow-pulse { 0%,100%{opacity:.5} 50%{opacity:.85} }
+
+/* 重新播放 */
+.replay-btn { margin-top: 28px; padding: 10px 28px; border-radius: 50px; background: transparent; border: 1px solid rgba(255,100,180,.5); color: #ff64b4; font-size: 13px; cursor: pointer; transition: all .3s; opacity: 0; transition: opacity .5s ease 2s, background .3s, box-shadow .3s; }
+.card-stage.active .replay-btn { opacity: 1; }
+.replay-btn:hover { background: rgba(255,100,180,.1); box-shadow: 0 0 20px rgba(255,100,180,.3); border-color: #ff64b4; }
+</style>
+</head>
+<body>
+
+<!-- 第一段：逐帧动画 -->
+<div class="run-stage" id="runStage">
+  <img class="run-video" id="runVideo" src="" alt="running">
+</div>
+
+<!-- 第二段：卡面特效 -->
+<div class="card-stage" id="cardStage">
+  <div class="spotlight"></div>
+  <div class="rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <div class="particles" id="particles"></div>
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-inner">
+        <div class="avatar">❤️</div>
+        <div class="name">宫下爱</div>
+        <div class="sub">宮下愛 / Mia Taylor</div>
+        <div class="rarity-badge">S R</div>
+        <div class="attr">
+          <div class="attr-dot" style="background:#ff64b4"></div>
+          <div class="attr-dot" style="background:#c878ff"></div>
+          <div class="attr-dot" style="background:#64c8ff"></div>
+        </div>
+        <div class="song-tag">#Circle of Love</div>
+      </div>
+    </div>
+  </div>
+  <div class="song-info">🎵 Solo曲<br><div class="song-title">Circle of Love ― Love Live! 虹咲</div></div>
+  <button class="replay-btn" onclick="replay()">↺ 重播</button>
+</div>
+
+<div class="bottom-glow"></div>
+
+<script>
+const BASE = 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/';
+const TOTAL_FRAMES = 29;
+const FPS = 6; // 6fps = ~166ms per frame
+let currentFrame = 1;
+let timer = null;
+let particlesCreated = false;
+
+function startRun() {
+  document.getElementById('runStage').style.opacity = '1';
+  document.getElementById('cardStage').classList.remove('active');
+  currentFrame = 1;
+  playFrame();
+}
+
+function playFrame() {
+  document.getElementById('runVideo').src = BASE + 'frame_' + String(currentFrame).padStart(3,'0') + '.jpg';
+  if (currentFrame < TOTAL_FRAMES) {
+    currentFrame++;
+    timer = setTimeout(playFrame, 1000 / FPS);
+  } else {
+    // 最后一帧停留一下，然后切换
+    setTimeout(transition, 600);
+  }
+}
+
+function transition() {
+  clearTimeout(timer);
+  // 淡出跑步画面
+  document.getElementById('runStage').classList.add('hidden');
+  // 触发卡面
+  setTimeout(() => {
+    document.getElementById('cardStage').classList.add('active');
+    if (!particlesCreated) {
+      createParticles();
+      particlesCreated = true;
+    }
+  }, 400);
+}
+
+function createParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['#ff64b4','#c878ff','#64c8ff','#ffaa64','#ff4060','#ffd700'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const angle = (i / 40) * Math.PI * 2 + Math.random() * 0.3;
+    const dist = 120 + Math.random() * 220;
+    p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    p.style.background = colors[i % colors.length];
+    p.style.width = (2 + Math.random() * 4) + 'px';
+    p.style.height = p.style.width;
+    p.style.borderRadius = '50%';
+    p.style.animation = 'burst ' + (1.2 + Math.random() * 0.8) + 's ease-out forwards';
+    p.style.animationDelay = (Math.random() * 0.5) + 's';
+    container.appendChild(p);
+  }
+}
+
+function replay() {
+  document.getElementById('particles').innerHTML = '';
+  document.getElementById('runStage').classList.remove('hidden');
+  document.getElementById('cardStage').classList.remove('active');
+  startRun();
+}
+
+// 自动开始
+window.addEventListener('load', () => {
+  setTimeout(startRun, 300);
+});
+</script>
+</body>
+</html>
