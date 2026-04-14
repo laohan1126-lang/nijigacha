@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>LoveLive! 全团体扭蛋</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#1a0a28">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="https://c252be261e79d654-106-53-185-132.serveousercontent.com/icon-256.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:linear-gradient(135deg,#0a0518 0%,#1a0a28 50%,#0a0518 100%);font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;color:#fff;overflow-x:hidden}
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.p{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite;opacity:0}
+@keyframes tw{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.7;transform:scale(1.4)}}
+.container{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 14px;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.header{text-align:center;margin-bottom:16px;width:100%}
+.header-title{font-size:18px;font-weight:800;letter-spacing:4px;background:linear-gradient(90deg,#ff7090,#c080e0,#6080ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:3px}
+.header-sub{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:3px}
+.step{display:none;width:100%;flex-direction:column;align-items:center}
+.step.active{display:flex}
+.input-card{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px 18px;text-align:center;width:100%}
+.input-title{font-size:14px;font-weight:700;margin-bottom:14px;color:rgba(255,255,255,.85)}
+.group-count{display:flex;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.group-chip{padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);transition:all .2s}
+.group-chip.active{color:#fff;font-weight:700}
+.group-chip[data-g="muse"]{border-color:rgba(255,107,157,.4)}
+.group-chip[data-g="muse"].active{background:rgba(255,107,157,.25);color:#ff6b9d}
+.group-chip[data-g="aqours"]{border-color:rgba(80,200,255,.4)}
+.group-chip[data-g="aqours"].active{background:rgba(80,200,255,.25);color:#50c8ff}
+.group-chip[data-g="niji"]{border-color:rgba(200,80,255,.4)}
+.group-chip[data-g="niji"].active{background:rgba(200,80,255,.25);color:#c850ff}
+.group-chip[data-g="liella"]{border-color:rgba(255,215,0,.4)}
+.group-chip[data-g="liella"].active{background:rgba(255,215,0,.25);color:#ffd700}
+.name-input{width:100%;padding:11px 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:15px;text-align:center;letter-spacing:2px;outline:none;transition:border-color .3s;margin-bottom:14px;font-family:inherit}
+.name-input:focus{border-color:rgba(200,120,220,.7)}
+.name-input::placeholder{color:rgba(255,255,255,.25);letter-spacing:3px}
+.draw-btn{width:100%;padding:13px;border-radius:50px;background:linear-gradient(90deg,#e03060,#c02050);border:none;color:#fff;font-size:14px;font-weight:700;letter-spacing:4px;cursor:pointer;box-shadow:0 6px 24px rgba(200,30,60,.4);transition:all .2s;font-family:inherit}
+.draw-btn:active{transform:scale(.96)}
+.result-wrap{width:100%;display:none;padding:6px 0 20px}
+.result-wrap.active{display:block}
+.rarity-banner{text-align:center;padding:10px;border-radius:14px;margin-bottom:14px;font-size:12px;font-weight:800;letter-spacing:3px}
+.rarity-S{background:linear-gradient(90deg,#ffd700,#ff8c00);color:#000;box-shadow:0 4px 20px rgba(255,200,0,.4)}
+.rarity-A{background:linear-gradient(90deg,#c080e0,#8060ff);color:#fff;box-shadow:0 4px 16px rgba(180,100,255,.4)}
+.rarity-B{background:linear-gradient(90deg,#60a0ff,#40c0e0);color:#fff;box-shadow:0 4px 16px rgba(80,160,255,.3)}
+.rarity-C{background:linear-gradient(90deg,#60c080,#40a060);color:#fff;box-shadow:0 4px 16px rgba(80,180,100,.3)}
+.main-card{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:18px;margin-bottom:14px}
+.char-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.avatar-wrap{position:relative;flex-shrink:0}
+.avatar-ring{position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;border-radius:50%;border:3.5px solid}
+.rarity-S .avatar-ring{border-color:#ffd700;box-shadow:0 0 18px rgba(255,200,0,.6)}
+.rarity-A .avatar-ring{border-color:#c080e0;box-shadow:0 0 14px rgba(180,100,255,.5)}
+.rarity-B .avatar-ring{border-color:#60a0ff;box-shadow:0 0 12px rgba(80,160,255,.4)}
+.rarity-C .avatar-ring{border-color:#60c080;box-shadow:0 0 10px rgba(80,180,100,.3)}
+.avatar-placeholder{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:rgba(255,255,255,.85)}
+.char-info{flex:1;min-width:0}
+.char-name{font-size:18px;font-weight:700;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.char-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:2px}
+.char-cv{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+.char-attr{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.attr-tag{padding:2px 7px;border-radius:20px;font-size:9px;font-weight:600}
+.bio-section{margin-bottom:12px}
+.section-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:2px;margin-bottom:5px}
+.bio-text{font-size:11px;color:rgba(255,255,255,.7);line-height:1.7}
+.solo-section{margin-bottom:12px}
+.solo-tag{background:linear-gradient(90deg,rgba(255,200,0,.2),rgba(255,140,0,.2));border:1px solid rgba(255,200,0,.3);color:#ffd700;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;display:inline-block}
+.trivia-section{margin-bottom:12px}
+.trivia-item{font-size:10px;color:rgba(255,255,255,.5);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);line-height:1.6}
+.trivia-item:last-child{border-bottom:none}
+.group-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+.group-badge.muse{background:rgba(255,107,157,.2);color:#ff6b9d;border:1px solid rgba(255,107,157,.3)}
+.group-badge.aqours{background:rgba(80,200,255,.2);color:#50c8ff;border:1px solid rgba(80,200,255,.3)}
+.group-badge.niji{background:rgba(200,80,255,.2);color:#c850ff;border:1px solid rgba(200,80,255,.3)}
+.group-badge.liella{background:rgba(255,215,0,.2);color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+.btn-row{display:flex;gap:10px;width:100%}
+.retry-btn{flex:1;padding:11px;border-radius:50px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:12px;font-weight:600;letter-spacing:2px;cursor:pointer;font-family:inherit;transition:all .2s}
+.retry-btn:active{transform:scale(.96)}
+.home-btn{flex:1;padding:11px;border-radius:50px;background:linear-gradient(90deg,#e03060,#c02050);border:none;color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;font-family:inherit}
+.home-btn:active{transform:scale(.96)}
+.card-animate{animation:cardIn .5s ease-out}
+@keyframes cardIn{0%{opacity:0;transform:scale(.85) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.loading-ring{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:#c080e0;border-radius:50%;animation:spin .8s linear infinite;margin:40px auto;display:none}
+.loading-ring.show{display:block}
+.filter-info{font-size:10px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:10px;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="container">
+  <div class="header">
+    <div class="header-title">LoveLive! 全团体扭蛋</div>
+    <div class="header-sub">缪斯 · Aqours · 虹咲 · Liella!</div>
+  </div>
+  <div class="loading-ring" id="loadingRing"></div>
+  <div class="step active" id="stepInput">
+    <div class="input-card">
+      <div class="input-title">输入名字，召唤你的命运之人</div>
+      <div class="group-count" id="groupChips">
+        <span class="group-chip active" data-g="all">全部42人</span>
+        <span class="group-chip" data-g="muse">缪斯9人</span>
+        <span class="group-chip" data-g="aqours">Aqours9人</span>
+        <span class="group-chip" data-g="niji">虹咲13人</span>
+        <span class="group-chip" data-g="liella">Liella!11人</span>
+      </div>
+      <input class="name-input" id="nameInput" placeholder="你的名字" maxlength="12">
+      <button class="draw-btn" id="drawBtn">扭　蛋</button>
+    </div>
+  </div>
+  <div class="step" id="stepResult">
+    <div class="rarity-banner" id="rarityBanner">S RARE</div>
+    <div class="main-card card-animate" id="mainCard">
+      <div class="char-header">
+        <div class="avatar-wrap">
+          <div class="avatar-ring"></div>
+          <div class="avatar-placeholder" id="charAvatar"></div>
+        </div>
+        <div class="char-info">
+          <div class="char-name" id="charName"></div>
+          <div class="char-sub" id="charSub"></div>
+          <div class="char-cv" id="charCv"></div>
+          <div class="char-attr" id="charAttr"></div>
+        </div>
+      </div>
+      <div class="bio-section">
+        <div class="section-label">性　格</div>
+        <div class="bio-text" id="charBio"></div>
+      </div>
+      <div class="solo-section">
+        <div class="section-label">代表SOLO曲</div>
+        <div class="solo-tag" id="charSolo"></div>
+      </div>
+      <div class="trivia-section">
+        <div class="section-label">小知识</div>
+        <div id="charTrivia"></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="retry-btn" id="retryBtn">再扭一次</button>
+      <button class="home-btn" id="homeBtn">返回选择</button>
+    </div>
+  </div>
+</div>
+<script>
+const CHARS=[{"name": "高坂穗乃果", "sub": "缪斯队长·国立音乃木坂学院", "group": "muse", "attr": ["S"], "cv": "新田惠海", "solo": "SUKI DESU", "bio": "乐观开朗，永不言弃。遇到困难反而越战越勇，是团队的阳光中心。经常因为冲动惹麻烦，但总能用自己的方式带动周围的人。", "trivia": "是缪斯的发起人，没有她就没有后来的缪斯。动画第一季为了说服海未加入，说了整整一夜的话。", "rarity": 1}, {"name": "绚濑绘里", "sub": "缪斯副会长·反派角色担当", "group": "muse", "attr": ["S", "A"], "cv": "南条爱乃", "solo": "Sparkling Day", "bio": "表面高冷傲娇，实际上内心柔软，待人温柔。曾在俄罗斯留学，擅长体操，家族是面包店世家。", "trivia": "动画中被塑造成反派，实际上每次活动都是最积极参与的人。南条爱乃的歌声被誉为被天使吻过的嗓音。", "rarity": 1}, {"name": "南小鸟", "sub": "缪斯·料理担当", "group": "muse", "attr": ["A", "B"], "cv": "内田彩", "solo": "Kitto Seishun", "bio": "穗乃果和海未的青梅竹马，性格温和体贴，负责照顾大家的饮食起居。人妻属性满点，是团队的实际支柱。", "trivia": "内田彩本人怕高，在动画中高空弹跳的场景是她配音生涯的黑暗回忆。", "rarity": 2}, {"name": "园田海未", "sub": "缪斯·舞蹈总监·琴道家", "group": "muse", "attr": ["A", "B"], "cv": "三森铃子", "solo": "Shunjatta", "bio": "出身显赫，精通日本舞踊和古筝。表面严肃，内心燃烧着对偶像活动的热情，是团队的实力派。", "trivia": "三森铃子配音时故意用优雅的语气说话，结果后来在《侦探已死》等作品里展现了完全不同的一面。", "rarity": 2}, {"name": "星空凛", "sub": "缪斯·运动系·猫耳爱好者", "group": "muse", "attr": ["B", "C"], "cv": "饭田里穗", "solo": "NO EXIT NUCLEAR", "bio": "性格直爽，运动神经超群。总是精力充沛，是团队的活力担当。容易紧张，一紧张就会说错话。", "trivia": "饭田里穗曾是花样滑冰选手，曾代表日本参加国际比赛。和凛一样都有着运动员背景。", "rarity": 2}, {"name": "西木野真姬", "sub": "缪斯·财阀千金·钢琴手", "group": "muse", "attr": ["A", "B"], "cv": "Pile", "solo": "MIRACLE TUNE", "bio": "富家千金，性格傲娇又可爱。擅长钢琴，从小接受精英教育。嘴上说着不情愿，实际上是最支持缪斯的人之一。", "trivia": "Pile在成为声优前是地下偶像，在秋叶原积累了大量live现场经验，让她在演唱会时特别有感染力。", "rarity": 2}, {"name": "东条希", "sub": "缪斯·神秘系·占卜师", "group": "muse", "attr": ["A", "B"], "cv": "楠田亚衣奈", "solo": "LONELIEST BABY", "bio": "神秘感十足，喜欢占卜和神秘学。表面看起来漫不经心，实际上非常细心，是照顾团队的存在。", "trivia": "楠田亚衣奈在缪斯中年龄最小，但希的角色设定反而是最成熟的反差。声优本人现在已经是两个孩子的母亲。", "rarity": 2}, {"name": "小泉花阳", "sub": "缪斯·宅女·动画研究者", "group": "muse", "attr": ["B", "C"], "cv": "久保由利香", "solo": "LOvely", "bio": "性格内向，容易害羞，但一旦进入偶像模式就会完全改变。非常喜欢二次元文化，对动画和游戏很有研究。", "trivia": "久保由利香和花阳一样喜欢动画和游戏，在节目中经常发表宅向言论，被称为偶像宅。", "rarity": 3}, {"name": "矢泽妮可", "sub": "缪斯·压轴·NicoNicoNi", "group": "muse", "attr": ["A", "B"], "cv": "德井青空", "solo": "SHOPPIN' GIRL", "bio": "性格成熟自信，是团队的气氛制造者。招牌动作是手指指天的Nico Nico Nii。", "trivia": "德井青空在生活中和妮可完全不同，是缪斯声优里最怕羞的一个。每次说Nico Nico Nii都会脸红。", "rarity": 2}, {"name": "高海千歌", "sub": "Aqours队长·浦之星女子学院", "group": "aqours", "attr": ["S"], "cv": "伊波杏树", "solo": "One More Sunshine", "bio": "开朗直率，行动力超强。因为看到了缪斯的演出而决定成为偶像，是典型的天然呆队长，经常不计后果地往前冲。", "trivia": "伊波杏树是Aqours所有成员中第一个公布试镜结果的，她在试镜时唱的就是高海千歌的代表曲。", "rarity": 1}, {"name": "樱内梨子", "sub": "Aqours·归国子女", "group": "aqours", "attr": ["A", "B"], "cv": "逢田梨香子", "solo": "in a heartbeat", "bio": "因父亲工作调动在海外长大，日语有些生涩。性格认真努力，一心想成为能打动观众的偶像。对自己的歌声缺乏自信。", "trivia": "逢田梨香子本人在Aqours 1st LIVE时就展现出极强的主唱实力，被誉为水团第一歌喉。", "rarity": 2}, {"name": "松浦果南", "sub": "Aqours·潜水部长·海洋系", "group": "aqours", "attr": ["A", "B"], "cv": "诹访奈奈香", "solo": "WATER BLUE NEW WORLD", "bio": "沉稳可靠的大姐姐，家族经营潜水店。从小在海边长大，性格温柔包容，是Aqours实际上的精神支柱。", "trivia": "诹访奈奈香是水团中唯一一个真正持有潜水教练资格证的人，她本人在现实中也非常喜欢海洋运动。", "rarity": 2}, {"name": "黑泽黛雅", "sub": "Aqours学生会长·偶像部部长", "group": "aqours", "attr": ["S", "A"], "cv": "小宫有纱", "solo": "DREAMY COLOR", "bio": "做事认真，责任感强，有些完美主义。作为学生会长和偶像部长，对成员们要求严格但内心温柔。", "trivia": "小宫有纱在成为声优前是时尚模特，性格和黑泽黛雅的完美会长形象完全不同，现实中是个非常幽默的人。", "rarity": 1}, {"name": "渡边曜", "sub": "Aqours·候鸟·活力少女", "group": "aqours", "attr": ["S", "A"], "cv": "齐藤朱夏", "solo": "HEROES", "bio": "性格直爽，活力充沛，典型的Sports系少女。因为崇拜姐姐而开始学习游泳，总是元气满满，是Aqours的发电机。", "trivia": "齐藤朱夏的歌唱力在Aqours中被认为是第一梯队，她和降幡爱的友谊是粉丝间的美谈。", "rarity": 1}, {"name": "津岛善子", "sub": "Aqours·小恶魔·吐槽役", "group": "aqours", "attr": ["B", "C"], "cv": "小林爱香", "solo": "Y酱的时间", "bio": "元气满满的吐槽担当，精力充沛到不需要睡眠。经常说yousei-san(精灵小姐)，被成员们叫做小动物。", "trivia": "小林爱香在成为声优前是女子摔跤选手，这个背景让她在Aqours的舞蹈动作中展现出独特的力度感。", "rarity": 2}, {"name": "国木田花丸", "sub": "Aqours·文学少女·迷糊担当", "group": "aqours", "attr": ["B", "C"], "cv": "高槻加奈子", "solo": "PETRICITY", "bio": "性格温和开朗，喜欢读书，尤其是浪漫主义文学作品。经常引用书中句子来表达情感，但总用错场合，有些天然呆。", "trivia": "高槻加奈子本人是个非常努力的声优，为了克服花丸角色所需要的迷糊感花了很多功夫练习。", "rarity": 3}, {"name": "小原鞠莉", "sub": "Aqours·留学组·歌剧嗓", "group": "aqours", "attr": ["A", "B"], "cv": "铃木爱奈", "solo": "HAPPY COLOR", "bio": "在意大利长大，擅长歌剧和声乐。性格自由奔放，喜欢用歌声表达情感。经常和黑泽露比组成反差萌组合。", "trivia": "铃木爱奈本人是音乐剧演员出身，唱功在水团中被公认为最强之一，在SUPER STAR等音乐剧中有丰富经验。", "rarity": 2}, {"name": "黑泽露比", "sub": "Aqours·追星女孩·宅女偶像", "group": "aqours", "attr": ["S", "A"], "cv": "降幡爱", "solo": "Awaken the world", "bio": "性格腼腆内向，在人前唱歌会害羞。但因为崇拜姐姐而决心改变自己，是Aqours中成长曲线最明显的角色。", "trivia": "降幡爱在缪斯时代的试镜中曾落选，但她没有放弃，最终成为Aqours成员。她的歌声被称为能让人落泪的声音。", "rarity": 1}, {"name": "高咲侑", "sub": "虹咲同好会顾问·制作人", "group": "niji", "attr": ["B"], "cv": "矢野妃菜喜", "solo": "TOKIMEKI Runners", "bio": "性格温柔，是同好会的顾问兼制作人，负责作曲和社团运营。虽然自己也是偶像素，但更像是团队的造梦者。", "trivia": "矢野妃菜喜是虹咲13人中最后加入的声优，她在试镜时的表现被评价为最适合当制作人的声音。", "rarity": 3}, {"name": "上原步梦", "sub": "虹咲·舞蹈战士·热血笨蛋", "group": "niji", "attr": ["A", "B"], "cv": "大西亚玖璃", "solo": "dreaming!", "bio": "性格热血，胜负欲超强，擅长舞蹈。是虹咲舞蹈担当，每次跳舞都能让人热血沸腾。经常和同学的中须霞拌嘴。", "trivia": "大西亚玖璃在成为声优前是童星，5岁就开始了演艺活动。她和相良茉优在现实中是非常好的朋友。", "rarity": 2}, {"name": "中须霞", "sub": "虹咲·神秘系·反差萌", "group": "niji", "attr": ["A", "B"], "cv": "相良茉优", "solo": "限界突破 Share", "bio": "性格腹黑，说话毒舌又萌，实际上很关心朋友。是虹咲吐槽担当，经常用犀利的话让周围的人又好气又好笑。", "trivia": "相良茉优为了配好霞的毒舌但不讨厌的感觉，专门研究了很多冷笑话和双关语。", "rarity": 2}, {"name": "樱坂雫", "sub": "虹咲·神秘歌姬·安静力量", "group": "niji", "attr": ["S", "A"], "cv": "前田佳织里", "solo": "≠ME", "bio": "性格沉稳冷静，平时话不多，但站在舞台上就像变了一个人。歌声能穿透人心，是虹咲中最有偶像魅力的存在。", "trivia": "前田佳织里本人性格和樱坂雫相反，非常活泼开朗。她说第一次配音时紧张到全身发抖。", "rarity": 1}, {"name": "朝香果林", "sub": "虹咲·冷静系·完美主义", "group": "niji", "attr": ["S", "A"], "cv": "久保田未梦", "solo": "Make-up Dream", "bio": "冷静沉稳，擅长分析，是同好会里的策略型成员。对偶像活动有独到见解，经常提出建设性意见。", "trivia": "久保田未梦和指出毬亚在现实中是非常好的朋友，两人经常在社交媒体上互动。", "rarity": 1}, {"name": "宫下爱", "sub": "虹咲·元气炸弹·街头偶像", "group": "niji", "attr": ["A", "B"], "cv": "村上奈津实", "solo": "MIRACLE TUNE", "bio": "超级元气少女，喜欢在街头表演，喜欢与人互动。性格自来熟，热情奔放，是虹咲的气氛组组长。", "trivia": "村上奈津实在成为声优前完全没有演唱经验，完全是靠天生嗓音被选中。", "rarity": 2}, {"name": "近江彼方", "sub": "虹咲·睡美人·天然呆", "group": "niji", "attr": ["B", "C"], "cv": "鬼头明里", "solo": "Eternalize Love", "bio": "总是睡眼惺忪，天然呆，说话慢吞吞。但唱歌时却展现出完全不同的魅力，是沉睡的巨人型偶像。", "trivia": "鬼头明里配音时专门研究如何让彼方的困倦感听起来可爱而不是无聊，这在配音技术上是很大的挑战。", "rarity": 2}, {"name": "优木雪菜", "sub": "虹咲·腹黑大小姐·学生会长", "group": "niji", "attr": ["A", "B"], "cv": "林鼓子", "solo": "Cherry Bomb", "bio": "富家千金出身，表面高傲但内心温柔，待人接物非常周到。是虹咲学生会长，组织能力超强，实际上有些腹黑。", "trivia": "林鼓子本人出身普通家庭，为了配好雪菜的大小姐感研究了很多相关影像资料。", "rarity": 2}, {"name": "艾玛·维尔德", "sub": "虹咲·混血儿·礼仪模范", "group": "niji", "attr": ["B", "C"], "cv": "指出毬亚", "solo": "肚饿的时候", "bio": "在瑞士长大，混血儿身份让她待人接物格外有礼貌。是虹咲的礼仪担当，性格温和善解人意，总能包容朋友的缺点。", "trivia": "指出毬亚本人是日美混血，在成为声优前是平面模特。她在虹咲的solo曲中展现了惊人的歌唱实力。", "rarity": 3}, {"name": "天王寺璃奈", "sub": "虹咲·表情包少女·隐藏社恐", "group": "niji", "attr": ["B", "C"], "cv": "田中千惠美", "solo": "SOLAR", "bio": "平时面无表情，实际上是用表情包表达感情。会社恐，但在偶像活动中逐渐打开心扉，是反差萌的典型代表。", "trivia": "田中千惠美在配音时需要演绎无表情但用表情包很有感情的感觉，这要求她用非常微妙的语气变化来传达情感。", "rarity": 3}, {"name": "三船栞子", "sub": "虹咲·治愈系·温柔姐姐", "group": "niji", "attr": ["B", "C"], "cv": "小泉萌香", "solo": "Clover", "bio": "性格温柔，是虹咲中的治愈系存在。总能在朋友难过时给予安慰，是团队的情感支柱。", "trivia": "小泉萌香的名字萌香取自樱花品种小泉，她的声音被认为是虹咲13人中最有治愈感的存在。", "rarity": 3}, {"name": "米娅·泰勒", "sub": "虹咲·归国子女·英语担当", "group": "niji", "attr": ["B", "C"], "cv": "内田秀", "solo": "L!GHT", "bio": "性格爽朗，英语说得比日语还流利。在国外长大，回日本后希望用自己的歌声连接不同文化。是虹咲的国际化担当。", "trivia": "内田秀本人是真正的混血儿，她的英语部分是她自己配音的，没有经过任何修改。", "rarity": 3}, {"name": "钟岚珠", "sub": "虹咲·傲娇系·努力家", "group": "niji", "attr": ["A", "B"], "cv": "法元明菜", "solo": "SWARM", "bio": "性格傲娇，说话直接，不擅长表达感情但内心非常温柔。是刀子嘴豆腐心的典型代表，为了追上其他成员付出了加倍的努力。", "trivia": "法元明菜是虹咲13人中第二个加入的声优，她在试镜时唱的歌打动了所有评委。", "rarity": 2}, {"name": "涩谷香音", "sub": "Liella!队长·结丘女高", "group": "liella", "attr": ["S"], "cv": "伊达小百合", "solo": "心闪亮", "bio": "性格温柔，但一旦站上舞台就会爆发出惊人的能量。是结丘女高的创始成员，被认为是天生的偶像。", "trivia": "伊达小百合是Liella! 5位创始人中最后公布的试镜结果，她在5th LIVE上的solo表现让所有人震惊。", "rarity": 1}, {"name": "唐可可", "sub": "Liella!·上海少女·可爱即正义", "group": "liella", "attr": ["S", "A"], "cv": "Liyuu", "solo": "Crescendo Yu・Ra", "bio": "从上海转学来的活泼少女，喜欢可爱的一切。中日混说，自来熟，是Liella!的可爱担当。", "trivia": "Liyuu是Liella!中唯一一个通过公开招募选中的素人声优，没有任何配音经验，完全凭天赋被选中。", "rarity": 1}, {"name": "岚千砂都", "sub": "Liella!·舞蹈担当·香音青梅竹马", "group": "liella", "attr": ["A", "B"], "cv": "岬奈子", "solo": "Stella!", "bio": "香音从小一起长大的好朋友。很早开始学舞蹈，在各种大赛上取得了很多好成绩。是Liella!的舞蹈担当，性格认真又温柔。", "trivia": "岬奈子本人曾是桌球选手，为了配好千砂都的角色特意去学了舞蹈，她在Liella! live中的舞蹈实力被公认最强。", "rarity": 2}, {"name": "平安名堇", "sub": "Liella!·童星出身·傲娇好胜", "group": "liella", "attr": ["S", "A"], "cv": "佩顿尚未", "solo": "Heroines☆Runway", "bio": "小时候作为童星出演过广告节目。虽然有傲慢、好胜的地方，但本性上是个能够理解他人悲伤的温柔好孩子。", "trivia": "平安名堇的角色名字的罗马字Sumanasora，在希腊语中意为不像星星的星星，暗示角色的不完美魅力。", "rarity": 1}, {"name": "叶月恋", "sub": "Liella!·钢琴天才·大小姐", "group": "liella", "attr": ["A", "B"], "cv": "青山渚", "solo": "Sandwich", "bio": "在学校附近的大豪宅里长大的大小姐。结丘女高创办人的女儿，从小就擅长钢琴和花样滑冰，是Liella!的音乐天才。", "trivia": "青山渚在配音前是歌手，她和Liyuu在Liella!中担任最重要的主唱位置，两人私下也是好友。", "rarity": 2}, {"name": "樱小路希奈子", "sub": "Liella!·第二期生·谜之魅力", "group": "liella", "attr": ["A", "B"], "cv": "铃原希实", "solo": "Nonfiction!!", "bio": "小时候因为不善言辞、不擅长与人交流，总是独自一人。性格冷静，但对其他成员的感情比任何人都强烈。", "trivia": "铃原希实配音时需要演绎希奈子的神秘感和高冷气质，但本人其实非常爱笑，这种反差让她在录音时经常笑场。", "rarity": 2}, {"name": "米女芽衣", "sub": "Liella!·第二期生·元气笨蛋", "group": "liella", "attr": ["B", "C"], "cv": "薮岛朱音", "solo": "Tiny Stars", "bio": "性格开朗、积极向上，对流行非常敏感，富有行动力。经常考虑在背后耍小动作的作战方案，是Liella!的策略担当。", "trivia": "薮岛朱音本人是个重度动漫宅，在录音现场经常能给出角色相关的动画宅向建议，被其他声优称为活字典。", "rarity": 3}, {"name": "若菜四季", "sub": "Liella!·第二期生·不良少女", "group": "liella", "attr": ["B", "C"], "cv": "大熊和奏", "solo": "Dazzling Game", "bio": "喜欢斜着身子，乍一看是个难以接近的不良少女。周围的人经常会对她感到害怕，但她其实正义感强烈。", "trivia": "大熊和奏在成为声优前完全没有任何表演经验，是通过试镜中的惊人天赋被选中的，她的声音被评价为非常有磁性。", "rarity": 3}, {"name": "鬼冢夏美", "sub": "Liella!·第三期生·姐姐大人", "group": "liella", "attr": ["A", "B"], "cv": "绘森彩", "solo": "Mysterious", "bio": "性格开朗、乐于助人，是后辈们仰慕的对象。作为三年级学姐，她总是默默守护着后辈们。", "trivia": "绘森彩是Liella!中年龄最小的声优之一，但夏美的角色是三年级的姐姐大人，这种反差让她在配音时需要刻意压低声音。", "rarity": 2}, {"name": "薇恩·玛格丽特", "sub": "Liella!·第三期生·神秘偶像", "group": "liella", "attr": ["A", "B"], "cv": "结那", "solo": "Mediation", "bio": "大赛获奖经历无数，是转入结丘女高的。乐感出众，歌喉美丽，但争强好胜，容易和周围发生冲突。", "trivia": "薇恩·玛格丽特的角色设定参考了真实的德国偶像文化，她的名字Margarete是德语名字，字义为珍珠。", "rarity": 2}, {"name": "鬼冢冬毬", "sub": "Liella!·第三期生·冬美的妹妹", "group": "liella", "attr": ["B", "C"], "cv": "坂仓花", "solo": "Love、Piggy", "bio": "总是努力高效行事，最讨厌无用的事情。经常毫不留情地分析事物，对梦想和希望等难以实现的事物会以冷眼相待。", "trivia": "坂仓花在配音时为了配好冬毬那种冷淡的语气，花了很多时间研究如何让声音听起来既冷酷又有可爱的感觉。", "rarity": 3}];const CHARS=[{"name": "高坂穗乃果", "sub": "缪斯队长·国立音乃木坂学院", "group": "muse", "attr": ["S"], "cv": "新田惠海", "solo": "SUKI DESU", "bio": "乐观开朗，永不言弃。遇到困难反而越战越勇，是团队的阳光中心。经常因为冲动惹麻烦，但总能用自己的方式带动周围的人。", "trivia": "是缪斯的发起人，没有她就没有后来的缪斯。动画第一季为了说服海未加入，说了整整一夜的话。", "rarity": 1}, {"name": "绚濑绘里", "sub": "缪斯副会长·反派角色担当", "group": "muse", "attr": ["S", "A"], "cv": "南条爱乃", "solo": "Sparkling Day", "bio": "表面高冷傲娇，实际上内心柔软，待人温柔。曾在俄罗斯留学，擅长体操，家族是面包店世家。", "trivia": "动画中被塑造成反派，实际上每次活动都是最积极参与的人。南条爱乃的歌声被誉为被天使吻过的嗓音。", "rarity": 1}, {"name": "南小鸟", "sub": "缪斯·料理担当", "group": "muse", "attr": ["A", "B"], "cv": "内田彩", "solo": "Kitto Seishun", "bio": "穗乃果和海未的青梅竹马，性格温和体贴，负责照顾大家的饮食起居。人妻属性满点，是团队的实际支柱。", "trivia": "内田彩本人怕高，在动画中高空弹跳的场景是她配音生涯的黑暗回忆。", "rarity": 2}, {"name": "园田海未", "sub": "缪斯·舞蹈总监·琴道家", "group": "muse", "attr": ["A", "B"], "cv": "三森铃子", "solo": "Shunjatta", "bio": "出身显赫，精通日本舞踊和古筝。表面严肃，内心燃烧着对偶像活动的热情，是团队的实力派。", "trivia": "三森铃子配音时故意用优雅的语气说话，结果后来在《侦探已死》等作品里展现了完全不同的一面。", "rarity": 2}, {"name": "星空凛", "sub": "缪斯·运动系·猫耳爱好者", "group": "muse", "attr": ["B", "C"], "cv": "饭田里穗", "solo": "NO EXIT NUCLEAR", "bio": "性格直爽，运动神经超群。总是精力充沛，是团队的活力担当。容易紧张，一紧张就会说错话。", "trivia": "饭田里穗曾是花样滑冰选手，曾代表日本参加国际比赛。和凛一样都有着运动员背景。", "rarity": 2}, {"name": "西木野真姬", "sub": "缪斯·财阀千金·钢琴手", "group": "muse", "attr": ["A", "B"], "cv": "Pile", "solo": "MIRACLE TUNE", "bio": "富家千金，性格傲娇又可爱。擅长钢琴，从小接受精英教育。嘴上说着不情愿，实际上是最支持缪斯的人之一。", "trivia": "Pile在成为声优前是地下偶像，在秋叶原积累了大量live现场经验，让她在演唱会时特别有感染力。", "rarity": 2}, {"name": "东条希", "sub": "缪斯·神秘系·占卜师", "group": "muse", "attr": ["A", "B"], "cv": "楠田亚衣奈", "solo": "LONELIEST BABY", "bio": "神秘感十足，喜欢占卜和神秘学。表面看起来漫不经心，实际上非常细心，是照顾团队的存在。", "trivia": "楠田亚衣奈在缪斯中年龄最小，但希的角色设定反而是最成熟的反差。声优本人现在已经是两个孩子的母亲。", "rarity": 2}, {"name": "小泉花阳", "sub": "缪斯·宅女·动画研究者", "group": "muse", "attr": ["B", "C"], "cv": "久保由利香", "solo": "LOvely", "bio": "性格内向，容易害羞，但一旦进入偶像模式就会完全改变。非常喜欢二次元文化，对动画和游戏很有研究。", "trivia": "久保由利香和花阳一样喜欢动画和游戏，在节目中经常发表宅向言论，被称为偶像宅。", "rarity": 3}, {"name": "矢泽妮可", "sub": "缪斯·压轴·NicoNicoNi", "group": "muse", "attr": ["A", "B"], "cv": "德井青空", "solo": "SHOPPIN' GIRL", "bio": "性格成熟自信，是团队的气氛制造者。招牌动作是手指指天的Nico Nico Nii。", "trivia": "德井青空在生活中和妮可完全不同，是缪斯声优里最怕羞的一个。每次说Nico Nico Nii都会脸红。", "rarity": 2}, {"name": "高海千歌", "sub": "Aqours队长·浦之星女子学院", "group": "aqours", "attr": ["S"], "cv": "伊波杏树", "solo": "One More Sunshine", "bio": "开朗直率，行动力超强。因为看到了缪斯的演出而决定成为偶像，是典型的天然呆队长，经常不计后果地往前冲。", "trivia": "伊波杏树是Aqours所有成员中第一个公布试镜结果的，她在试镜时唱的就是高海千歌的代表曲。", "rarity": 1}, {"name": "樱内梨子", "sub": "Aqours·归国子女", "group": "aqours", "attr": ["A", "B"], "cv": "逢田梨香子", "solo": "in a heartbeat", "bio": "因父亲工作调动在海外长大，日语有些生涩。性格认真努力，一心想成为能打动观众的偶像。对自己的歌声缺乏自信。", "trivia": "逢田梨香子本人在Aqours 1st LIVE时就展现出极强的主唱实力，被誉为水团第一歌喉。", "rarity": 2}, {"name": "松浦果南", "sub": "Aqours·潜水部长·海洋系", "group": "aqours", "attr": ["A", "B"], "cv": "诹访奈奈香", "solo": "WATER BLUE NEW WORLD", "bio": "沉稳可靠的大姐姐，家族经营潜水店。从小在海边长大，性格温柔包容，是Aqours实际上的精神支柱。", "trivia": "诹访奈奈香是水团中唯一一个真正持有潜水教练资格证的人，她本人在现实中也非常喜欢海洋运动。", "rarity": 2}, {"name": "黑泽黛雅", "sub": "Aqours学生会长·偶像部部长", "group": "aqours", "attr": ["S", "A"], "cv": "小宫有纱", "solo": "DREAMY COLOR", "bio": "做事认真，责任感强，有些完美主义。作为学生会长和偶像部长，对成员们要求严格但内心温柔。", "trivia": "小宫有纱在成为声优前是时尚模特，性格和黑泽黛雅的完美会长形象完全不同，现实中是个非常幽默的人。", "rarity": 1}, {"name": "渡边曜", "sub": "Aqours·候鸟·活力少女", "group": "aqours", "attr": ["S", "A"], "cv": "齐藤朱夏", "solo": "HEROES", "bio": "性格直爽，活力充沛，典型的Sports系少女。因为崇拜姐姐而开始学习游泳，总是元气满满，是Aqours的发电机。", "trivia": "齐藤朱夏的歌唱力在Aqours中被认为是第一梯队，她和降幡爱的友谊是粉丝间的美谈。", "rarity": 1}, {"name": "津岛善子", "sub": "Aqours·小恶魔·吐槽役", "group": "aqours", "attr": ["B", "C"], "cv": "小林爱香", "solo": "Y酱的时间", "bio": "元气满满的吐槽担当，精力充沛到不需要睡眠。经常说yousei-san(精灵小姐)，被成员们叫做小动物。", "trivia": "小林爱香在成为声优前是女子摔跤选手，这个背景让她在Aqours的舞蹈动作中展现出独特的力度感。", "rarity": 2}, {"name": "国木田花丸", "sub": "Aqours·文学少女·迷糊担当", "group": "aqours", "attr": ["B", "C"], "cv": "高槻加奈子", "solo": "PETRICITY", "bio": "性格温和开朗，喜欢读书，尤其是浪漫主义文学作品。经常引用书中句子来表达情感，但总用错场合，有些天然呆。", "trivia": "高槻加奈子本人是个非常努力的声优，为了克服花丸角色所需要的迷糊感花了很多功夫练习。", "rarity": 3}, {"name": "小原鞠莉", "sub": "Aqours·留学组·歌剧嗓", "group": "aqours", "attr": ["A", "B"], "cv": "铃木爱奈", "solo": "HAPPY COLOR", "bio": "在意大利长大，擅长歌剧和声乐。性格自由奔放，喜欢用歌声表达情感。经常和黑泽露比组成反差萌组合。", "trivia": "铃木爱奈本人是音乐剧演员出身，唱功在水团中被公认为最强之一，在SUPER STAR等音乐剧中有丰富经验。", "rarity": 2}, {"name": "黑泽露比", "sub": "Aqours·追星女孩·宅女偶像", "group": "aqours", "attr": ["S", "A"], "cv": "降幡爱", "solo": "Awaken the world", "bio": "性格腼腆内向，在人前唱歌会害羞。但因为崇拜姐姐而决心改变自己，是Aqours中成长曲线最明显的角色。", "trivia": "降幡爱在缪斯时代的试镜中曾落选，但她没有放弃，最终成为Aqours成员。她的歌声被称为能让人落泪的声音。", "rarity": 1}, {"name": "高咲侑", "sub": "虹咲同好会顾问·制作人", "group": "niji", "attr": ["B"], "cv": "矢野妃菜喜", "solo": "TOKIMEKI Runners", "bio": "性格温柔，是同好会的顾问兼制作人，负责作曲和社团运营。虽然自己也是偶像素，但更像是团队的造梦者。", "trivia": "矢野妃菜喜是虹咲13人中最后加入的声优，她在试镜时的表现被评价为最适合当制作人的声音。", "rarity": 3}, {"name": "上原步梦", "sub": "虹咲·舞蹈战士·热血笨蛋", "group": "niji", "attr": ["A", "B"], "cv": "大西亚玖璃", "solo": "dreaming!", "bio": "性格热血，胜负欲超强，擅长舞蹈。是虹咲舞蹈担当，每次跳舞都能让人热血沸腾。经常和同学的中须霞拌嘴。", "trivia": "大西亚玖璃在成为声优前是童星，5岁就开始了演艺活动。她和相良茉优在现实中是非常好的朋友。", "rarity": 2}, {"name": "中须霞", "sub": "虹咲·神秘系·反差萌", "group": "niji", "attr": ["A", "B"], "cv": "相良茉优", "solo": "限界突破 Share", "bio": "性格腹黑，说话毒舌又萌，实际上很关心朋友。是虹咲吐槽担当，经常用犀利的话让周围的人又好气又好笑。", "trivia": "相良茉优为了配好霞的毒舌但不讨厌的感觉，专门研究了很多冷笑话和双关语。", "rarity": 2}, {"name": "樱坂雫", "sub": "虹咲·神秘歌姬·安静力量", "group": "niji", "attr": ["S", "A"], "cv": "前田佳织里", "solo": "≠ME", "bio": "性格沉稳冷静，平时话不多，但站在舞台上就像变了一个人。歌声能穿透人心，是虹咲中最有偶像魅力的存在。", "trivia": "前田佳织里本人性格和樱坂雫相反，非常活泼开朗。她说第一次配音时紧张到全身发抖。", "rarity": 1}, {"name": "朝香果林", "sub": "虹咲·冷静系·完美主义", "group": "niji", "attr": ["S", "A"], "cv": "久保田未梦", "solo": "Make-up Dream", "bio": "冷静沉稳，擅长分析，是同好会里的策略型成员。对偶像活动有独到见解，经常提出建设性意见。", "trivia": "久保田未梦和指出毬亚在现实中是非常好的朋友，两人经常在社交媒体上互动。", "rarity": 1}, {"name": "宫下爱", "sub": "虹咲·元气炸弹·街头偶像", "group": "niji", "attr": ["A", "B"], "cv": "村上奈津实", "solo": "MIRACLE TUNE", "bio": "超级元气少女，喜欢在街头表演，喜欢与人互动。性格自来熟，热情奔放，是虹咲的气氛组组长。", "trivia": "村上奈津实在成为声优前完全没有演唱经验，完全是靠天生嗓音被选中。", "rarity": 2}, {"name": "近江彼方", "sub": "虹咲·睡美人·天然呆", "group": "niji", "attr": ["B", "C"], "cv": "鬼头明里", "solo": "Eternalize Love", "bio": "总是睡眼惺忪，天然呆，说话慢吞吞。但唱歌时却展现出完全不同的魅力，是沉睡的巨人型偶像。", "trivia": "鬼头明里配音时专门研究如何让彼方的困倦感听起来可爱而不是无聊，这在配音技术上是很大的挑战。", "rarity": 2}, {"name": "优木雪菜", "sub": "虹咲·腹黑大小姐·学生会长", "group": "niji", "attr": ["A", "B"], "cv": "林鼓子", "solo": "Cherry Bomb", "bio": "富家千金出身，表面高傲但内心温柔，待人接物非常周到。是虹咲学生会长，组织能力超强，实际上有些腹黑。", "trivia": "林鼓子本人出身普通家庭，为了配好雪菜的大小姐感研究了很多相关影像资料。", "rarity": 2}, {"name": "艾玛·维尔德", "sub": "虹咲·混血儿·礼仪模范", "group": "niji", "attr": ["B", "C"], "cv": "指出毬亚", "solo": "肚饿的时候", "bio": "在瑞士长大，混血儿身份让她待人接物格外有礼貌。是虹咲的礼仪担当，性格温和善解人意，总能包容朋友的缺点。", "trivia": "指出毬亚本人是日美混血，在成为声优前是平面模特。她在虹咲的solo曲中展现了惊人的歌唱实力。", "rarity": 3}, {"name": "天王寺璃奈", "sub": "虹咲·表情包少女·隐藏社恐", "group": "niji", "attr": ["B", "C"], "cv": "田中千惠美", "solo": "SOLAR", "bio": "平时面无表情，实际上是用表情包表达感情。会社恐，但在偶像活动中逐渐打开心扉，是反差萌的典型代表。", "trivia": "田中千惠美在配音时需要演绎无表情但用表情包很有感情的感觉，这要求她用非常微妙的语气变化来传达情感。", "rarity": 3}, {"name": "三船栞子", "sub": "虹咲·治愈系·温柔姐姐", "group": "niji", "attr": ["B", "C"], "cv": "小泉萌香", "solo": "Clover", "bio": "性格温柔，是虹咲中的治愈系存在。总能在朋友难过时给予安慰，是团队的情感支柱。", "trivia": "小泉萌香的名字萌香取自樱花品种小泉，她的声音被认为是虹咲13人中最有治愈感的存在。", "rarity": 3}, {"name": "米娅·泰勒", "sub": "虹咲·归国子女·英语担当", "group": "niji", "attr": ["B", "C"], "cv": "内田秀", "solo": "L!GHT", "bio": "性格爽朗，英语说得比日语还流利。在国外长大，回日本后希望用自己的歌声连接不同文化。是虹咲的国际化担当。", "trivia": "内田秀本人是真正的混血儿，她的英语部分是她自己配音的，没有经过任何修改。", "rarity": 3}, {"name": "钟岚珠", "sub": "虹咲·傲娇系·努力家", "group": "niji", "attr": ["A", "B"], "cv": "法元明菜", "solo": "SWARM", "bio": "性格傲娇，说话直接，不擅长表达感情但内心非常温柔。是刀子嘴豆腐心的典型代表，为了追上其他成员付出了加倍的努力。", "trivia": "法元明菜是虹咲13人中第二个加入的声优，她在试镜时唱的歌打动了所有评委。", "rarity": 2}, {"name": "涩谷香音", "sub": "Liella!队长·结丘女高", "group": "liella", "attr": ["S"], "cv": "伊达小百合", "solo": "心闪亮", "bio": "性格温柔，但一旦站上舞台就会爆发出惊人的能量。是结丘女高的创始成员，被认为是天生的偶像。", "trivia": "伊达小百合是Liella! 5位创始人中最后公布的试镜结果，她在5th LIVE上的solo表现让所有人震惊。", "rarity": 1}, {"name": "唐可可", "sub": "Liella!·上海少女·可爱即正义", "group": "liella", "attr": ["S", "A"], "cv": "Liyuu", "solo": "Crescendo Yu・Ra", "bio": "从上海转学来的活泼少女，喜欢可爱的一切。中日混说，自来熟，是Liella!的可爱担当。", "trivia": "Liyuu是Liella!中唯一一个通过公开招募选中的素人声优，没有任何配音经验，完全凭天赋被选中。", "rarity": 1}, {"name": "岚千砂都", "sub": "Liella!·舞蹈担当·香音青梅竹马", "group": "liella", "attr": ["A", "B"], "cv": "岬奈子", "solo": "Stella!", "bio": "香音从小一起长大的好朋友。很早开始学舞蹈，在各种大赛上取得了很多好成绩。是Liella!的舞蹈担当，性格认真又温柔。", "trivia": "岬奈子本人曾是桌球选手，为了配好千砂都的角色特意去学了舞蹈，她在Liella! live中的舞蹈实力被公认最强。", "rarity": 2}, {"name": "平安名堇", "sub": "Liella!·童星出身·傲娇好胜", "group": "liella", "attr": ["S", "A"], "cv": "佩顿尚未", "solo": "Heroines☆Runway", "bio": "小时候作为童星出演过广告节目。虽然有傲慢、好胜的地方，但本性上是个能够理解他人悲伤的温柔好孩子。", "trivia": "平安名堇的角色名字的罗马字Sumanasora，在希腊语中意为不像星星的星星，暗示角色的不完美魅力。", "rarity": 1}, {"name": "叶月恋", "sub": "Liella!·钢琴天才·大小姐", "group": "liella", "attr": ["A", "B"], "cv": "青山渚", "solo": "Sandwich", "bio": "在学校附近的大豪宅里长大的大小姐。结丘女高创办人的女儿，从小就擅长钢琴和花样滑冰，是Liella!的音乐天才。", "trivia": "青山渚在配音前是歌手，她和Liyuu在Liella!中担任最重要的主唱位置，两人私下也是好友。", "rarity": 2}, {"name": "樱小路希奈子", "sub": "Liella!·第二期生·谜之魅力", "group": "liella", "attr": ["A", "B"], "cv": "铃原希实", "solo": "Nonfiction!!", "bio": "小时候因为不善言辞、不擅长与人交流，总是独自一人。性格冷静，但对其他成员的感情比任何人都强烈。", "trivia": "铃原希实配音时需要演绎希奈子的神秘感和高冷气质，但本人其实非常爱笑，这种反差让她在录音时经常笑场。", "rarity": 2}, {"name": "米女芽衣", "sub": "Liella!·第二期生·元气笨蛋", "group": "liella", "attr": ["B", "C"], "cv": "薮岛朱音", "solo": "Tiny Stars", "bio": "性格开朗、积极向上，对流行非常敏感，富有行动力。经常考虑在背后耍小动作的作战方案，是Liella!的策略担当。", "trivia": "薮岛朱音本人是个重度动漫宅，在录音现场经常能给出角色相关的动画宅向建议，被其他声优称为活字典。", "rarity": 3}, {"name": "若菜四季", "sub": "Liella!·第二期生·不良少女", "group": "liella", "attr": ["B", "C"], "cv": "大熊和奏", "solo": "Dazzling Game", "bio": "喜欢斜着身子，乍一看是个难以接近的不良少女。周围的人经常会对她感到害怕，但她其实正义感强烈。", "trivia": "大熊和奏在成为声优前完全没有任何表演经验，是通过试镜中的惊人天赋被选中的，她的声音被评价为非常有磁性。", "rarity": 3}, {"name": "鬼冢夏美", "sub": "Liella!·第三期生·姐姐大人", "group": "liella", "attr": ["A", "B"], "cv": "绘森彩", "solo": "Mysterious", "bio": "性格开朗、乐于助人，是后辈们仰慕的对象。作为三年级学姐，她总是默默守护着后辈们。", "trivia": "绘森彩是Liella!中年龄最小的声优之一，但夏美的角色是三年级的姐姐大人，这种反差让她在配音时需要刻意压低声音。", "rarity": 2}, {"name": "薇恩·玛格丽特", "sub": "Liella!·第三期生·神秘偶像", "group": "liella", "attr": ["A", "B"], "cv": "结那", "solo": "Mediation", "bio": "大赛获奖经历无数，是转入结丘女高的。乐感出众，歌喉美丽，但争强好胜，容易和周围发生冲突。", "trivia": "薇恩·玛格丽特的角色设定参考了真实的德国偶像文化，她的名字Margarete是德语名字，字义为珍珠。", "rarity": 2}, {"name": "鬼冢冬毬", "sub": "Liella!·第三期生·冬美的妹妹", "group": "liella", "attr": ["B", "C"], "cv": "坂仓花", "solo": "Love、Piggy", "bio": "总是努力高效行事，最讨厌无用的事情。经常毫不留情地分析事物，对梦想和希望等难以实现的事物会以冷眼相待。", "trivia": "坂仓花在配音时为了配好冬毬那种冷淡的语气，花了很多时间研究如何让声音听起来既冷酷又有可爱的感觉。", "rarity": 3}];
+var currentGroup = 'all';
+
+function createParticles(){
+  var c=document.getElementById('particles');
+  for(var i=0;i<30;i++){
+    var p=document.createElement('div');
+    p.className='p';
+    p.style.cssText='left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;width:'+(2+Math.random()*4)+'px;height:'+p.style.width+'--d:'+(2+Math.random()*3)+'s;animation-delay:'+Math.random()*3+'s';
+    c.appendChild(p);
+  }
+}
+createParticles();
+
+document.querySelectorAll('.group-chip').forEach(function(el){
+  el.addEventListener('click',function(){
+    document.querySelectorAll('.group-chip').forEach(function(e){e.classList.remove('active');});
+    this.classList.add('active');
+    currentGroup = this.dataset.g;
+  });
+});
+
+document.getElementById('drawBtn').addEventListener('click',startDraw);
+document.getElementById('retryBtn').addEventListener('click',function(){
+  var g=currentGroup;
+  startDraw(g);
+});
+document.getElementById('homeBtn').addEventListener('click',function(){
+  document.getElementById('stepResult').classList.remove('active');
+  document.getElementById('stepInput').classList.add('active');
+});
+
+function getFiltered(){
+  if(currentGroup==='all') return CHARS;
+  return CHARS.filter(function(c){return c.group===currentGroup;});
+}
+
+function drawOne(char){
+  document.getElementById('stepInput').classList.remove('active');
+  document.getElementById('stepResult').classList.add('active');
+  var rarity=['C','B','A','S'][char.rarity-1];
+  var banner=document.getElementById('rarityBanner');
+  banner.className='rarity-banner rarity-'+rarity;
+  banner.textContent=rarity+' RARE';
+  var card=document.getElementById('mainCard');
+  card.classList.remove('card-animate');
+  void card.offsetWidth;
+  card.classList.add('card-animate');
+  document.getElementById('charAvatar').textContent='';
+  document.getElementById('charAvatar').style.background='linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.05))';
+  document.getElementById('charName').textContent=char.name;
+  document.getElementById('charSub').innerHTML='<span class="group-badge '+char.group+'">'+['缪斯','Aqours','虹咲','Liella!'][['muse','aqours','niji','liella'].indexOf(char.group)]+'</span> '+char.sub;
+  document.getElementById('charCv').textContent='CV. '+char.cv;
+  var attrHtml='';
+  char.attr.forEach(function(a){
+    var colors={'S':'#ffd700','A':'#c080e0','B':'#60a0ff','C':'#60c080'};
+    attrHtml+='<span class="attr-tag" style="background:'+colors[a]+'33;color:'+colors[a]+';border:1px solid '+colors[a]+'66">'+a+'</span>';
+  });
+  document.getElementById('charAttr').innerHTML=attrHtml;
+  document.getElementById('charBio').textContent=char.bio;
+  document.getElementById('charSolo').textContent=char.solo;
+  document.getElementById('charTrivia').innerHTML='<div class="trivia-item">'+char.trivia+'</div>';
+}
+
+function startDraw(){
+  var pool=getFiltered();
+  if(pool.length===0) return;
+  var total=pool.reduce(function(s,c){return s+(5-c.rarity);},0);
+  var r=Math.random()*total;
+  var cum=0;
+  for(var i=0;i<pool.length;i++){
+    cum+=(5-pool[i].rarity);
+    if(r<cum){drawOne(pool[i]);return;}
+  }
+  drawOne(pool[pool.length-1]);
+}
+document.getElementById('nameInput').addEventListener('keyup',function(e){if(e.key==='Enter')startDraw();});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
+
+</script>
+</body>
+</html>
