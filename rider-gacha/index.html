@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>骑士档案访问系统</title>
+<style>
+:root {
+ --primary: #0ff;
+ --bg-dark: #0a0a0c;
+ --card-dark: #121216;
+ --text-main: #e0e0e0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+ background-color: var(--bg-dark);
+ color: var(--text-main);
+ font-family: 'Courier New', Courier, monospace;
+ overflow-x: hidden;
+ display: flex;
+ justify-content: center;
+ min-height: 100vh;
+}
+#app {
+ width: 100%;
+ max-width: 500px;
+ position: relative;
+ padding: 20px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+.header { width: 100%; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 30px; }
+.sys-text { font-size: 12px; color: #555; letter-spacing: 2px; }
+
+/* 科技感按钮 */
+.cyber-btn {
+ background: transparent;
+ border: 2px solid var(--primary);
+ color: var(--primary);
+ padding: 15px 40px;
+ font-size: 18px;
+ font-weight: bold;
+ text-transform: uppercase;
+ cursor: pointer;
+ position: relative;
+ overflow: hidden;
+ transition: 0.3s;
+ box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+.cyber-btn:active { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); }
+
+/* 档案卡片设计 */
+#card-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.hidden { display: none !important; }
+.data-card {
+ width: 100%;
+ background: var(--card-dark);
+ border-radius: 8px;
+ border-left: 4px solid var(--primary);
+ box-shadow: 10px 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02);
+ position: relative;
+ overflow: hidden;
+ opacity: 0;
+ transform: translateY(20px);
+ transition: all 0.5s ease-out;
+}
+.data-card.show { opacity: 1; transform: translateY(0); }
+
+/* 卡片内部排版 */
+.visual-area { height: 180px; background: #000; overflow: hidden; position: relative; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.rider-photo { width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; transition: opacity 0.6s ease-in-out, transform 0.6s ease-out; transform: scale(1.1) translateY(10px); -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); mask-image: linear-gradient(to bottom, black 80%, transparent 100%); }
+.data-card.show .rider-photo { opacity: 1; transform: scale(1) translateY(0); }
+.emblem.hidden { display: none; }
+.emblem { font-size: 40px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); font-family: sans-serif; font-style: italic; }
+.info-area { padding: 20px; }
+h2#rider-name { font-size: 24px; color: #fff; margin-bottom: 20px; height: 28px; border-bottom: 1px dashed #333; padding-bottom: 5px; }
+
+/* 数据行渐显效果 */
+.stat-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.stat-row { display: flex; justify-content: space-between; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px; }
+.stat-row .label { color: #888; }
+.stat-row .value { color: var(--primary); font-weight: bold; }
+.quote-box { background: rgba(255,255,255,0.03); padding: 15px; border-left: 2px solid #555; border-radius: 0 4px 4px 0; font-size: 13px; line-height: 1.6; color: #ccc; min-height: 60px; }
+.hidden-stat { opacity: 0; transform: translateX(-10px); transition: all 0.4s ease; }
+.show-stat { opacity: 1; transform: translateX(0); }
+.text-btn { margin-top: 30px; background: none; border: none; color: #777; cursor: pointer; text-decoration: underline; font-family: monospace; }
+.screenshot-tip { margin-top: 16px; padding: 10px 16px; background: rgba(0,255,204,0.08); border: 1px dashed rgba(0,255,204,0.4); border-radius: 4px; color: rgba(0,255,204,0.7); font-size: 12px; letter-spacing: 1px; text-align: center; }
+
+/* Toast */
+#toast {
+ position: fixed; bottom: 80px; left: 50%;
+ transform: translateX(-50%) translateY(20px);
+ background: rgba(0,0,0,0.9);
+ color: var(--primary);
+ padding: 12px 24px;
+ border: 1px solid rgba(0,255,255,0.3);
+ border-radius: 4px;
+ font-size: 0.85rem;
+ opacity: 0;
+ transition: opacity 0.3s, transform 0.3s;
+ pointer-events: none;
+ z-index: 999;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div id="app">
+ <div class="header">
+  <div class="sys-text">PROJECT_RIDER // AUTHORIZED_ACCESS_ONLY</div>
+ </div>
+
+ <div id="main-ui">
+  <button id="draw-btn" class="cyber-btn">
+   <span class="btn-text">INITIATE: 抽取无料档案</span>
+  </button>
+ </div>
+
+ <div id="card-wrapper" class="hidden">
+  <div class="data-card">
+   <div class="visual-area">
+    <img id="rider-image" class="rider-photo" src="" alt="">
+    <div id="rider-emblem" class="emblem">?</div>
+   </div>
+   <div class="info-area">
+    <h2 id="rider-name"></h2>
+    <div class="stat-group">
+     <div class="stat-row hidden-stat"><span class="label">今日运势</span><span id="fortune" class="value"></span></div>
+     <div class="stat-row hidden-stat"><span class="label">同步率</span><span id="sync" class="value"></span></div>
+     <div class="stat-row hidden-stat"><span class="label">专属羁绊</span><span id="item" class="value"></span></div>
+    </div>
+    <div class="quote-box hidden-stat">
+     <p id="quote"></p>
+    </div>
+   </div>
+  </div>
+  <button id="reset-btn" class="text-btn hidden-stat">>> SYSTEM_REBOOT (再抽一次)</button>
+ <div id="screenshot-tip" class="screenshot-tip hidden-stat">>> [SYSTEM_MSG]: 请截图保存本档案，向摊主出示即可领取无料 <<</div>
+ </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// 骑士数据字典
+const riders = [];
+
+// ================== 【令和时代 Reiwa】 ==================
+riders.push(
+ { name: "假面骑士 Gavv", fortune: "SSR - 饱食满点", sync: "100%", item: "饱藏 (Gochizo)", quote: "「要把暗黑果子吃得干干净净！」—— 尽情享受今天的美食与快乐吧！", color: "#9900ff" },
+ { name: "假面骑士 Gotchard", fortune: "SR - 炼金狂热", sync: "80.0%", item: "克米卡", quote: "「抓住那个Gotcha！」—— 今天你一定会抓住属于你的那份幸运！", color: "#ff9900" },
+ { name: "假面骑士 Geats", fortune: "SSR - 极狐之运", sync: "99.9%", item: "马格南带扣", quote: "「从现在开始，就是我的高光时刻。」—— 无论遇到什么突发状况，今天你都能完美化解！", color: "#ff0033" },
+ { name: "假面骑士 Tycoon", fortune: "R - 忍者狸猫", sync: "🍀 100%", item: "忍者带扣", quote: "「为了世界和平！」—— 善良的人总会有好运，今天或许会遇到贵人相助。", color: "#009933" },
+ { name: "假面骑士 Buffa", fortune: "SR - 僵尸狂牛", sync: "HP 1", item: "僵尸带扣", quote: "「我要击溃所有的假面骑士！」—— 不屈不挠的一天，即便疲惫也能爆发出惊人毅力。", color: "#9900cc" },
+ { name: "假面骑士 Revice", fortune: "SR - 沸腾恶魔", sync: "50/50%", item: "罪恶印章", quote: "「沸腾起来了！一气呵成地解决吧！」—— 今天的你精力充沛，适合一口气搞定所有计划！", color: "#ff66cc" },
+ { name: "假面骑士 Saber", fortune: "R - 烈火拔刀", sync: "75.0%", item: "奇幻驾驭书", quote: "「故事的结局由我来决定！」—— 无论遇到什么变故，主动权都牢牢掌握在你的手中。", color: "#ff0000" },
+ { name: "假面骑士 Zero-One", fortune: "SR - 跃动飞电", sync: "89.5%", item: "飞电Zero-One驱动器", quote: "「能阻止你的只有一个人，那就是我！」—— 保持流线型的敏捷思维，今天会有绝佳的创意迸发。", color: "#ccff00" },
+ { name: "假面骑士 Vulcan", fortune: "SR - 物理授权", sync: "100%", item: "射击野狼升华钥", quote: "「一切规矩由我来定！」—— 适合打破常规的一天，不要被规则束缚。", color: "#0033cc" }
+);
+
+// ================== 【平成二期 Heisei Phase 2】 ==================
+riders.push(
+ { name: "假面骑士 Zi-O", fortune: "UR - 逢魔降临", sync: "2068%", item: "骑士表盘", quote: "「我可是要成为至高至善的魔王！」—— 过去与未来的力量交织，今天你是全场绝对的主角！", color: "#cc00ff" },
+ { name: "假面骑士 Build", fortune: "SR - 最佳搭配", sync: "85.0%", item: "满装瓶罐", quote: "「胜利的法则已经决定了！」—— 今天的灵感如同涌泉，非常适合搞点小创作。", color: "#0047bb" },
+ { name: "假面骑士 Cross-Z", fortune: "R - 肌肉银河", sync: "万丈龙我", item: "巨龙满装瓶罐", quote: "「现在的我，战无不胜！」—— 热血沸腾！今天用直觉行动或许比思考更有效。", color: "#0000cc" },
+ { name: "假面骑士 Evol", fortune: "UR - 黑洞破灭", sync: "Phase 4", item: "进化驱动器", quote: "「Ciao~」—— 充满神秘与愉悦感的一天，一切尽在你的掌握之中。", color: "#990000" },
+ { name: "假面骑士 Ex-Aid", fortune: "SSR - 天才玩家", sync: "99.0%", item: "骑士转玩卡带", quote: "「看我一命通关！」—— 今天的你就像开了无敌Buff，任何困难都能轻松化解。", color: "#ff00ff" },
+ { name: "假面骑士 Genm", fortune: "UR - 幻梦神明", sync: "LV.Billion", item: "故障驱动器", quote: "「宝生永梦——！！！我是神！！」—— 你的才能令人恐惧！今天适合大展身手。", color: "#660099" },
+ { name: "假面骑士 Ghost", fortune: "R - 燃烧生命", sync: "88.0%", item: "幽灵眼魂", quote: "「燃烧生命吧！」—— 虽然逛展可能会有些疲惫，但你的热情一定会得到满意的回报。", color: "#ff6600" },
+ { name: "假面骑士 Drive", fortune: "SR - 引擎全开", sync: "100km/h", item: "移速战车", quote: "「陪我跑完这一圈吧！」—— 今天适合快速行动，不要在犹豫上浪费抢无料的时间！", color: "#ff0000" },
+ { name: "假面骑士 Mach", fortune: "R - 追迹疾驰", sync: "Signal Bike", item: "信号摩托", quote: "「追踪、扑灭、一直都是Mach！」—— 情绪高涨的一天，让大家都看看你的华丽登场！", color: "#ffffff" },
+ { name: "假面骑士 Gaim", fortune: "SSR - 极度大将军", sync: "99.9%", item: "定锁种子", quote: "「这是属于我的舞台！」—— 尽情展示自己吧，今天大家都会为你喝彩。", color: "#ffa500" },
+ { name: "假面骑士 Wizard", fortune: "SR - 魔法希望", sync: "100%", item: "魔法指环", quote: "「来吧，Show Time！」—— 华丽地度过今天吧，你就是给同好带来希望的魔法师。", color: "#cc0000" },
+ { name: "假面骑士 Fourze", fortune: "SSR - 宇宙来了", sync: "🚀 MAX", item: "天文开关", quote: "「宇宙——来了！」—— 充满活力的一天，试着去和所有在场的同好交朋友吧！", color: "#00ccff" },
+ { name: "假面骑士 Meteor", fortune: "R - 流星陨落", sync: "Bruce Lee", item: "流星开关", quote: "「你的命运由我来决定！」—— 帅气且精准，今天你的每个决定都无比正确。", color: "#0066ff" },
+ { name: "假面骑士 OOO", fortune: "SSR - 欲望满载", sync: "100%", item: "核心硬币", quote: "「只要伸手，就能触及！」—— 今天的你物欲和食欲大满足，尽情享受漫展的快乐吧！", color: "#ffcc00" },
+ { name: "假面骑士 W", fortune: "SR - 疾风王牌", sync: "88.2%", item: "盖亚记忆体", quote: "「撒，来细数你的罪恶吧！」—— 今天适合与搭档或死党一起结伴行动，事半功倍。", color: "#4caf50" }
+);
+
+// ================== 【平成一期 Heisei Phase 1】 ==================
+riders.push(
+ { name: "假面骑士 decade", fortune: "UR - 世界破坏者", sync: "???%", item: "骑士卡片", quote: "「我只是个路过的假面骑士，给我记好了。」—— 充满变数的一天，可能会在展会上遇到意想不到的神仙大佬！", color: "#ff0099" },
+ { name: "假面骑士 Diend", fortune: "SR - 宝物猎人", sync: "Thief", item: "Diend驱动器", quote: "「这个世界的宝物，我收下了。」—— 逛展的眼光极佳，今天能买到/领到超稀有的周边！", color: "#00ccff" },
+ { name: "假面骑士 Kiva", fortune: "SR - 觉醒蝙蝠", sync: "Tension", item: "Kivat蝙蝠Ⅲ世", quote: "「觉醒吧，那个灵魂。」—— 释放你内心的中二之魂吧，今天不必压抑自己。", color: "#990000" },
+ { name: "假面骑士 Ixa", fortune: "R - 圣职护卫", sync: "1986/2008", item: "Ixa拳铳", quote: "「把命还给上帝吧！」—— 充满正义感的一天，看到不守规矩的人会忍不住想说教。", color: "#ffffff" },
+ { name: "假面骑士 Den-O", fortune: "SSR - 高潮迭起", sync: "MAX", item: "骑士通行证", quote: "「老子，参上！」—— 从最初开始就是Climax！今天无论做什么都好运连连！", color: "#ff0000" },
+ { name: "假面骑士 Kabuto", fortune: "UR - 行天之道", sync: "100%", item: "Kabuto昆虫仪", quote: "「奶奶曾经说过，行天之道，总司一切。」—— 保持你的优雅与自信，今天你就是最耀眼的太阳。", color: "#cc0000" },
+ { name: "假面骑士 Gatack", fortune: "SR - 战神之刃", sync: "加贺美", item: "Gatack昆虫仪", quote: "「我要走我自己的路！」—— 直率和真诚是你今天的最强武器，不要放弃！", color: "#0033cc" },
+ { name: "假面骑士 Hibiki", fortune: "R - 音击清澈", sync: "锻炼", item: "变身音叉·音角", quote: "「哟！锻炼啦锻炼！」—— 漫展就是一场体能特训，今天的你体力充沛，无所畏惧。", color: "#330066" },
+ { name: "假面骑士 Blade", fortune: "SR - 命运之牌", sync: "♠ 100%", item: "觉醒卡片", quote: "「我会和命运战斗，然后赢给你看！」—— 无论今天遇到什么突发状况，你都有翻盘的硬实力。", color: "#0033cc" },
+ { name: "假面骑士 Garren", fortune: "R - 破碎防线", sync: "♦ 橘前辈", item: "Garren觉醒器", quote: "「我的身体已经菠萝菠萝哒！」—— 别太拼了，注意休息，抢无料的同时也要保护好自己！", color: "#990000" },
+ { name: "假面骑士 Faiz", fortune: "R - 加速爆发", sync: "73.5%", item: "Faiz手机", quote: "「我没有梦想，但我能守护梦想。」—— 稳扎稳打的一天，会有意想不到的守护力量伴随你。", color: "#ff0000" },
+ { name: "假面骑士 Kaixa", fortune: "SR - 影帝之姿", sync: "913", item: "Kaixa手机", quote: "「你这妨碍我的家伙，真是不可原谅！」—— 远离那些影响心情的人，今天你只管自己开心就好。", color: "#ffcc00" },
+ { name: "假面骑士 Ryuki", fortune: "R - 镜面生存", sync: "70.1%", item: "V带扣", quote: "「不战斗的话就无法生存！」—— 今天可能要为了抢限量无料或者排队而进行一番体力战斗哦！", color: "#cc0000" },
+ { name: "假面骑士 Agito", fortune: "SR - 觉醒之魂", sync: "无限", item: "亚鲁特腰带", quote: "「为了保护人们的居所！」—— 感受大自然与光的力量，今天的心态平和且强大。", color: "#ffcc00" },
+ { name: "假面骑士 Kuuga", fortune: "SSR - 凄厉战士", sync: "99.0%", item: "亚玛达姆灵石", quote: "「为了大家的笑容！」—— 充满纯粹力量的一天，你的温柔与热情会感染周围的所有人。", color: "#cc0000" }
+);
+
+// ================== 【昭和时代 Showa】 ==================
+riders.push(
+ { name: "假面骑士 J", fortune: "R - 巨化奇迹", sync: "J力量", item: "J之印", quote: "「奇迹的大地力量！」—— 今天你的气场全开，存在感极大，绝不会被人群淹没。", color: "#009933" },
+ { name: "假面骑士 ZO", fortune: "R - 大自然使者", sync: "Neo生命体", item: "无", quote: "「保护大自然与爱！」—— 充满复古情怀的一天，去看看那些经典的周边吧。", color: "#006633" },
+ { name: "假面骑士 Shin", fortune: "R - 改造悲歌", sync: "细胞变异", item: "无", quote: "「……」—— 沉默是金，今天保持低调或许能收获意想不到的惊喜。", color: "#336600" },
+ { name: "假面骑士 Black RX", fortune: "SSR - 太阳之子", sync: "光之力量", item: "太阳升华器", quote: "「我是太阳之子！假面骑士Black RX！」—— 充满奇迹的一天，哪怕是绝境也能强行逢生！", color: "#006633" },
+ { name: "假面骑士 Black", fortune: "SR - 世纪王", sync: "黑日", item: "帝王石", quote: "「不可原谅，戈尔戈姆！」—— 充满骨气的一天，绝不向排长队和黄牛妥协！", color: "#000000" },
+ { name: "假面骑士 ZX", fortune: "R - 忍者骑士", sync: "10号", item: "ZX腰带", quote: "「为了忘却过去的悲伤！」—— 像忍者一样在漫展穿梭自如，谁也别想挡住你买本子的步伐。", color: "#cc0000" },
+ { name: "假面骑士 Super-1", fortune: "R - 宇宙开发", sync: "五能手", item: "独眼巨人腰带", quote: "「赤心少林拳！」—— 技巧与力量的结合，今天你的双手极度灵巧。", color: "#c0c0c0" },
+ { name: "假面骑士 Skyrider", fortune: "R - 翱翔天际", sync: "重力减却", item: "龙卷风腰带", quote: "「飞向天空吧！」—— 感觉身体轻盈的一天，走再多路也不会觉得累。", color: "#006600" },
+ { name: "假面骑士 Stronger", fortune: "SR - 独臂雷神", sync: "电气", item: "线圈发电机", quote: "「天在呼唤，地在呼唤，人在呼唤！」—— 你的气场如同雷电般耀眼，尽情释放电波吧！", color: "#cc0000" },
+ { name: "假面骑士 Amazon", fortune: "SR - 野性释放", sync: "Gigi臂环", item: "叽叽臂环", quote: "「A-MA-ZON！」—— 释放野性本能！今天不要压抑自己，做最真实的同好！", color: "#00cc66" },
+ { name: "假面骑士 X", fortune: "R - 深海赛博", sync: "完美赛博格", item: "Ridol棒", quote: "「Set Up！」—— 装备齐全，准备充分！你今天包里的漫展物资堪称完美。", color: "#c0c0c0" },
+ { name: "假面骑士 Riderman", fortune: "R - 复仇鬼", sync: "4号", item: "卡式交替右腕", quote: "「我是结城丈二！」—— 善用工具的一天，记得带上充电宝和补给品。", color: "#336699" },
+ { name: "假面骑士 V3", fortune: "SR - 力与技", sync: "双重台风", item: "双重台风腰带", quote: "「假面骑士V3，力量与技的结合！」—— 兼具前辈的经验与新人的热情，你就是场照大师。", color: "#009900" },
+ { name: "假面骑士 2号", fortune: "SSR - 力之2号", sync: "一文字隼人", item: "台风腰带", quote: "「接招吧，骑士拳！」—— 充满纯粹力量的一天，帮忙搬运周边或者帮朋友占座绝对没问题！", color: "#006600" },
+ { name: "假面骑士 1号", fortune: "UR - 技之1号", sync: "本乡猛", item: "台风腰带", quote: "「只要有人呼唤，假面骑士就会出现！」—— 经典永不过时，今天一切顺利，法力无边！", color: "#009966" }
+);
+
+
+// ========================
+// 音效系统系统（支持外链音频，留空则使用程序生成音）
+// ========================
+const sounds = {
+ // 范例：填入外链后取消注释即可
+ // click:   new Audio('https://你的cdn.com/click.mp3'),
+ // scan:    new Audio('https://你的cdn.com/scan.mp3'),
+ // success: new Audio('https://你的cdn.com/success.mp3')
+};
+
+function playSound(type) {
+ const s = sounds[type];
+ if (s && s.src && s.src !== window.location.href) {
+  s.currentTime = 0;
+  s.play().catch(() => {});
+ }
+}
+
+// 程序生成变身音效（5音阶上升，无需外链）
+let audioCtx = null;
+function playTransform() {
+ try {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = audioCtx;
+  [200, 300, 400, 500, 600].forEach((freq, i) => {
+   const osc = ctx.createOscillator();
+   const gain = ctx.createGain();
+   osc.type = 'square';
+   osc.frequency.value = freq;
+   gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.08);
+   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.15);
+   osc.connect(gain); gain.connect(ctx.destination);
+   osc.start(ctx.currentTime + i * 0.08);
+   osc.stop(ctx.currentTime + i * 0.08 + 0.15);
+  });
+ } catch(e) {}
+}
+
+// Toast
+function showToast(msg) {
+ const t = document.getElementById('toast');
+ t.innerText = msg; t.classList.add('show');
+ setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 打字机效果
+function typeWriter(element, text, speed, callback) {
+ element.innerHTML = '';
+ let i = 0;
+ function type() {
+  if (i < text.length) {
+   element.innerHTML += text.charAt(i);
+   i++;
+   setTimeout(type, speed);
+  } else if (callback) {
+   callback();
+  }
+ }
+ type();
+}
+
+// DOM 元素
+const drawBtn = document.getElementById('draw-btn');
+const mainUi = document.getElementById('main-ui');
+const cardWrapper = document.getElementById('card-wrapper');
+const dataCard = document.querySelector('.data-card');
+const resetBtn = document.getElementById('reset-btn');
+
+// 抽卡逻辑
+drawBtn.addEventListener('click', () => {
+ playSound('click');
+ mainUi.classList.add('hidden');
+ cardWrapper.classList.remove('hidden');
+
+ const result = riders[Math.floor(Math.random() * riders.length)];
+
+ document.querySelectorAll('.hidden-stat').forEach(el => el.classList.remove('show-stat'));
+ document.getElementById('rider-name').innerHTML = '';
+ document.getElementById('quote').innerHTML = '';
+ document.getElementById('fortune').innerText = result.fortune;
+ document.getElementById('sync').innerText = result.sync;
+ document.getElementById('item').innerText = result.item;
+
+ document.documentElement.style.setProperty('--primary', result.color);
+ const emblemEl = document.getElementById('rider-emblem');
+ const riderImgEl = document.getElementById('rider-image');
+ // 图片预加载：先设置地址，浏览器自动缓存
+ if (result.img) {
+  riderImgEl.src = result.img;
+  emblemEl.classList.add('hidden');
+ } else {
+  riderImgEl.src = '';
+  emblemEl.classList.remove('hidden');
+  emblemEl.innerText = result.name.split(' ')[1].charAt(0);
+ }
+
+ setTimeout(() => {
+  playSound('scan');
+  dataCard.classList.add('show');
+
+  setTimeout(() => {
+   typeWriter(document.getElementById('rider-name'), "> " + result.name, 50, () => {
+    const stats = document.querySelectorAll('.stat-row');
+    stats.forEach((stat, index) => {
+     setTimeout(() => { stat.classList.add('show-stat'); }, index * 300);
+    });
+
+    setTimeout(() => {
+     document.querySelector('.quote-box').classList.add('show-stat');
+     typeWriter(document.getElementById('quote'), result.quote, 30, () => {
+      resetBtn.classList.add('show-stat');
+      document.getElementById('screenshot-tip').classList.add('show-stat');
+      playTransform();
+      playSound('success');
+     });
+    }, stats.length * 300 + 200);
+   });
+  }, 600);
+ }, 100);
+});
+
+// 再抽一次
+resetBtn.addEventListener('click', () => {
+ dataCard.classList.remove('show');
+ resetBtn.classList.remove('show-stat');
+ document.getElementById('screenshot-tip').classList.remove('show-stat');
+ setTimeout(() => {
+  cardWrapper.classList.add('hidden');
+  mainUi.classList.remove('hidden');
+ }, 500);
+});
+</script>
+</body>
+</html>
