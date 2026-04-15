@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>🎵 L！L！L！- NFC 音乐卡</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff6b8a 0%, #ff4060 50%, #e80040 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: #fff;
+      padding: 20px;
+    }
+    .album-art {
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      margin-bottom: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+    }
+    .song-title {
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .artist {
+      font-size: 15px;
+      opacity: 0.85;
+      text-align: center;
+      margin-bottom: 48px;
+      color: rgba(255,255,255,0.9);
+    }
+    .btn {
+      background: #fff;
+      color: #e80040;
+      border: none;
+      border-radius: 50px;
+      padding: 18px 52px;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    }
+    .btn.playing {
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+      font-size: 15px;
+      letter-spacing: 1px;
+      padding: 14px 36px;
+    }
+    .hint {
+      margin-top: 24px;
+      font-size: 12px;
+      opacity: 0.65;
+      text-align: center;
+    }
+    .nfc-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .step {
+      background: rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 16px 24px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      line-height: 1.7;
+      width: 100%;
+      max-width: 360px;
+    }
+    .step-num {
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .status {
+      font-size: 13px;
+      margin-top: 20px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.15);
+      display: none;
+    }
+    .status.show { display: inline-block; }
+    .status.ok { background: rgba(0,200,100,0.4); }
+    .status.fail { background: rgba(255,100,100,0.4); }
+  </style>
+</head>
+<body>
+
+  <div class="nfc-icon">📳</div>
+  <div class="album-art">🎶</div>
+  <div class="song-title">L！L！L！</div>
+  <div class="artist">虹咲学园学园偶像同好会</div>
+
+  <a class="btn" id="btn" href="javascript:void(0)">▶ 播 放</a>
+  <div class="status" id="status"></div>
+
+  <div class="hint" style="margin-top:40px;">
+    📳 NFC 贴纸碰一碰自动放歌<br>
+    💡 如 App 未安装则跳转下载
+  </div>
+
+<script>
+// QQ音乐 URL Scheme（移动端）
+var qqMusicAppUrl = 'qqmusic://qq.com/openApp/player?mid=&type=0&from=shared';
+
+// 备用：完整歌曲页面（Web / App 内打开）
+// 原始链接
+var songUrl = 'https://c6.y.qq.com/base/fcgi-bin/u?__=TSwnmNSaa5la';
+var songPageUrl = 'https://y.qq.com/n/ryqq/songDetail/003vT3Xb3eVHXe'; // 备用
+var downloadUrl = 'https://play.google.com/store/apps/details?id=com.tencent.qqmusic'; // Android
+var iosDownloadUrl = 'https://apps.apple.com/cn/app/id414605431'; // iOS
+
+var btn = document.getElementById('btn');
+var status = document.getElementById('status');
+var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+// 尝试拉起 QQ音乐 App
+function tryLaunch() {
+  // iOS Safari 用 iframe 拉起 App
+  if (isIOS) {
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = qqMusicAppUrl;
+    document.body.appendChild(iframe);
+  } else {
+    // 安卓直接跳转
+    window.location.href = qqMusicAppUrl;
+  }
+
+  // 3秒后检测是否成功
+  setTimeout(function() {
+    // 检查是否还在本页（没跳转成功）
+    if (isIOS && document.hidden) {
+      // 页面被切到后台 = App 已拉起
+      showStatus('✅ QQ音乐已启动', 'ok');
+    } else if (!document.hidden) {
+      // 还在本页 = 没拉起来，跳转歌曲页面
+      showStatus('App未响应，跳转网页版…', 'fail');
+      setTimeout(function() {
+        window.location.href = songUrl;
+      }, 1000);
+    }
+  }, 1500);
+}
+
+function showStatus(msg, cls) {
+  status.textContent = msg;
+  status.className = 'status show ' + (cls || '');
+}
+
+btn.addEventListener('click', function(e) {
+  e.preventDefault();
+  btn.classList.add('playing');
+  btn.textContent = '⏳ 正在启动…';
+  tryLaunch();
+});
+
+// 如果是安卓，加载完就提示用户点按钮
+if (!isIOS && isMobile) {
+  // 自动尝试拉起（碰NFC时）
+  // 延迟一下再试
+  setTimeout(function() {
+    // 部分安卓支持 direct intents
+    window.location.href = 'qqmusic://qq.com/openApp/player?open=1';
+  }, 500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>L！L！L！- NFC 音乐卡</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #1a1020 0%, #2a0a1e 40%, #1a0510 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* ========== 开场动画 ========== */
+    .intro {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #1a0510;
+      transition: opacity 0.8s ease;
+    }
+    .intro.fade-out { opacity: 0; pointer-events: none; }
+    .intro.hidden { display: none; }
+
+    .intro-disc {
+      width: 200px; height: 200px;
+      position: relative;
+      animation: intro-spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes intro-spin {
+      0% { transform: scale(0.3) rotate(-180deg); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    .intro-disc-ring {
+      position: absolute; width: 100%; height: 100%; border-radius: 50%;
+      background: conic-gradient(from 0deg, #2a1a30, #3a2a40, #2a1a30);
+      box-shadow: 0 0 60px rgba(200,30,80,0.5);
+    }
+    .intro-disc-grooves {
+      position: absolute; width: 100%; height: 100%; border-radius: 50%;
+      background: repeating-radial-gradient(circle at center, transparent 28px, rgba(255,255,255,0.04) 29px, rgba(255,255,255,0.04) 30px, transparent 31px, transparent 38px);
+    }
+    .intro-disc-center {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 70px; height: 70px; border-radius: 50%;
+      background: linear-gradient(135deg, #e03060, #c02050);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .intro-disc-center::after { content: ''; width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+
+    .note-particle {
+      position: absolute; font-size: 20px; opacity: 0;
+      animation: note-burst 1.2s ease-out forwards;
+    }
+    @keyframes note-burst {
+      0% { transform: translate(0,0) scale(0); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
+    }
+
+    .intro-text {
+      margin-top: 30px; font-size: 20px; font-weight: 600;
+      letter-spacing: 4px; opacity: 0;
+      animation: text-fade 0.8s ease 0.6s forwards;
+    }
+    @keyframes text-fade {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== 主内容 ========== */
+    .main {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 380px;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .main.show { display: flex; opacity: 1; }
+
+    .bg-glow {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,30,80,0.35) 0%, transparent 60%),
+                  radial-gradient(ellipse 60% 40% at 50% 100%, rgba(140,20,120,0.25) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .album-art {
+      width: 260px; height: 260px; border-radius: 20px; object-fit: cover;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1), 0 0 80px rgba(200,30,80,0.25);
+      margin-bottom: 30px;
+      animation: album-in 0.8s cubic-bezier(0.4,0,0.2,1) 0.1s both;
+    }
+    @keyframes album-in {
+      0% { transform: scale(0.85) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .song-title {
+      font-size: 24px; font-weight: 700; letter-spacing: 0.5px;
+      text-align: center; margin-bottom: 6px;
+      animation: album-in 0.8s ease 0.2s both;
+    }
+    .song-artist {
+      font-size: 13px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 36px;
+      animation: album-in 0.8s ease 0.3s both;
+    }
+
+    .play-btn {
+      width: 100%; max-width: 280px; padding: 16px 0;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #e03060, #c02050);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 8px 30px rgba(200,30,60,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+      transition: all 0.2s ease;
+      font-size: 16px; font-weight: 600; color: #fff; letter-spacing: 2px;
+      animation: album-in 0.8s ease 0.4s both;
+    }
+    .play-btn:active { transform: scale(0.97); box-shadow: 0 4px 20px rgba(200,30,60,0.3); }
+    .play-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* 轻触提示 */
+    .tap-hint {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      animation: album-in 0.8s ease 0.6s both;
+    }
+
+    .status {
+      margin-top: 16px; font-size: 12px; padding: 8px 20px; border-radius: 20px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6); opacity: 0; transition: opacity 0.3s; text-align: center;
+    }
+    .status.show { opacity: 1; }
+    .status.ok { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+    .status.fail { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
+
+    .fallback-btn {
+      display: none; margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.4);
+      background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+    }
+    .fallback-btn.show { display: block; }
+
+    .nfc-hint { position: fixed; bottom: 28px; font-size: 11px; color: rgba(255,255,255,0.25); text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- 开场动画 -->
+  <div class="intro" id="intro">
+    <div class="intro-disc">
+      <div class="intro-disc-ring"></div>
+      <div class="intro-disc-grooves"></div>
+      <div class="intro-disc-center"></div>
+    </div>
+    <div id="particles" style="position:absolute;width:100%;height:100%;pointer-events:none;"></div>
+    <div class="intro-text">L！L！L！</div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="bg-glow"></div>
+  <div class="main" id="main">
+    <img class="album-art" src="https://p2.music.126.net/YQ8N3mR3f0iJq3qzJjRjQg==/109951166952713766.jpg" alt="album art">
+    <div class="song-title">L！L！L！</div>
+    <div class="song-artist">虹咲学园学园偶像同好会</div>
+    <button class="play-btn" id="playBtn" onclick="startPlay()">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      开始播放
+    </button>
+    <div class="tap-hint">👆 请轻触上方按钮启动网易云音乐</div>
+    <div class="status" id="status"></div>
+    <button class="fallback-btn" id="fallbackBtn" onclick="openWebVersion()">网易云音乐未能启动？点此打开网页版</button>
+  </div>
+  <div class="nfc-hint">📳 NFC 贴纸碰一碰 · 网易云音乐</div>
+
+<script>
+// 开场动画
+var intro = document.getElementById('intro');
+var main = document.getElementById('main');
+var particles = document.getElementById('particles');
+
+var notes = ['♪', '♫', '♬', '🎵', '🎶'];
+for (var i = 0; i < 12; i++) {
+  var note = document.createElement('span');
+  note.className = 'note-particle';
+  note.textContent = notes[Math.floor(Math.random() * notes.length)];
+  var angle = (i / 12) * 360;
+  var dist = 100 + Math.random() * 60;
+  note.style.setProperty('--dx', Math.cos(angle * Math.PI / 180) * dist + 'px');
+  note.style.setProperty('--dy', Math.sin(angle * Math.PI / 180) * dist + 'px');
+  note.style.left = '50%'; note.style.top = '40%';
+  note.style.marginLeft = '-10px';
+  note.style.animationDelay = (0.3 + i * 0.05) + 's';
+  particles.appendChild(note);
+}
+
+// 3秒后切换到主内容，不再自动跳转
+setTimeout(function() {
+  intro.classList.add('fade-out');
+  setTimeout(function() {
+    intro.classList.add('hidden');
+    main.classList.add('show');
+  }, 800);
+}, 3000);
+
+// 播放逻辑（用户点按钮才触发）
+var SONG_ID = '1887056125';
+var NETEASE_SCHEME = 'orpheus://song/' + SONG_ID;
+var ANDROID_INTENT = 'intent://orpheus/song/' + SONG_ID + '#Intent;scheme=orpheus;package=com.netease.cloudmusic;end';
+var WEB_URL = 'https://y.music.163.com/m/song?id=' + SONG_ID;
+
+var isAndroid = /Android/i.test(navigator.userAgent);
+var playing = false;
+var launched = false;
+var status = document.getElementById('status');
+var fallbackBtn = document.getElementById('fallbackBtn');
+
+function showStatus(msg, cls) {
+  status.textContent = msg;
+  status.className = 'status show ' + (cls || '');
+}
+function openWebVersion() { window.location.href = WEB_URL; }
+
+function startPlay() {
+  if (playing) return;
+  playing = true;
+  launched = false;
+  showStatus('正在启动网易云音乐…', '');
+
+  if (isAndroid) {
+    window.location.href = ANDROID_INTENT;
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        window.location.href = NETEASE_SCHEME;
+      }
+    }, 1200);
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        fallbackBtn.classList.add('show');
+      }
+    }, 2500);
+  } else {
+    window.location.href = NETEASE_SCHEME;
+    setTimeout(function() { if (!document.hidden) openWebVersion(); }, 2000);
+  }
+}
+
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    launched = true;
+    showStatus('🎉 网易云音乐已启动', 'ok');
+  }
+});
+</script>
+</body>
+</html>

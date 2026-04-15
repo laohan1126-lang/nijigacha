@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>QQ音乐 一键启动</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fd4855 0%, #c82d3a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+      color: #fff;
+    }
+    .logo {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+    p {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 50px;
+    }
+    .btn {
+      background: #fff;
+      color: #c82d3a;
+      border: none;
+      border-radius: 50px;
+      padding: 18px 56px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      transition: transform 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .hint {
+      margin-top: 30px;
+      font-size: 12px;
+      opacity: 0.6;
+      text-align: center;
+      padding: 0 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">🎵</div>
+  <h1>QQ音乐</h1>
+  <p>点击按钮一键启动</p>
+  <a class="btn" id="launchBtn" href="javascript:void(0)">打 开</a>
+  <p class="hint" id="hint"></p>
+
+  <script>
+    var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    var resultMsg = document.getElementById('hint');
+    var btn = document.getElementById('launchBtn');
+
+    if (isMobile) {
+      // 移动端：尝试用 URL Scheme 拉起 App
+      var scheme = 'qqmusic://';
+      var fallbackUrl = isAndroid
+        ? 'https://play.google.com/store/apps/details?id=com.tencent.qqmusic'
+        : 'https://apps.apple.com/cn/app/id414605431';
+
+      // 直接跳转 URL Scheme（iOS/Android 通用）
+      window.location.href = scheme;
+
+      // 延迟检测是否成功跳转
+      var timer = setTimeout(function() {
+        // 没拉起来，跳下载页
+        resultMsg.innerHTML = 'App 没打开？→ <a href="' + fallbackUrl + '" style="color:#fff;text-decoration:underline;">点击下载 QQ音乐</a>';
+        btn.href = fallbackUrl;
+        btn.textContent = '下 载';
+      }, 2000);
+
+      // 如果页面可见性变更（说明 App 已拉起），取消定时器
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+          clearTimeout(timer);
+          resultMsg.textContent = '✅ QQ音乐已启动';
+        }
+      });
+
+    } else {
+      // 电脑端：提示用手机扫
+      resultMsg.innerHTML = '请在手机浏览器中打开此页面';
+      btn.href = 'javascript:void(0)';
+      btn.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

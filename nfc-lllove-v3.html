@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>🎵 L！L！L！ NFC 音乐卡</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      min-height:100vh;
+      background:linear-gradient(135deg,#ff6b8a 0%,#ff4060 50%,#e80040 100%);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+      color:#fff; padding:20px; text-align:center;
+    }
+    .nfc { font-size:64px; margin-bottom:20px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .album { font-size:96px; margin-bottom:20px; }
+    .title { font-size:28px; font-weight:700; margin-bottom:8px; }
+    .artist { font-size:14px; opacity:0.85; margin-bottom:40px; }
+    .btn {
+      background:#fff; color:#e80040; border:none; border-radius:50px;
+      padding:18px 56px; font-size:17px; font-weight:700; letter-spacing:2px;
+      cursor:pointer; box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      text-decoration:none; display:inline-block;
+    }
+    .btn:active { transform:scale(0.95); }
+    .status { margin-top:20px; font-size:14px; padding:10px 24px; border-radius:30px; background:rgba(255,255,255,0.15); display:none; }
+    .status.show { display:inline-block; }
+    .status.ok { background:rgba(0,200,100,0.4); }
+    .status.fail { background:rgba(255,100,100,0.4); }
+    .hint { margin-top:30px; font-size:12px; opacity:0.6; line-height:1.8; }
+  </style>
+</head>
+<body>
+  <div class="nfc">📳</div>
+  <div class="album">🎶</div>
+  <div class="title">L！L！L！</div>
+  <div class="artist">虹咲学园学园偶像同好会</div>
+  <a class="btn" id="btn" href="javascript:void(0)">▶ 播 放</a>
+  <div class="status" id="status"></div>
+  <div class="hint">📳 NFC 贴纸碰一碰 → 自动放这首歌<br>💡 如果 App 未安装 → 跳转网页版</div>
+
+<script>
+// 歌曲信息
+var SONG_ID = '002KQ69t1HnLA9';
+var SONG_PAGE = 'https://y.qq.com/n/ryqq/songDetail/' + SONG_ID;
+var ANDROID_PKG = 'com.tencent.qqmusic';
+
+// 方案1：Android Intent URL（最可靠）
+var intentUrl = 'android-app://' + ANDROID_PKG + '/https/y.qq.com/n/ryqq/songDetail/' + SONG_ID;
+
+// 方案2：QQ音乐 App URL Scheme
+var appScheme = 'qqmusic://qq.com/openApp/player?open=1&actionType=3&songmid=' + SONG_ID + '&excutetime=1';
+
+// 方案3：QQ音乐微back scheme
+var microScheme = 'mqzone://music.sinaapp.com/play.php?path=songmid:' + SONG_ID;
+
+var isAndroid = /Android/i.test(navigator.userAgent);
+var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+var btn = document.getElementById('btn');
+var status = document.getElementById('status');
+var launched = false;
+
+function showStatus(msg, cls) {
+  status.textContent = msg;
+  status.className = 'status show ' + (cls || '');
+}
+
+function tryLaunch() {
+  if (isAndroid) {
+    // Android: 优先用 Intent URL，拉起 App + 传歌曲信息
+    window.location.href = intentUrl;
+
+    // 1.5秒后检测
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        // 备用：App Scheme
+        window.location.href = appScheme;
+      }
+    }, 1500);
+
+    // 3秒后再检测
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        // 最后备用：跳转网页版
+        showStatus('跳转网页版…', 'fail');
+        setTimeout(function() { window.location.href = SONG_PAGE; }, 1000);
+      }
+    }, 3000);
+
+  } else if (isIOS) {
+    // iOS: 用 URL Scheme，然后跳转网页版
+    window.location.href = appScheme;
+    setTimeout(function() {
+      window.location.href = SONG_PAGE;
+    }, 2000);
+  }
+}
+
+// 页面可见性检测（App 拉起成功会切到后台）
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    launched = true;
+    showStatus('✅ QQ音乐已启动', 'ok');
+  }
+});
+
+btn.addEventListener('click', function() {
+  btn.textContent = '⏳ 启动中…';
+  tryLaunch();
+});
+
+// 安卓：页面加载完自动触发（模拟碰NFC）
+if (isAndroid) {
+  setTimeout(function() {
+    btn.textContent = '⏳ 启动中…';
+    tryLaunch();
+  }, 1000);
+}
+</script>
+</body>
+</html>

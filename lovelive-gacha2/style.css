@@ -1,0 +1,139 @@
+/* style.css */
+body {
+ margin: 0;
+ font-family: 'Microsoft YaHei', sans-serif;
+ background: #ffecf2; /* 櫻粉色背景 */
+ display: flex;
+ justify-content: center;
+}
+
+.page { display: none; width: 100%; max-width: 600px; padding: 20px; text-align: center; }
+.page.active { display: block; animation: fadeIn 0.5s; }
+
+.gacha-machine {
+ background: white;
+ padding: 40px 20px;
+ border-radius: 20px;
+ box-shadow: 0 10px 30px rgba(255,105,180,0.3);
+ margin-top: 50px;
+}
+
+input {
+ padding: 12px;
+ width: 80%;
+ border: 2px solid #ff69b4;
+ border-radius: 25px;
+ margin: 20px 0;
+ outline: none;
+}
+
+.btn-gacha {
+ background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+ color: white;
+ border: none;
+ padding: 15px 40px;
+ font-size: 1.2rem;
+ border-radius: 30px;
+ cursor: pointer;
+ box-shadow: 0 4px 15px rgba(255,105,180,0.4);
+}
+
+.btn-gacha:disabled {
+ opacity: 0.6;
+ cursor: not-allowed;
+}
+
+/* 稀有度顏色 */
+.rarity-SSR { color: #ff0000; text-shadow: 0 0 10px #ffff00; font-weight: bold; }
+.rarity-SR { color: #8a2be2; }
+.rarity-R { color: #1e90ff; }
+
+/* 結果頁面 */
+.result-header {
+ text-align: center;
+ margin-bottom: 20px;
+}
+
+.rarity-badge {
+ display: inline-block;
+ padding: 6px 16px;
+ border-radius: 20px;
+ font-weight: bold;
+ font-size: 1.2rem;
+ color: white;
+ margin-bottom: 10px;
+}
+
+.badge-SSR { background: linear-gradient(135deg, #ffd700, #ff8c00); box-shadow: 0 0 20px rgba(255,215,0,0.6); }
+.badge-SR { background: linear-gradient(135deg, #b19cd9, #9370db); box-shadow: 0 0 15px rgba(155,120,200,0.5); }
+.badge-R { background: linear-gradient(135deg, #87cefa, #4682b4); box-shadow: 0 0 10px rgba(100,150,200,0.4); }
+
+.char-name {
+ font-size: 2rem;
+ color: #333;
+ margin: 10px 0;
+}
+
+.info-grid {
+ background: #fff;
+ border-radius: 15px;
+ padding: 20px;
+ text-align: left;
+}
+
+.info-grid p {
+ margin: 10px 0;
+ font-size: 1rem;
+ line-height: 1.6;
+ border-bottom: 1px solid #f0f0f0;
+ padding-bottom: 8px;
+}
+
+/* SSR 專屬金光呼吸效果 */
+.rarity-badge.badge-SSR {
+ background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
+ background-size: 200% auto;
+ animation: shine 1.5s linear infinite;
+ color: #b8860b;
+ padding: 5px 15px;
+ border-radius: 10px;
+ display: inline-block;
+ font-weight: bold;
+ box-shadow: 0 0 15px #ffd700;
+}
+
+@keyframes shine {
+ to { background-position: 200% center; }
+}
+
+/* 卡片浮現動畫 */
+.card-appear {
+ animation: slideUp 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp {
+ from { opacity: 0; transform: translateY(50px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+
+.trivia-box {
+ background: rgba(255, 105, 180, 0.1);
+ border-left: 4px solid #ff69b4;
+ padding: 10px;
+ margin-top: 15px;
+ text-align: left;
+ font-size: 0.9rem;
+}
+
+.btn-back {
+ background: #ff69b4;
+ color: white;
+ border: none;
+ padding: 12px 30px;
+ border-radius: 25px;
+ font-size: 1rem;
+ cursor: pointer;
+ margin-top: 20px;
+ width: 100%;
+}

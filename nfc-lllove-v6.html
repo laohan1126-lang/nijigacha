@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>L！L！L！- NFC 音乐卡</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --pink: #ff4060;
+      --pink-dark: #c82d3a;
+      --pink-light: #ff6b8a;
+      --purple: #9b4dca;
+      --card-bg: rgba(255,255,255,0.12);
+      --card-border: rgba(255,255,255,0.2);
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+      color: #fff;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* 背景光晕 */
+    .glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .glow-1 {
+      top: -50px;
+      left: -50px;
+      background: var(--pink);
+      animation: float-glow 6s ease-in-out infinite;
+    }
+    .glow-2 {
+      bottom: -80px;
+      right: -60px;
+      background: var(--purple);
+      animation: float-glow 8s ease-in-out infinite reverse;
+    }
+    @keyframes float-glow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, 20px) scale(1.1); }
+    }
+
+    /* 唱片旋转动画 */
+    .disc-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin-bottom: 36px;
+    }
+    .disc {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: rotate-disc 8s linear infinite;
+      animation-play-state: paused;
+    }
+    .disc.playing {
+      animation-play-state: running;
+    }
+    @keyframes rotate-disc {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .disc-center {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(200,45,58,0.4);
+    }
+    .disc-center::after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+    .disc-grooves {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: repeating-radial-gradient(
+        circle at center,
+        transparent 30px,
+        rgba(255,255,255,0.03) 31px,
+        rgba(255,255,255,0.03) 32px,
+        transparent 33px,
+        transparent 40px
+      );
+    }
+
+    /* 歌曲信息 */
+    .song-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(255,64,96,0.3);
+    }
+    .song-artist {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 50px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* 播放按钮 */
+    .play-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink-light), var(--pink));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(255,64,96,0.5), 0 0 0 8px rgba(255,64,96,0.15);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .play-btn:active {
+      transform: scale(0.94);
+      box-shadow: 0 4px 20px rgba(255,64,96,0.4), 0 0 0 6px rgba(255,64,96,0.1);
+    }
+    .play-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+      margin-left: 3px;
+    }
+    .play-btn.playing svg {
+      margin-left: 0;
+    }
+
+    /* 脉冲环 */
+    .pulse-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid var(--pink);
+      animation: pulse-out 1.5s ease-out infinite;
+      opacity: 0;
+    }
+    .pulse-ring:nth-child(2) { animation-delay: 0.5s; }
+    @keyframes pulse-out {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* 状态提示 */
+    .status {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .status.show { opacity: 1; }
+    .status.ok { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.1); }
+    .status.fail { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.1); }
+
+    /* 底部提示 */
+    .hint {
+      position: fixed;
+      bottom: 24px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* 封面图（如果有的话） */
+    .album-art {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景光晕 -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <!-- 唱片 -->
+  <div class="disc-container">
+    <div class="disc" id="disc">
+      <div class="disc-grooves"></div>
+    </div>
+    <div class="disc-center" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  </div>
+
+  <!-- 歌曲信息 -->
+  <img class="album-art" id="albumArt" src="https://p2.music.126.net/YQ8N3mR3f0iJq3qzJjRjQg==/109951166952713766.jpg" alt="album" 
+       onerror="this.style.display='none'">
+  <div class="song-title">L！L！L！</div>
+  <div class="song-artist">虹咲学园学园偶像同好会</div>
+
+  <!-- 播放按钮 -->
+  <button class="play-btn" id="playBtn" onclick="startPlay()">
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+
+  <!-- 状态 -->
+  <div class="status" id="status"></div>
+
+  <!-- 提示 -->
+  <div class="hint">📳 NFC 贴纸碰一碰自动播放<br>🎵 网易云音乐</div>
+
+<script>
+// 网易云音乐信息
+var SONG_ID = '1887056125';
+var NETEASE_SCHEME = 'orpheus://song/' + SONG_ID;
+var ANDROID_INTENT = 'android-app://com.netease.cloudmusic/orpheus/song/' + SONG_ID;
+var WEB_URL = 'https://y.music.163.com/m/song?id=' + SONG_ID;
+
+var isAndroid = /Android/i.test(navigator.userAgent);
+var playing = false;
+var launched = false;
+var disc = document.getElementById('disc');
+var playBtn = document.getElementById('playBtn');
+var status = document.getElementById('status');
+
+function showStatus(msg, cls) {
+  status.textContent = msg;
+  status.className = 'status show ' + (cls || '');
+}
+
+function startPlay() {
+  if (playing) return;
+  playing = true;
+  launched = false;
+  playBtn.classList.add('playing');
+  disc.classList.add('playing');
+  showStatus('正在启动网易云音乐…', '');
+
+  if (isAndroid) {
+    window.location.href = ANDROID_INTENT;
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        window.location.href = NETEASE_SCHEME;
+      }
+    }, 1500);
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        showStatus('跳转网页版…', 'fail');
+        setTimeout(function() { window.location.href = WEB_URL; }, 1000);
+      }
+    }, 3000);
+  } else {
+    window.location.href = NETEASE_SCHEME;
+    setTimeout(function() {
+      if (!document.hidden) {
+        window.location.href = WEB_URL;
+      }
+    }, 2000);
+  }
+}
+
+// 检测 App 是否拉起
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    launched = true;
+    showStatus('🎉 网易云音乐已启动', 'ok');
+    disc.classList.remove('playing');
+  }
+});
+
+// 安卓：页面加载完自动触发（模拟碰NFC）
+if (isAndroid) {
+  setTimeout(startPlay, 1200);
+}
+</script>
+</body>
+</html>

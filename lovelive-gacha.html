@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Love Live! 學園偶像扭蛋機</title>
+ <style>
+ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fff0f5; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; color: #333; }
+ h1 { color: #ff69b4; text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3); margin-bottom: 30px; }
+ .gacha-btn { background-color: #ff1493; color: white; border: none; padding: 15px 40px; font-size: 20px; font-weight: bold; border-radius: 30px; cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 0.1s, background-color 0.3s; }
+ .gacha-btn:hover { background-color: #ff69b4; }
+ .gacha-btn:active { transform: scale(0.95); }
+ .card { background: white; border-radius: 20px; padding: 25px; width: 100%; max-width: 350px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-top: 40px; display: none; flex-direction: column; align-items: center; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 4px solid #ffd700; }
+ @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+ .character-img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 5px solid #ffb6c1; margin-bottom: 20px; }
+ .group-tag { background-color: #ffb6c1; color: white; padding: 5px 15px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
+ .jp-name { font-size: 24px; font-weight: bold; color: #ff1493; margin-bottom: 5px; text-align: center; }
+ .info-list { list-style: none; padding: 0; width: 100%; }
+ .info-list li { background-color: #f8f8f8; margin: 8px 0; padding: 10px 15px; border-radius: 10px; font-size: 14px; line-height: 1.5; }
+ .info-list li strong { color: #ff69b4; display: block; margin-bottom: 3px; }
+ </style>
+</head>
+<body>
+ <h1>✨ Love Live! 學園偶像扭蛋機 ✨</h1>
+ <button class="gacha-btn" onclick="drawCharacter()">點擊抽取角色！</button>
+
+ <div class="card" id="characterCard">
+ <span class="group-tag" id="groupTag">Group</span>
+ <img src="" alt="Character Image" class="character-img" id="charImg">
+ <div class="jp-name" id="jpName">日文名</div>
+ 
+ <ul class="info-list">
+ <li><strong>🎤 CV (聲優)</strong> <span id="cv"></span></li>
+ <li><strong>💖 性格</strong> <span id="personality"></span></li>
+ <li><strong>🎵 代表歌曲</strong> <span id="song"></span></li>
+ <li><strong>💡 冷知識</strong> <span id="trivia"></span></li>
+ </ul>
+ </div>
+
+ <script>
+ const characters = [
+ // ================= μ's =================
+ { group: "μ's", jpName: "高坂 穂乃果 (Kousaka Honoka)", cv: "新田恵海", personality: "永遠保持樂觀開朗，行動力極強，是帶動大家的太陽。", song: "Someday of my life", trivia: "家裡開著一家名為「穗村」的日式傳統甜點店，非常喜歡吃麵包。", imgUrl: "https://placehold.co/300x300/ffb6c1/ffffff?text=Honoka" },
+ { group: "μ's", jpName: "絢瀬 絵里 (Ayase Eli)", cv: "南條愛乃", personality: "責任感強，看似高冷實則溫柔，有時會意外地怕黑。", song: "ありふれた悲しみの果て", trivia: "祖母是俄羅斯人，擁有一口流利的俄語，口頭禪是「Хорошо!」。", imgUrl: "https://placehold.co/300x300/87ceeb/ffffff?text=Eli" },
+ { group: "μ's", jpName: "南 ことり (Minami Kotori)", cv: "内田彩", personality: "性格溫和、體貼，包容力極強，擅長服裝設計。", song: "スピカテリブル", trivia: "曾隱藏身份在秋葉原擔任傳奇女僕「Minalinsky」。", imgUrl: "https://placehold.co/300x300/d3d3d3/ffffff?text=Kotori" },
+ { group: "μ's", jpName: "園田 海未 (Sonoda Umi)", cv: "三森すずこ", personality: "出身傳統世家，做事一絲不苟，但其實很容易害羞。", song: "私たちは未来の花", trivia: "非常害怕抽鬼牌，一旦說謊或緊張，表情就會完全寫在臉上。", imgUrl: "https://placehold.co/300x300/4169e1/ffffff?text=Umi" },
+ { group: "μ's", jpName: "星空 凛 (Hoshizora Rin)", cv: "飯田里穂", personality: "像男孩子般活潑好動，運動神經發達，總是充滿活力。", song: "恋のシグナルRin rin rin!", trivia: "句尾總是習慣加上「喵」，雖然像貓一樣但其實對貓過敏。", imgUrl: "https://placehold.co/300x300/ffff00/ffffff?text=Rin" },
+ { group: "μ's", jpName: "西木野 真姫 (Nishikino Maki)", cv: "Pile", personality: "傲嬌大小姐，自尊心強，但不擅長表達自己真實的想法。", song: "Daring!!", trivia: "家裡開醫院，彈得一手好鋼琴，並且深信聖誕老人的存在。", imgUrl: "https://placehold.co/300x300/dc143c/ffffff?text=Maki" },
+ { group: "μ's", jpName: "東條 希 (Toujou Nozomi)", cv: "楠田亜衣奈", personality: "充滿母性光輝，總是守護著大家，帶有神秘的氣質。", song: "純愛レンズ", trivia: "喜歡占卜（尤其是塔羅牌），經常使用「揉胸」作為懲罰方式。", imgUrl: "https://placehold.co/300x300/9370db/ffffff?text=Nozomi" },
+ { group: "μ's", jpName: "小泉 花陽 (Koizumi Hanayo)", cv: "久保ユリカ", personality: "內向害羞，缺乏自信，但一談到偶像就會變得非常狂熱。", song: "孤独なHeaven", trivia: "是個超級白飯控，對白米飯有著超乎常人的熱愛。", imgUrl: "https://placehold.co/300x300/32cd32/ffffff?text=Hanayo" },
+ { group: "μ's", jpName: "矢澤 にこ (Yazawa Nico)", cv: "徳井青空", personality: "對偶像有著極高的執著和專業精神，招牌動作是 Nico Nico Ni~。", song: "まほうつかいはじめました！", trivia: "雖然平時愛耍帥，但在家是個非常會照顧弟妹的好姐姐。", imgUrl: "https://placehold.co/300x300/ff69b4/ffffff?text=Nico" },
+
+ // ================= Aqours =================
+ { group: "Aqours", jpName: "高海 千歌 (Takami Chika)", cv: "伊波杏樹", personality: "充滿活力且不輕言放棄，有著能把周圍人捲進自己節奏的魅力。", song: "One More Sunshine Story", trivia: "家裡經營溫泉旅館「十千萬」，最喜歡吃蜜柑。", imgUrl: "https://placehold.co/300x300/ff8c00/ffffff?text=Chika" },
+ { group: "Aqours", jpName: "桜内 梨子 (Sakurauchi Riko)", cv: "逢田梨香子", personality: "文靜有禮貌的優等生，但有時會陷入驚人的妄想世界。", song: "Pianoforte Monologue", trivia: "極度害怕狗；私底下其實是少女漫畫和同人誌愛好者。", imgUrl: "https://placehold.co/300x300/ffb6c1/ffffff?text=Riko" },
+ { group: "Aqours", jpName: "松浦 果南 (Matsuura Kanan)", cv: "諏訪ななか", personality: "成熟穩重，體力極佳，總是像大姐姐一樣照顧大家。", song: "さかなかなんだか？", trivia: "家裡經營潛水用品店，每天都會進行負重晨跑。", imgUrl: "https://placehold.co/300x300/20b2aa/ffffff?text=Kanan" },
+ { group: "Aqours", jpName: "黒澤 ダイヤ (Kurosawa Dia)", cv: "小宮有紗", personality: "完美主義的學生會長，看似嚴格，其實是個資深偶像宅。", song: "WHITE FIRST LOVE", trivia: "生氣時會發出「噗噗ー！(Bubu!)」的聲音，對偶像知識要求極高。", imgUrl: "https://placehold.co/300x300/dc143c/ffffff?text=Dia" },
+ { group: "Aqours", jpName: "渡辺 曜 (Watanabe You)", cv: "斉藤朱夏", personality: "運動萬能，性格直爽，對朋友非常重感情，口頭禪是 Yousoro!。", song: "Beginner's Sailing", trivia: "非常喜歡各種制服，嗅覺異常靈敏，能聞出衣服的品牌。", imgUrl: "https://placehold.co/300x300/87ceeb/ffffff?text=You" },
+ { group: "Aqours", jpName: "津島 善子 (Tsushima Yoshiko)", cv: "小林愛香", personality: "自稱墮天使「夜羽」，其實是個經常倒楣但性格傲嬌的女孩。", song: "in this unstable world", trivia: "極度討厭被叫本名「善子」，直播時會自稱墮天使降臨。", imgUrl: "https://placehold.co/300x300/778899/ffffff?text=Yohane" },
+ { group: "Aqours", jpName: "国木田 花丸 (Kunikida Hanamaru)", cv: "高槻かなこ", personality: "溫柔乖巧，熱愛閱讀，說話帶有「茲拉(zura)」的口音。", song: "おやすみなさん！", trivia: "家裡是寺廟，對現代電子產品完全沒轍，看到會大喊未來茲拉。", imgUrl: "https://placehold.co/300x300/ffd700/ffffff?text=Hanamaru" },
+ { group: "Aqours", jpName: "小原 鞠莉 (Ohara Mari)", cv: "鈴木愛奈", personality: "開朗奔放的混血大小姐，口頭禪是「Shiny!」。", song: "New winding road", trivia: "家裡非常有錢，喜歡重金屬音樂和工業大理石。", imgUrl: "https://placehold.co/300x300/dda0dd/ffffff?text=Mari" },
+ { group: "Aqours", jpName: "黒澤 ルビィ (Kurosawa Ruby)", cv: "降幡愛", personality: "極度怕生，膽小愛哭，但對偶像充滿熱忱。", song: "RED GEM WINK", trivia: "受到驚嚇會發出「皮基！(Pigii!)」的慘叫，非常崇拜姐姐。", imgUrl: "https://placehold.co/300x300/ff69b4/ffffff?text=Ruby" },
+
+ // ================= 虹咲學園 =================
+ { group: "虹咲學園", jpName: "上原 歩夢 (Uehara Ayumu)", cv: "大西亜玖璃", personality: "溫柔踏實，做事一步一腳印，對青梅竹馬感情極深。", song: "Dream with You", trivia: "房間裡放滿了青梅竹馬送的小物，是非常執著的努力家。", imgUrl: "https://placehold.co/300x300/ffb6c1/ffffff?text=Ayumu" },
+ { group: "虹咲學園", jpName: "中須 かすみ (Nakasu Kasumi)", cv: "相良茉優", personality: "自稱「小霞霞」，喜歡小惡作劇，自尊心極強。", song: "無敵級*ビリーバー", trivia: "非常討厭別人叫她「霞子」，擅長做麵包，夢想是成為第一可愛的偶像。", imgUrl: "https://placehold.co/300x300/eee8aa/ffffff?text=Kasumi" },
+ { group: "虹咲學園", jpName: "桜坂 しずく (Osaka Shizuku)", cv: "前田佳織里", personality: "認真有禮貌的優等生，熱愛戲劇，具備雙重人格般的演技。", song: "あなたの理想のヒロイン", trivia: "家裡養著黃金獵犬，是個十足的戲劇迷，經常在獨自練習演技。", imgUrl: "https://placehold.co/300x300/add8e6/ffffff?text=Shizuku" },
+ { group: "虹咲學園", jpName: "朝香 果林 (Asaka Karin)", cv: "久保田未夢", personality: "散發成熟魅力的模特兒，但內心意外地純情且不自信。", song: "Starlight", trivia: "是個超級大路痴，如果沒人帶路在學校都會走丟。", imgUrl: "https://placehold.co/300x300/4169e1/ffffff?text=Karin" },
+ { group: "虹咲學園", jpName: "宮下 愛 (Miyashita Ai)", cv: "村上奈津実", personality: "熱情友善的辣妹，喜歡講冷笑話，能瞬間和任何人交朋友。", song: "めっちゃGoing!!", trivia: "家裡開文字燒店，雖然看起來愛玩但成績非常優秀。", imgUrl: "https://placehold.co/300x300/ffa500/ffffff?text=Ai" },
+ { group: "虹咲學園", jpName: "近江 彼方 (Konoe Kanata)", cv: "鬼頭明里", personality: "總是看起來很睏的慵懶少女，其實為了照顧妹妹非常努力。", song: "Butterfly", trivia: "隨身攜帶枕頭，可以在任何地方秒睡，料理手藝是一流的。", imgUrl: "https://placehold.co/300x300/dda0dd/ffffff?text=Kanata" },
+ { group: "虹咲學園", jpName: "優木 せつ菜 (Yuki Setsuna)", cv: "林鼓子", personality: "對偶像有著爆發般的熱情，舞台魅力極強。", song: "CHASE!", trivia: "真實身份是學生會長中川菜菜，是個熱愛特攝和動漫的御宅族。", imgUrl: "https://placehold.co/300x300/ff4500/ffffff?text=Setsuna" },
+ { group: "虹咲學園", jpName: "エマ・ヴェルデ (Emma Verde)", cv: "指出毬亜", personality: "來自瑞士的留學生，擁有溫暖人心的力量，喜歡大自然。", song: "Evergreen", trivia: "非常喜歡麵包邊，來到日本是為了尋找能讓人心動的學園偶像。", imgUrl: "https://placehold.co/300x300/90ee90/ffffff?text=Emma" },
+ { group: "虹咲學園", jpName: "天王寺 璃奈 (Tennoji Rina)", cv: "田中ちえ美", personality: "面無表情，不擅長表達情感，透過「璃奈板」來傳達心意。", song: "ツナガルコネクト", trivia: "是個電腦科技天才，璃奈板是她親手製作的電子顯示裝置。", imgUrl: "https://placehold.co/300x300/d3d3d3/ffffff?text=Rina" },
+
+ // ================= Liella! =================
+ { group: "Liella!", jpName: "澁谷 かのん (Shibuya Kanon)", cv: "伊達さゆり", personality: "雖然曾因怯場不敢歌唱，但其實擁有驚人的歌唱天賦。", song: "私のSymphony", trivia: "家裡開咖啡廳，養了一隻叫曼丸的貓頭鷹，心情好會哼歌。", imgUrl: "https://placehold.co/300x300/ffa500/ffffff?text=Kanon" },
+ { group: "Liella!", jpName: "唐 可可 (Tang Keke)", cv: "Liyuu", personality: "來自上海，充滿行動力，為了夢想遠赴日本成為偶像。", song: "水色のSunday", trivia: "激動時會說中文，非常喜歡巧克力，但運動神經非常差。", imgUrl: "https://placehold.co/300x300/87cefa/ffffff?text=Keke" },
+ { group: "Liella!", jpName: "嵐 千砂都 (Arashi Chisato)", cv: "岬なこ", personality: "香音的青梅竹馬，擅長舞蹈，性格圓滑且非常支持朋友。", song: "みちびき", trivia: "極度喜歡圓形的東西，標誌是雙丸子頭，擅長章魚燒。", imgUrl: "https://placehold.co/300x300/ffb6c1/ffffff?text=Chisato" },
+ { group: "Liella!", jpName: "平安名 すみれ (Heanna Sumire)", cv: "ペイトン尚未", personality: "有童星背景，渴望站在舞台中央，口頭禪是「Galaxy!」。", song: "星空のYou & I", trivia: "家裡是神社，雖然愛耍大牌但其實在團隊中常被「迫害」擔當吐槽。", imgUrl: "https://placehold.co/300x300/90ee90/ffffff?text=Sumire" },
+ { group: "Liella!", jpName: "葉月 恋 (Hazuki Ren)", cv: "青山なぎさ", personality: "舉止優雅的大小姐，責任感極強，致力於守護母親留下的學校。", song: "Primary", trivia: "原本對電子產品一竅不通，後來意外發現了遊戲的樂趣。", imgUrl: "https://placehold.co/300x300/00008b/ffffff?text=Ren" }
+ ];
+
+ function drawCharacter() {
+ const randomIndex = Math.floor(Math.random() * characters.length);
+ const char = characters[randomIndex];
+
+ document.getElementById('groupTag').innerText = char.group;
+ 
+ const tag = document.getElementById('groupTag');
+ if(char.group === "μ's") tag.style.backgroundColor = "#e60033";
+ if(char.group === "Aqours") tag.style.backgroundColor = "#00a1e9";
+ if(char.group === "虹咲學園") tag.style.backgroundColor = "#ffcc00";
+ if(char.group === "Liella!") tag.style.backgroundColor = "#ff69b4";
+
+ document.getElementById('charImg').src = char.imgUrl;
+ document.getElementById('jpName').innerText = char.jpName;
+ document.getElementById('cv').innerText = char.cv;
+ document.getElementById('personality').innerText = char.personality;
+ document.getElementById('song').innerText = char.song;
+ document.getElementById('trivia').innerText = char.trivia;
+
+ const card = document.getElementById('characterCard');
+ card.style.display = 'none';
+ setTimeout(() => { card.style.display = 'flex'; }, 10);
+ }
+ </script>
+</body>
+</html>

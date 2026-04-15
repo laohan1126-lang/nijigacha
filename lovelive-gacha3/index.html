@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>LoveLive! Gacha Project</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <audio id="bgm" loop>
+ <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+ </audio>
+ <audio id="sound-effect">
+ <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+ </audio>
+
+ <div style="position:fixed; top:10px; right:10px; z-index:1000;">
+ <button onclick="toggleMusic()" style="font-size:20px; background:none; border:none; cursor:pointer;">🎵</button>
+ </div>
+
+ <div id="app" class="glass-bg">
+ <div id="toast" class="toast hidden"></div>
+
+ <div class="glass-container">
+ <section id="home-page" class="page active">
+ <div class="title-area">
+ <h1 class="glow-text">LoveLive! Gacha Project</h1>
+ <p class="subtitle">ENTER YOUR CN TO START</p>
+ </div>
+ <div class="input-wrapper">
+ <input type="text" id="user-cn" placeholder="輸入你的製作人名號...">
+ <span class="focus-border"></span>
+ </div>
+ <button class="btn-gacha-pro" onclick="drawCardPro()">
+ <span class="btn-text">啟動召喚</span>
+ <span class="btn-glare"></span>
+ </button>
+ </section>
+
+ <section id="result-page" class="page">
+ <div class="scene">
+ <div class="card-3d" id="card-3d">
+ <div class="card-face card-back">
+ <div class="gacha-magic-circle"></div>
+ <p>Loading...</p>
+ </div>
+ <div class="card-face card-front" id="card-content-pro">
+ </div>
+ </div>
+ </div>
+ <button class="btn-back-pro" id="btn-back" onclick="backToHomePro()">返回首頁</button>
+ </section>
+ </div>
+ </div>
+
+ <script src="data.js"></script>
+ <script src="script.js"></script>
+</body>
+</html>

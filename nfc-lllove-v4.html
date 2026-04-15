@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>🎵 L！L！L！ NFC 音乐卡</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      min-height:100vh;
+      background:linear-gradient(135deg,#ff6b8a 0%,#ff4060 50%,#e80040 100%);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+      color:#fff; padding:20px; text-align:center;
+    }
+    .nfc { font-size:64px; margin-bottom:20px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .album { font-size:96px; margin-bottom:20px; }
+    .title { font-size:28px; font-weight:700; margin-bottom:8px; }
+    .artist { font-size:14px; opacity:0.85; margin-bottom:40px; }
+    .btn {
+      background:#fff; color:#e80040; border:none; border-radius:50px;
+      padding:18px 56px; font-size:17px; font-weight:700; letter-spacing:2px;
+      cursor:pointer; box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      text-decoration:none; display:inline-block;
+    }
+    .btn:active { transform:scale(0.95); }
+    .hint { margin-top:30px; font-size:12px; opacity:0.6; line-height:1.8; }
+  </style>
+</head>
+<body>
+  <div class="nfc">📳</div>
+  <div class="album">🎶</div>
+  <div class="title">L！L！L！</div>
+  <div class="artist">虹咲学园学园偶像同好会</div>
+
+  <a class="btn" id="btn" href="https://y.qq.com/n/ryqq/songDetail/002KQ69t1HnLA9">
+    ▶ 播 放
+  </a>
+
+  <div class="hint">
+    📳 NFC 贴纸碰一碰 → 用浏览器打开这首歌<br>
+    🔇 请忽略下方音频自动播放提示
+  </div>
+
+<script>
+var isAndroid = /Android/i.test(navigator.userAgent);
+var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+// 歌曲页面 URL
+var songUrl = 'https://y.qq.com/n/ryqq/songDetail/002KQ69t1HnLA9';
+
+// QQ音乐网页版的实际播放页面（player 页）
+var playerUrl = 'https://y.qq.com/portal/player.html';
+
+// Android：尝试拉起 App（如果已安装）
+if (isAndroid) {
+    var appUrl = 'qqmusic://qq.com/openApp/player?open=1&actionType=3&songmid=002KQ69t1HnLA9&excutetime=1';
+    var timeout = setTimeout(function() {
+        // App 没拉起来，跳网页版
+        window.location.href = songUrl;
+    }, 2000);
+    window.location.href = appUrl;
+    document.getElementById('btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = appUrl;
+    });
+} else if (isIOS) {
+    // iOS：直接用歌曲页面链接
+    document.getElementById('btn').href = songUrl;
+} else {
+    // 电脑：跳转歌曲页面
+    document.getElementById('btn').href = songUrl;
+}
+</script>
+</body>
+</html>

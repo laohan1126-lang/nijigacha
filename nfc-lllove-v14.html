@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Circle of Love - L！L！L！</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #030810;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* ========== 开场动画 ========== */
+    .intro {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 100;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #030810;
+      transition: opacity 1.5s ease;
+    }
+    .intro.fade-out { opacity: 0; pointer-events: none; }
+    .intro.hidden { display: none; }
+
+    /* 星空背景 */
+    .stars {
+      position: absolute; width: 100%; height: 100%;
+    }
+    .star {
+      position: absolute; background: #fff; border-radius: 50%;
+      animation: twinkle var(--dur) ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.4); }
+    }
+
+    /* ========== 巨型发光圆环 ========== */
+    .ring-stage {
+      position: relative;
+      width: 340px; height: 340px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* 外层光晕（多层叠加） */
+    .ring-aura {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,200,120,0.15) 0%, transparent 70%);
+      animation: aura-breathe 3s ease-in-out infinite;
+    }
+    .ring-aura-1 { width: 320px; height: 320px; animation-delay: 0s; }
+    .ring-aura-2 { width: 380px; height: 380px; animation-delay: 0.5s; opacity: 0.6; }
+    .ring-aura-3 { width: 450px; height: 450px; animation-delay: 1s; opacity: 0.3; }
+    @keyframes aura-breathe {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.7; }
+    }
+
+    /* 主圆环 */
+    .main-ring {
+      position: absolute;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      box-shadow:
+        0 0 30px 10px rgba(255, 255, 255, 0.6),
+        0 0 60px 20px rgba(255, 200, 100, 0.4),
+        0 0 100px 40px rgba(255, 150, 80, 0.2),
+        inset 0 0 40px 10px rgba(255, 255, 255, 0.3);
+      animation: ring-pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes ring-pulse {
+      0%, 100% { transform: scale(1); border-color: rgba(255,255,255,0.9); }
+      50% { transform: scale(1.03); border-color: rgba(255,240,200,1); }
+    }
+
+    /* 内层光圈 */
+    .inner-ring {
+      position: absolute;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 220, 150, 0.6);
+      box-shadow: 0 0 20px 5px rgba(255,200,80,0.3), inset 0 0 20px rgba(255,200,100,0.2);
+      animation: inner-rotate 12s linear infinite;
+    }
+    @keyframes inner-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* 中心发光核心 */
+    .core {
+      position: absolute;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff, #fffae0, #ffcc66);
+      box-shadow: 0 0 40px 20px rgba(255,220,100,0.8), 0 0 80px 40px rgba(255,180,80,0.4);
+      animation: core-glow 2s ease-in-out infinite;
+      z-index: 5;
+    }
+    @keyframes core-glow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 40px 20px rgba(255,220,100,0.8), 0 0 80px 40px rgba(255,180,80,0.4); }
+      50% { transform: scale(1.15); box-shadow: 0 0 50px 25px rgba(255,230,120,0.9), 0 0 100px 50px rgba(255,190,90,0.5); }
+    }
+
+    /* 光束发射线（12条） */
+    .rays-container {
+      position: absolute; width: 100%; height: 100%;
+      animation: rays-rotate 20s linear infinite;
+    }
+    @keyframes rays-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .ray {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 2px;
+      height: 140px;
+      background: linear-gradient(to top, rgba(255,220,150,0.8), transparent);
+      transform-origin: bottom center;
+      opacity: 0.6;
+    }
+
+    /* 圆环装饰图案（× ○ × ○） */
+    .ring-decor {
+      position: absolute;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      animation: decor-rotate 10s linear infinite;
+    }
+    @keyframes decor-rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+    .decor-item {
+      position: absolute;
+      font-size: 9px;
+      color: rgba(255,255,255,0.5);
+      font-family: monospace;
+    }
+
+    /* 大学文字 */
+    .university {
+      position: absolute;
+      top: calc(50% - 155px);
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* ========== 文字层 ========== */
+    .title-area {
+      position: absolute;
+      bottom: calc(50% - 180px);
+      text-align: center;
+      z-index: 20;
+      animation: title-up 1.2s ease-out 0.5s both;
+    }
+    @keyframes title-up {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .title-circle {
+      font-size: 11px;
+      letter-spacing: 10px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .title-main {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff8090, #c080e0, #6080ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(200,120,220,0.5));
+      margin-bottom: 6px;
+    }
+    .title-love {
+      font-size: 13px;
+      letter-spacing: 8px;
+      color: rgba(255,220,160,0.7);
+    }
+
+    /* ========== 主内容 ========== */
+    .main {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+    .main.show { display: block; opacity: 1; }
+
+    .bg-main {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(20,10,40,0.8) 0%, #030810 70%);
+    }
+    .content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .album-art {
+      width: 120px; height: 120px; border-radius: 16px; object-fit: cover;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08), 0 0 40px rgba(200,100,255,0.15);
+      flex-shrink: 0;
+      animation: album-in 0.8s cubic-bezier(0.4,0,0.2,1) 0.1s both;
+    }
+    @keyframes album-in {
+      0% { transform: scale(0.85) translateX(-20px); opacity: 0; }
+      100% { transform: scale(1) translateX(0); opacity: 1; }
+    }
+    .info { flex: 1; animation: album-in 0.8s ease 0.2s both; }
+    .song-title { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; color: #fff; }
+    .song-subtitle { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 18px; letter-spacing: 0.5px; }
+    .play-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px;
+      background: linear-gradient(90deg, #e03060, #c02050);
+      border: none; cursor: pointer;
+      box-shadow: 0 6px 24px rgba(200,30,60,0.4);
+      transition: all 0.2s ease;
+      font-size: 15px; font-weight: 600; color: #fff; letter-spacing: 2px; align-self: flex-start;
+    }
+    .play-btn:active { transform: scale(0.96); }
+    .play-btn svg { width: 16px; height: 16px; fill: #fff; }
+    .tap-hint { margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.25); }
+    .status { margin-top: 14px; font-size: 12px; padding: 8px 16px; border-radius: 20px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); opacity: 0; transition: opacity 0.3s; text-align: center; }
+    .status.show { opacity: 1; }
+    .status.ok { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+    .status.fail { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
+    .fallback-btn { display: none; margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.4); background: none; border: none; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; align-self: flex-start; }
+    .fallback-btn.show { display: block; }
+    .nfc-hint { position: fixed; bottom: 24px; left: 0; right: 0; text-align: center; font-size: 11px; color: rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+  <!-- ========== 开场动画 ========== -->
+  <div class="intro" id="intro">
+    <div class="stars" id="stars"></div>
+
+    <!-- 圆环舞台 -->
+    <div class="ring-stage">
+      <!-- 外层光晕 -->
+      <div class="ring-aura ring-aura-1"></div>
+      <div class="ring-aura ring-aura-2"></div>
+      <div class="ring-aura ring-aura-3"></div>
+
+      <!-- 光束 -->
+      <div class="rays-container" id="rays"></div>
+
+      <!-- 主圆环 -->
+      <div class="main-ring"></div>
+
+      <!-- 内层旋转圈 -->
+      <div class="inner-ring"></div>
+
+      <!-- 装饰图案 -->
+      <div class="ring-decor" id="decor"></div>
+
+      <!-- 中心核心 -->
+      <div class="core"></div>
+
+      <!-- UNIVERSITY 文字 -->
+      <div class="university">University</div>
+    </div>
+
+    <!-- 文字 -->
+    <div class="title-area">
+      <div class="title-circle">● CIRCLE OF LOVE ●</div>
+      <div class="title-main">L！L！L！</div>
+      <div class="title-love">爱的回环</div>
+    </div>
+  </div>
+
+  <!-- ========== 主内容 ========== -->
+  <div class="bg-main"></div>
+  <div class="main" id="main">
+    <div class="content">
+      <img class="album-art" src="https://4ad2f463258bc8e2-106-53-185-132.serveousercontent.com/album-cover.jpg" alt="album art">
+      <div class="info">
+        <div class="song-title">L！L！L！</div>
+        <div class="song-subtitle">宮下愛 · Circle of Love</div>
+        <button class="play-btn" id="playBtn" onclick="startPlay()">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          开始播放
+        </button>
+        <div class="tap-hint" id="tapHint">👆 请轻触按钮启动网易云音乐</div>
+        <div class="status" id="status"></div>
+        <button class="fallback-btn" id="fallbackBtn" onclick="openWebVersion()">未能启动？点此打开网页版</button>
+      </div>
+    </div>
+  </div>
+  <div class="nfc-hint">📳 NFC 贴纸碰一碰 · 网易云音乐</div>
+
+<script>
+// 星空
+(function() {
+  var container = document.getElementById('stars');
+  for (var i = 0; i < 50; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = 1 + Math.random() * 2;
+    s.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (Math.random()*100) + '%;top:' + (Math.random()*100) + '%;--dur:' + (1.5+Math.random()*2) + 's;animation-delay:' + (Math.random()*3) + 's';
+    container.appendChild(s);
+  }
+})();
+
+// 光束
+(function() {
+  var container = document.getElementById('rays');
+  for (var i = 0; i < 12; i++) {
+    var ray = document.createElement('div');
+    ray.className = 'ray';
+    ray.style.transform = 'rotate(' + (i * 30) + 'deg)';
+    ray.style.height = (120 + (i % 3) * 20) + 'px';
+    ray.style.opacity = 0.3 + (i % 4) * 0.15;
+    container.appendChild(ray);
+  }
+})();
+
+// 装饰图案
+(function() {
+  var container = document.getElementById('decor');
+  var count = 16;
+  for (var i = 0; i < count; i++) {
+    var item = document.createElement('div');
+    item.className = 'decor-item';
+    item.textContent = (i % 2 === 0) ? '×' : '○';
+    var angle = (i / count) * 360 - 90;
+    var rad = angle * Math.PI / 180;
+    var r = 130;
+    item.style.left = (130 + Math.cos(rad) * r) + 'px';
+    item.style.top = (130 + Math.sin(rad) * r) + 'px';
+    item.style.transform = 'translate(-50%,-50%)';
+    container.appendChild(item);
+  }
+})();
+
+// 6秒后切换
+setTimeout(function() {
+  document.getElementById('intro').classList.add('fade-out');
+  setTimeout(function() {
+    document.getElementById('intro').classList.add('hidden');
+    document.getElementById('main').classList.add('show');
+  }, 1500);
+}, 6000);
+
+// 播放逻辑
+var SONG_ID = '1887056125';
+var NETEASE_SCHEME = 'orpheus://song/' + SONG_ID;
+var ANDROID_INTENT = 'intent://orpheus/song/' + SONG_ID + '#Intent;scheme=orpheus;package=com.netease.cloudmusic;end';
+var WEB_URL = 'https://y.music.163.com/m/song?id=' + SONG_ID;
+var isAndroid = /Android/i.test(navigator.userAgent);
+var playing = false, launched = false;
+var status = document.getElementById('status');
+var fallbackBtn = document.getElementById('fallbackBtn');
+var tapHint = document.getElementById('tapHint');
+
+function showStatus(msg, cls) { status.textContent = msg; status.className = 'status show ' + (cls || ''); }
+function openWebVersion() { window.location.href = WEB_URL; }
+
+function startPlay() {
+  if (playing) return;
+  playing = true; launched = false;
+  tapHint.style.display = 'none';
+  showStatus('正在启动网易云音乐…', '');
+  if (isAndroid) {
+    window.location.href = ANDROID_INTENT;
+    setTimeout(function() { if (!document.hidden && !launched) { launched = true; window.location.href = NETEASE_SCHEME; } }, 1200);
+    setTimeout(function() { if (!document.hidden && !launched) { launched = true; fallbackBtn.classList.add('show'); } }, 2500);
+  } else {
+    window.location.href = NETEASE_SCHEME;
+    setTimeout(function() { if (!document.hidden) openWebVersion(); }, 2000);
+  }
+}
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) { launched = true; showStatus('🎉 网易云音乐已启动', 'ok'); }
+});
+</script>
+</body>
+</html>

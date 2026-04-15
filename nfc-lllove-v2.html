@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>🎵 L！L！L！ NFC 音乐卡</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      min-height:100vh;
+      background:linear-gradient(135deg,#ff6b8a 0%,#ff4060 50%,#e80040 100%);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+      color:#fff; padding:20px; text-align:center;
+    }
+    .nfc { font-size:64px; margin-bottom:20px; animation:float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .album { font-size:96px; margin-bottom:20px; }
+    .title { font-size:28px; font-weight:700; margin-bottom:8px; }
+    .artist { font-size:14px; opacity:0.85; margin-bottom:40px; }
+    .btn {
+      background:#fff; color:#e80040; border:none; border-radius:50px;
+      padding:18px 56px; font-size:17px; font-weight:700; letter-spacing:2px;
+      cursor:pointer; box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      text-decoration:none; display:inline-block;
+    }
+    .btn:active { transform:scale(0.95); }
+    .status {
+      margin-top:20px; font-size:14px; padding:10px 24px;
+      border-radius:30px; background:rgba(255,255,255,0.15);
+      display:none;
+    }
+    .status.show { display:inline-block; }
+    .status.ok { background:rgba(0,200,100,0.4); }
+    .status.fail { background:rgba(255,100,100,0.4); }
+    .hint { margin-top:30px; font-size:12px; opacity:0.6; line-height:1.8; }
+  </style>
+</head>
+<body>
+  <div class="nfc">📳</div>
+  <div class="album">🎶</div>
+  <div class="title">L！L！L！</div>
+  <div class="artist">虹咲学园学园偶像同好会</div>
+
+  <a class="btn" id="btn" href="javascript:void(0)">▶ 播 放</a>
+  <div class="status" id="status"></div>
+
+  <div class="hint">
+    📳 NFC 贴纸碰一碰 → 自动放这首歌<br>
+    💡 如果 App 未安装 → 跳转网页版播放
+  </div>
+
+<script>
+// 歌曲 ID（从真实歌曲页面提取）
+var SONG_ID = '002KQ69t1HnLA9';
+var SONG_URL = 'https://y.qq.com/n/ryqq/songDetail/' + SONG_ID;
+
+// QQ音乐 Android App 的 Intent 跳转（最可靠的方式）
+// 这个格式，安卓可以尝试直接拉起 QQ音乐 App 并播放
+var androidIntent = 'android-app://com.tencent.qqmusic/https/y.qq.com/n/ryqq/songDetail/' + SONG_ID;
+
+// QQ音乐 App 的 URL Scheme
+var appScheme = 'qqmusic://qq.com/openApp/player?open=1&actionType=play&songmid=' + SONG_ID + '&excutetime=1';
+
+var isAndroid = /Android/i.test(navigator.userAgent);
+var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+var btn = document.getElementById('btn');
+var status = document.getElementById('status');
+
+var launchTimeout;
+
+function showStatus(msg, cls) {
+  status.textContent = msg;
+  status.className = 'status show ' + (cls || '');
+}
+
+function tryLaunch() {
+  if (isAndroid) {
+    // 方案1：Intent URL（安卓最可靠）
+    window.location.href = androidIntent;
+
+    // 方案2：App Scheme 备用
+    launchTimeout = setTimeout(function() {
+      window.location.href = appScheme;
+    }, 500);
+
+    // 方案3：2秒后跳网页版
+    setTimeout(function() {
+      clearTimeout(launchTimeout);
+      if (!document.hidden) {
+        showStatus('跳转到网页版…', 'fail');
+        setTimeout(function() { window.location.href = SONG_URL; }, 1000);
+      }
+    }, 2500);
+
+  } else if (isIOS) {
+    // iOS：先试 App Scheme，再跳网页
+    window.location.href = appScheme;
+    setTimeout(function() {
+      window.location.href = SONG_URL;
+    }, 2000);
+  }
+}
+
+// 检测页面是否被切走（说明 App 已拉起）
+var visibilityTimer;
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    clearTimeout(launchTimeout);
+    showStatus('✅ QQ音乐已启动', 'ok');
+  }
+});
+
+btn.addEventListener('click', function() {
+  btn.textContent = '⏳ 启动中…';
+  tryLaunch();
+});
+
+// 安卓：页面加载完自动尝试（模拟碰NFC触发的效果）
+if (isAndroid) {
+  setTimeout(function() {
+    btn.textContent = '⏳ 启动中…';
+    tryLaunch();
+  }, 800);
+}
+</script>
+</body>
+</html>

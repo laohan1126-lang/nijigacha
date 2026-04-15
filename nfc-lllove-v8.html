@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>L！L！L！- NFC 音乐卡</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #1a1020 0%, #2a0a1e 40%, #1a0510 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: #fff;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    /* 背景光效 */
+    .bg-glow {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,30,80,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(140,20,120,0.25) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    /* 封面图 */
+    .album-art {
+      width: 260px;
+      height: 260px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 
+        0 20px 60px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 0 80px rgba(200,30,80,0.25);
+      margin-bottom: 30px;
+    }
+
+    /* 歌曲信息 */
+    .song-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-align: center;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .song-artist {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      margin-bottom: 36px;
+      letter-spacing: 0.5px;
+    }
+
+    /* 播放按钮 */
+    .play-btn {
+      width: 100%;
+      max-width: 280px;
+      padding: 16px 0;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #e03060, #c02050);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 30px rgba(200,30,60,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+      transition: all 0.2s ease;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    .play-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 20px rgba(200,30,60,0.3);
+    }
+    .play-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+
+    /* 状态提示 */
+    .status {
+      margin-top: 20px;
+      font-size: 12px;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+    }
+    .status.show { opacity: 1; }
+    .status.ok { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+    .status.fail { color: #f87171; border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.08); }
+
+    /* 底部NFC提示 */
+    .nfc-hint {
+      position: fixed;
+      bottom: 28px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+    }
+
+    /* 手动播放备用按钮（自动跳转失败时显示） */
+    .fallback-btn {
+      display: none;
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .fallback-btn.show { display: block; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <div class="container">
+    <!-- 封面图 - 使用原图 -->
+    <img class="album-art" src="https://p2.music.126.net/YQ8N3mR3f0iJq3qzJjRjQg==/109951166952713766.jpg" alt="album art">
+
+    <!-- 歌曲信息 -->
+    <div class="song-title">L！L！L！</div>
+    <div class="song-artist">虹咲学园学园偶像同好会</div>
+
+    <!-- 播放按钮 -->
+    <button class="play-btn" id="playBtn" onclick="startPlay()">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      开始播放
+    </button>
+
+    <!-- 状态 -->
+    <div class="status" id="status"></div>
+
+    <!-- 备用手动播放 -->
+    <button class="fallback-btn" id="fallbackBtn" onclick="openWebVersion()">网易云音乐未能启动？点此打开网页版</button>
+  </div>
+
+  <div class="nfc-hint">📳 NFC 贴纸碰一碰 · 网易云音乐</div>
+
+<script>
+var SONG_ID = '1887056125';
+var NETEASE_SCHEME = 'orpheus://song/' + SONG_ID;
+var ANDROID_INTENT = 'intent://orpheus/song/' + SONG_ID + '#Intent;scheme=orpheus;package=com.netease.cloudmusic;end';
+var WEB_URL = 'https://y.music.163.com/m/song?id=' + SONG_ID;
+
+var isAndroid = /Android/i.test(navigator.userAgent);
+var playing = false;
+var launched = false;
+var status = document.getElementById('status');
+var fallbackBtn = document.getElementById('fallbackBtn');
+
+function showStatus(msg, cls) {
+  status.textContent = msg;
+  status.className = 'status show ' + (cls || '');
+}
+
+function openWebVersion() {
+  window.location.href = WEB_URL;
+}
+
+function startPlay() {
+  if (playing) return;
+  playing = true;
+  launched = false;
+  showStatus('正在启动网易云音乐…', '');
+
+  if (isAndroid) {
+    window.location.href = ANDROID_INTENT;
+
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        window.location.href = NETEASE_SCHEME;
+      }
+    }, 1200);
+
+    setTimeout(function() {
+      if (!document.hidden && !launched) {
+        launched = true;
+        showStatus('', '');
+        fallbackBtn.classList.add('show');
+      }
+    }, 2500);
+
+  } else {
+    window.location.href = NETEASE_SCHEME;
+    setTimeout(function() {
+      if (!document.hidden) openWebVersion();
+    }, 2000);
+  }
+}
+
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    launched = true;
+    showStatus('🎉 网易云音乐已启动', 'ok');
+  }
+});
+
+// 安卓：自动触发（碰NFC时）
+if (isAndroid) {
+  setTimeout(startPlay, 800);
+  // 3秒后如果还没触发，显示备用按钮
+  setTimeout(function() {
+    if (!playing) fallbackBtn.classList.add('show');
+  }, 3000);
+}
+</script>
+</body>
+</html>

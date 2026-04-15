@@ -1,0 +1,22 @@
+{
+  "name": "🌈 虹杂 启动！",
+  "short_name": "虹杂",
+  "description": "虹咲学园偶像同好会 抽卡模拟器",
+  "start_url": "/lovelive-gacha-offline.html",
+  "display": "standalone",
+  "background_color": "#0a0518",
+  "theme_color": "#1a0a28",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://c252be261e79d654-106-53-185-132.serveousercontent.com/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "https://c252be261e79d654-106-53-185-132.serveousercontent.com/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}

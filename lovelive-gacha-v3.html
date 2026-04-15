@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Love Live！漫展抽卡机</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0518 0%, #1a0a28 50%, #0a0518 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .particles { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 0; }
+    .p { position: absolute; border-radius: 50%; background: #fff; animation: tw var(--d) ease-in-out infinite; opacity: 0; }
+    @keyframes tw { 0%,100%{opacity:.15;transform:scale(1)} 50%{opacity:.7;transform:scale(1.4)} }
+    .container { position: relative; z-index: 1; max-width: 420px; margin: 0 auto; padding: 24px 20px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .header { text-align: center; margin-bottom: 32px; }
+    .header-title { font-size: 22px; font-weight: 800; letter-spacing: 4px; background: linear-gradient(90deg,#ff7090,#c080e0,#6080ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
+    .header-sub { font-size: 11px; color: rgba(255,255,255,.4); letter-spacing: 3px; }
+    .step { display: none; width: 100%; }
+    .step.active { display: block; }
+    .input-card { background: rgba(255,255,255,.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 32px 24px; text-align: center; }
+    .input-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+    .name-input { width: 100%; padding: 14px 20px; border-radius: 16px; border: 1.5px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff; font-size: 18px; text-align: center; letter-spacing: 2px; outline: none; transition: border-color .3s; margin-bottom: 20px; font-family: inherit; }
+    .name-input:focus { border-color: rgba(200,120,220,.7); }
+    .name-input::placeholder { color: rgba(255,255,255,.25); letter-spacing: 3px; }
+    .draw-btn { width: 100%; padding: 16px; border-radius: 50px; background: linear-gradient(90deg,#e03060,#c02050); border: none; color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 4px; cursor: pointer; box-shadow: 0 8px 30px rgba(200,30,60,.4); transition: all .2s; font-family: inherit; }
+    .draw-btn:active { transform: scale(.96); }
+    .gacha-result { width: 100%; text-align: center; padding: 20px 0; display: none; }
+    .gacha-result.active { display: block; }
+    .card-slot { position: relative; width: 180px; height: 270px; margin: 0 auto 24px; border-radius: 20px; background: rgba(255,255,255,.05); border: 2px solid rgba(255,255,255,.1); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .rarity-glow { position: absolute; top:-2px; left:-2px; right:-2px; bottom:-2px; border-radius: 22px; opacity: 0; }
+    @keyframes glow-flash { 0%{opacity:1;transform:scale(1.05)} 100%{opacity:.7;transform:scale(1)} }
+    .rarity-S .rarity-glow { background: linear-gradient(135deg,#ffd700,#ff8c00); box-shadow: 0 0 50px rgba(255,200,0,.7); animation: glow-flash .3s ease-out forwards; }
+    .rarity-A .rarity-glow { background: linear-gradient(135deg,#c080e0,#8060ff); box-shadow: 0 0 35px rgba(180,100,255,.6); animation: glow-flash .3s ease-out forwards; }
+    .rarity-B .rarity-glow { background: linear-gradient(135deg,#60a0ff,#40c0e0); box-shadow: 0 0 25px rgba(80,160,255,.5); animation: glow-flash .3s ease-out forwards; }
+    .rarity-C .rarity-glow { background: linear-gradient(135deg,#60c080,#40a060); box-shadow: 0 0 20px rgba(80,180,100,.4); animation: glow-flash .3s ease-out forwards; }
+    .card-inner { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
+    .rarity-badge { position: absolute; top: 12px; right: 12px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+    .rarity-S .rarity-badge { background: linear-gradient(90deg,#ffd700,#ff8c00); color:#000; }
+    .rarity-A .rarity-badge { background: linear-gradient(90deg,#c080e0,#8060ff); color:#fff; }
+    .rarity-B .rarity-badge { background: linear-gradient(90deg,#60a0ff,#40c0e0); color:#fff; }
+    .rarity-C .rarity-badge { background: linear-gradient(90deg,#60c080,#40a060); color:#fff; }
+    .avatar-wrap { position: relative; width: 100px; height: 100px; margin-bottom: 12px; }
+    .avatar-ring { position: absolute; top:-5px; left:-5px; right:-5px; bottom:-5px; border-radius: 50%; border: 4px solid; }
+    .rarity-S .avatar-ring { border-color: #ffd700; box-shadow: 0 0 20px rgba(255,200,0,.6); }
+    .rarity-A .avatar-ring { border-color: #c080e0; box-shadow: 0 0 15px rgba(180,100,255,.5); }
+    .rarity-B .avatar-ring { border-color: #60a0ff; box-shadow: 0 0 12px rgba(80,160,255,.4); }
+    .rarity-C .avatar-ring { border-color: #60c080; box-shadow: 0 0 10px rgba(80,180,100,.3); }
+    .avatar-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
+    .card-name { font-size: 17px; font-weight: 700; margin-bottom: 3px; color: #fff; }
+    .card-sub { font-size: 10px; color: rgba(255,255,255,.5); letter-spacing: 1px; margin-bottom: 10px; }
+    .card-attr { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px; }
+    .attr-tag { padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: .5px; }
+    .result-text { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .result-desc { font-size: 12px; color: rgba(255,255,255,.5); margin-bottom: 20px; line-height: 1.6; }
+    .stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; width: 100%; justify-content: center; }
+    .stat-label { font-size: 10px; color: rgba(255,255,255,.5); width: 28px; text-align: right; letter-spacing: 1px; }
+    .stat-bar-bg { flex: 1; max-width: 110px; height: 5px; background: rgba(255,255,255,.1); border-radius: 3px; overflow: hidden; }
+    .stat-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+    .stat-S { background: linear-gradient(90deg,#ffd700,#ff8c00); }
+    .stat-A { background: linear-gradient(90deg,#c080e0,#8060ff); }
+    .stat-B { background: linear-gradient(90deg,#60a0ff,#40c0e0); }
+    .stat-C { background: linear-gradient(90deg,#60c080,#40a060); }
+    .re-draw { display: inline-block; padding: 10px 24px; border-radius: 50px; border: 1.5px solid rgba(255,255,255,.3); color: rgba(255,255,255,.7); font-size: 13px; letter-spacing: 2px; cursor: pointer; transition: all .2s; background: none; font-family: inherit; margin-top: 16px; }
+    .re-draw:active { transform: scale(.95); }
+    .share-hint { margin-top: 16px; font-size: 11px; color: rgba(255,255,255,.3); }
+    @keyframes card-in { 0%{transform:scale(.5) rotateY(90deg);opacity:0} 60%{transform:scale(1.05) rotateY(-5deg);opacity:1} 100%{transform:scale(1) rotateY(0);opacity:1} }
+    .card-animate { animation: card-in .8s cubic-bezier(.4,0,.2,1) forwards; }
+  </style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="container">
+  <div class="header">
+    <div class="header-title">🎀 漫展抽卡机 🎀</div>
+    <div class="header-sub">LOVE LIVE！虹咲学園</div>
+  </div>
+  <div class="step active" id="stepInput">
+    <div class="input-card">
+      <div class="input-title">✨ 你的名字是什么？</div>
+      <input class="name-input" id="nameInput" type="text" placeholder="输入名字" maxlength="8">
+      <button class="draw-btn" onclick="startDraw()">抽 卡</button>
+    </div>
+  </div>
+  <div class="step gacha-result" id="stepResult">
+    <div class="result-text" id="resultText"></div>
+    <div class="card-slot" id="cardSlot">
+      <div class="rarity-glow"></div>
+      <div class="card-inner" id="cardInner">
+        <div class="rarity-badge" id="rarityBadge"></div>
+        <div class="avatar-wrap">
+          <div class="avatar-ring"></div>
+          <img class="avatar-img" id="avatarImg" src="" alt="avatar">
+        </div>
+        <div class="card-name" id="cardName"></div>
+        <div class="card-sub" id="cardSub"></div>
+        <div class="card-attr" id="cardAttr"></div>
+      </div>
+    </div>
+    <div class="result-desc" id="resultDesc"></div>
+    <div id="statsArea"></div>
+    <button class="re-draw" onclick="resetDraw()">↺ 重新抽卡</button>
+    <div class="share-hint">截图分享给朋友看看你的角色吧！</div>
+  </div>
+</div>
+<script>
+var CHARACTERS = [
+  {name:"宮下愛", sub:"Miya Shiho", rarity:"S", attr:[["#ff6090","Vocal"],["#ff8090","Dance"],["#c080e0","Visual"]], stats:{vocal:96,dance:88,visual:94,charm:98}, desc:"天才偶像！声音能穿透灵魂！全场核心！", seed:"shiho-love"},
+  {name:"優木雪菜", sub:"Yuki Setsuna", rarity:"S", attr:[["#4060ff","Vocal"],["#60a0ff","Leadership"],["#c080e0","Visual"]], stats:{vocal:90,dance:92,visual:95,charm:93}, desc:"学生会长大人！冷静又温柔，领导力满点！", seed:"setsuna-nijigasaki"},
+  {name:"天王寺璃奈", sub:"Tennoji Rina", rarity:"A", attr:[["#8040ff","Visual"],["#c080e0","Art"],["#60a0ff","Dance"]], stats:{vocal:75,dance:80,visual:98,charm:82}, desc:"板着脸超可爱！艺术天赋满点！", seed:"rina-tennoji"},
+  {name:"近未来", sub:"Chikana Mirai", rarity:"A", attr:[["#40c0ff","Dance"],["#ff8040","Vocal"],["#ffd700","Energy"]], stats:{vocal:85,dance:90,visual:80,charm:88}, desc:"元气满满！舞台能量无敌！", seed:"mirai-chikan"},
+  {name:"高咲侑", sub:"Takasaki Yuu", rarity:"B", attr:[["#ff8040","Vocal"],["#ffd700","Motivation"],["#60c080","Heart"]], stats:{vocal:78,dance:72,visual:74,charm:85}, desc:"普通人也能发光！最具共鸣的主角！", seed:"yuu-takasaki"},
+  {name:"桜坂しずく", sub:"Sakurazaka Shizuku", rarity:"B", attr:[["#a0e0ff","Visual"],["#c0e0ff","Pure"],["#ff90b0","Dance"]], stats:{vocal:70,dance:78,visual:88,charm:75}, desc:"治愈系！笑容融化一切！", seed:"shizuku-sakura"},
+  {name:"エマ・ヴェルデ", sub:"Emma Verde", rarity:"C", attr:[["#60c080","Dance"],["#80d0a0","Heal"],["#40a060","Kindness"]], stats:{vocal:68,dance:85,visual:72,charm:80}, desc:"温柔的守护天使！舞蹈实力深藏不露！", seed:"emma-verde"},
+  {name:"西木野理亞", sub:"Nishikino Riko", rarity:"C", attr:[["#ff4080","Vocal"],["#c080e0","Music"],["#ffd700","Piano"]], stats:{vocal:82,dance:65,visual:78,charm:72}, desc:"钢琴才女！音乐素养极高！", seed:"riko-nishikino"}
+];
+
+// 粒子
+(function(){
+  var c=document.getElementById('particles');
+  for(var i=0;i<30;i++){
+    var p=document.createElement('div');
+    p.className='p';
+    var sz=1+Math.random()*2.5;
+    p.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--d:'+(1.5+Math.random()*2.5)+'s;animation-delay:'+Math.random()*3+'s';
+    c.appendChild(p);
+  }
+})();
+
+function startDraw(){
+  var name=document.getElementById('nameInput').value.trim() || '神秘人';
+  if(name.length < 2){ alert('请输入至少2个字的名字~'); return; }
+  var rand=Math.random();
+  var rarity;
+  if(rand < 0.05) rarity='S';
+  else if(rand < 0.20) rarity='A';
+  else if(rand < 0.55) rarity='B';
+  else rarity='C';
+  var pool=CHARACTERS.filter(function(c){return c.rarity===rarity;});
+  var char=pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('stepInput').classList.remove('active');
+  document.getElementById('stepResult').classList.add('active');
+  document.getElementById('resultText').textContent=name+' 抽到了！';
+  var slot=document.getElementById('cardSlot');
+  slot.className='card-slot rarity-'+rarity;
+  document.getElementById('rarityBadge').textContent=rarity;
+  // DiceBear 头像
+  document.getElementById('avatarImg').src='https://api.dicebear.com/7.x/avataaars/svg?seed='+char.seed+'&backgroundColor=b6e3f4';
+  document.getElementById('cardName').textContent=char.name;
+  document.getElementById('cardSub').textContent=char.sub;
+  var attrHtml='';
+  char.attr.forEach(function(a){ attrHtml+='<span class="attr-tag" style="background:'+a[0]+';color:#fff">'+a[1]+'</span>'; });
+  document.getElementById('cardAttr').innerHTML=attrHtml;
+  document.getElementById('resultDesc').textContent=name+': '+char.desc;
+  var statsHtml='';
+  var labels={vocal:'歌唱',dance:'舞蹈',visual:'视觉',charm:'魅力'};
+  var statColors={S:'stat-S',A:'stat-A',B:'stat-B',C:'stat-C'};
+  Object.keys(char.stats).forEach(function(key){ statsHtml+='<div class="stat-row"><span class="stat-label">'+labels[key]+'</span><div class="stat-bar-bg"><div class="stat-bar '+statColors[rarity]+'" style="width:0%"></div></div></div>'; });
+  document.getElementById('statsArea').innerHTML=statsHtml;
+  var inner=document.getElementById('cardInner');
+  inner.classList.remove('card-animate');
+  void inner.offsetWidth;
+  inner.classList.add('card-animate');
+  setTimeout(function(){
+    var bars=document.querySelectorAll('.stat-bar');
+    var idx=0;
+    Object.keys(char.stats).forEach(function(key){ if(bars[idx]) bars[idx].style.width=char.stats[key]+'%'; idx++; });
+  },400);
+}
+
+function resetDraw(){
+  document.getElementById('stepResult').classList.remove('active');
+  document.getElementById('stepInput').classList.add('active');
+  document.getElementById('nameInput').value='';
+  document.getElementById('nameInput').focus();
+}
+document.getElementById('nameInput').addEventListener('keyup',function(e){ if(e.key==='Enter') startDraw(); });
+</script>
+</body>
+</html>

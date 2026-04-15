@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>LoveLive! 偶像扭蛋機</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <audio id="bgm" loop>
+ <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+ </audio>
+ <audio id="sound-effect">
+ <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+ </audio>
+
+ <div style="position:fixed; top:10px; right:10px;">
+ <button onclick="toggleMusic()" style="font-size:20px; background:none; border:none;">🎵</button>
+ </div>
+
+ <div id="app">
+ <section id="home-page" class="page active">
+ <div class="gacha-machine">
+ <div class="title-area">
+ <h1>LoveLive! 抽卡系統</h1>
+ <p>輸入 CN：請選擇你的英雄</p>
+ </div>
+ <input type="text" id="user-cn" placeholder="輸入你的稱呼...">
+ <div class="gacha-btn-group">
+ <button class="btn-gacha" onclick="drawCard()">開始單抽</button>
+ </div>
+ </div>
+ </section>
+
+ <section id="result-page" class="page">
+ <div id="card-content" class="card-display">
+ </div>
+ <button class="btn-back" onclick="backToHome()">返回首頁</button>
+ </section>
+ </div>
+ <script src="data.js"></script>
+ <script src="script.js"></script>
+</body>
+</html>
