@@ -128,6 +128,7 @@ function renderResultPro(cn, char, rarity) {
 function switchPage(pageId) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
  document.getElementById(pageId).classList.add('active');
+ if (pageId === 'gallery-page') renderGallery();
 }
 
 // 5. 返回首頁
@@ -163,3 +164,44 @@ function toggleMusic() {
  if (musicPlaying) { bgm.pause(); musicPlaying = false; }
  else { bgm.play().catch(() => {}); musicPlaying = true; }
 }
+
+// 8. 圖鑑頁
+function renderGallery() {
+ const grid = document.getElementById('galleryGrid');
+ if (!grid) return;
+ grid.innerHTML = '';
+ 
+ characters.forEach(char => {
+   const card = document.createElement('div');
+   card.className = 'gallery-item';
+   
+   const hasImg = char.image && char.image.trim() !== '';
+   const imgSrc = hasImg ? char.image : '';
+   const missing = hasImg ? '' : '（缺圖）';
+   
+   card.innerHTML = `
+     <div class="gallery-avatar" style="background:#1a1a2e;">
+       ${hasImg ? `<img src="${imgSrc}" alt="${char.name}" loading="lazy">` : `<span style="color:#666;font-size:12px;">${missing}</span>`}
+     </div>
+     <div class="gallery-name">${char.name}</div>
+     <div class="gallery-group" style="color:${char.group === "μ's" ? '#e91e63' : char.group === 'Aqours' ? '#009fe8' : char.group === '虹咲學園' ? '#f39c12' : '#9b59b6'}">${char.group}</div>
+   `;
+   grid.appendChild(card);
+ });
+}
+
+// Render gallery when page loads
+document.addEventListener('DOMContentLoaded', () => {
+ renderGallery();
+ // Re-render when gallery page opens
+ const observer = new MutationObserver(() => {
+   const galleryPage = document.getElementById('gallery-page');
+   if (galleryPage && galleryPage.classList.contains('active')) {
+     renderGallery();
+   }
+ });
+ const app = document.getElementById('home-page');
+ if (app) {
+   observer.observe(app, { attributes: true, attributeFilter: ['class'] });
+ }
+});
