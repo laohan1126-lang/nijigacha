@@ -52,7 +52,7 @@ const characters = [
   hotStory: "一開始覺得穿短裙當偶像太過羞恥。在穗乃果迷失方向準備放棄時，是她給予了最嚴厲但也最真摯的一巴掌打醒了隊長。",
   mainSong: "《だってだって噫無情》(Center) / 《私たちは未来の花》(Solo)",
   trivia: "聲優三森鈴子擁有深厚的音樂劇底子。動畫中海未在合宿時打撲克牌抽到鬼牌的極致顏藝，成為了不朽的迷因。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/rin-avatar.jpg",
   themeColor: "#ff7e00",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
