@@ -25,6 +25,7 @@
    <input type="text" id="user-cn" class="home-input" placeholder="輸入cn 選擇你的英雄">
    <br>
    <button class="draw-btn" onclick="drawCardPro()">拉拉人 啟動！</button>
+   <button class="draw-btn gallery-btn" onclick="switchPage('gallery-page')">📖 圖鑑</button>
   </div>
  </section>
 
@@ -76,6 +77,15 @@
    </div>
   </div>
   <button class="btn-close" onclick="backToHomePro()">關閉檔案</button>
+ </section>
+
+ <!-- 圖鑑頁 -->
+ <section id="gallery-page" class="page">
+  <div class="gallery-header">
+   <h2>📖 角色圖鑑</h2>
+   <button class="btn-close" onclick="switchPage('home-page')">✕</button>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
  </section>
 
  <!-- Toast 提示 -->
