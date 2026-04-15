@@ -136,7 +136,7 @@ const characters = [
   hotStory: "經歷了東京演出的「零票」打擊後，在海灘邊留下了不甘的淚水。但也正是那一刻，她帶領 Aqours 重新起步，完成從 0 到 1 的蛻變。",
   mainSong: "《君のこころは輝いてるかい？》(Center) / 《One More Sunshine Story》(Solo)",
   trivia: "聲優伊波杏樹在 2nd Live 中親自完成了超高難度的前手翻動作（呼應《MIRACLE WAVE》劇情），成為 LoveLive! 歷史上的傳說。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/chika-avatar.jpg",
   themeColor: "#009fe8",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
@@ -486,7 +486,7 @@ const characters = [
   hotStory: "在找出母親當年熱愛偶像的真相後，解開心結，將學校傳統與偶像完美結合。",
   mainSong: "《Wish Song》(Center) / 《Stella!》(Solo)",
   trivia: "聲優青山渚氣質極佳，但在節目中經常有令人捧腹的搞笑發言，反差極大。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/ren-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
@@ -500,7 +500,7 @@ const characters = [
   hotStory: "作為第一個加入的新生承受了巨大壓力。在特訓中堅持下來，成為了連結前後輩的橋樑。",
   mainSong: "《WE WILL!!》(參與) / 《Vitamin Summer!》(Solo)",
   trivia: "聲優鈴原希實與角色一樣，是從零開始展現出驚人成長速度的代表。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/kinako-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
@@ -542,7 +542,7 @@ const characters = [
   hotStory: "在發現大家不計回報的汗水後深受感動，徹底融入團隊並以 C 位大放異彩。",
   mainSong: "《ビタミンSUMMER！》(Center) / 《WE WILL!!》(參與)",
   trivia: "聲優繪森彩年紀非常小，卻有著與夏美一樣古靈精怪的企劃能力。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/natsumi-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
@@ -556,7 +556,7 @@ const characters = [
   hotStory: "被擊敗後在三期生時期正式轉入結丘，從高高在上的對手變成了共同前進的夥伴。",
   mainSong: "《Butterfly Wing》(Solo) / 《Eutopia》(Solo)",
   trivia: "聲優結那擁有極其恐怖的現場聲壓與演唱功底，初登場便震懾了全場。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/ven-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
@@ -570,7 +570,7 @@ const characters = [
   hotStory: "見證了姐姐和團隊不可量化的奇蹟後，打破了數據庫，加入了這個充滿變數的團隊。",
   mainSong: "《Jump Into the New World》(參與) / 《New World》(Solo)",
   trivia: "聲優坂倉花作為三期生加入，為團隊注入了全新的活力。",
-  image: "",
+  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/fuyuki-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  }
