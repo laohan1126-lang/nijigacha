@@ -164,8 +164,8 @@ function renderResultPro(cn, char, rarity) {
  else if (char.group.includes("Liella")) groupColor = groupColorMap["Liella!"];
 
  // === 套用卡片與頭框樣式 ===
- const mainCard = document.querySelector('.main-card');
- // 高咲侑特殊樣式：黑色邊框 + 綠色熒光
+ const mainCard = document.querySelector('.char-modal');
+ // 高咲侑特殊樣式：使用綠色邊框而非黑色
  if (char.themeColor === "#000000") {
   mainCard.classList.remove('rainbow');
   mainCard.style.borderColor = "#00ff88";
@@ -178,8 +178,7 @@ function renderResultPro(cn, char, rarity) {
   mainCard.style.boxShadow = `inset 0 0 30px ${groupColor}15, 0 10px 40px ${groupColor}22`;
  }
  document.getElementById('group-tag').style.backgroundColor = groupColor;
- document.querySelector('.quote-line').style.borderLeftColor = groupColor;
- document.querySelectorAll('.section-label').forEach(el => {
+ document.querySelectorAll('.section-title').forEach(el => {
   el.style.color = groupColor;
  });
 
@@ -198,24 +197,15 @@ function renderResultPro(cn, char, rarity) {
  const iconPath = document.getElementById('audio-icon-path');
  btn.classList.remove('playing', 'dark-color');
  iconPath.setAttribute('fill', 'currentColor');
- // 设置应援色
+ // 设置应援色到CSS变量
  const color = charColors[char.name] || '#ff4757';
+ const modal = document.getElementById('charModal');
+ modal.style.setProperty('--theme-color', color);
  // 检查是否为暗色（需要白色glow）
  const isDark = (color === '#000000' || color === '#0000A0' || parseInt(color.slice(1), 16) < 0x404040);
- 
  // 应用到播放按钮
  btn.style.color = color;
  if (isDark) { btn.classList.add('dark-color'); }
- 
- // 应用到人名
- const nameEl = document.getElementById('card-name');
- nameEl.style.color = color;
- if (isDark) { nameEl.style.textShadow = '0 0 8px rgba(255,255,255,0.8), 0 0 15px rgba(255,255,255,0.4)'; }
- 
- // 应用到头像框
- const imgEl = document.getElementById('card-image');
- imgEl.style.borderColor = color;
- if (isDark) { imgEl.style.boxShadow = '0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.3)'; }
  if (char.assets && char.assets.audio) {
    audioEl.src = './audio/' + char.assets.audio + '.mp3';
    if (autoPlayEnabled) {
