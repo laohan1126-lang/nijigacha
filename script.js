@@ -235,7 +235,7 @@ function renderGallery() {
    var groupStyle = '';
    var group = char.group || '';
    if (group.indexOf('虹咲') !== -1) {
-     groupStyle = 'style="background:linear-gradient(45deg,#FF6B6B,#FFD93D,#6BCB77,#4D96FF,#B1B2FF);-webkit-background-clip:text;color:transparent;font-weight:bold;"';
+     groupStyle = 'style="display:inline-block;background:linear-gradient(to right,#FF4500,#FFA500,#FFD700,#32CD32,#1E90FF,#8A2BE2);-webkit-background-clip:text;color:transparent;font-weight:bold;background-size:200% 100%;"';
    } else if (groupColorMap[group]) {
      groupStyle = 'style="color:' + groupColorMap[group] + ';font-weight:bold;"';
    }
