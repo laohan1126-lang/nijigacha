@@ -320,7 +320,7 @@ const characters = [
   trivia: "聲優村上奈津實性格與角色如出一轍，非常陽光，且擅長打爵士鼓。",
   image: "./img/ai-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/Fr0Zfhp", mvSong: "Circle of Love", audio: "meccha_going"}
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/Fr0Zfhp", mvSong: "Circle of Love", audio: "yuai"}
  },
  {
   name: "近江彼方",
@@ -348,7 +348,7 @@ const characters = [
   trivia: "聲優指出毬亞氣質優雅文靜，被粉絲和成員們尊稱為「指出老師」。",
   image: "./img/emma-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "", audio: "evergreen"}
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "voice_go_yo"}
  },
  {
   name: "朝香果林",
@@ -358,11 +358,11 @@ const characters = [
   subUnit: "DiverDiva",
   personality: "擁有模特身材的性感前輩。外表成熟冷豔，實際上卻是個無可救藥的路癡，而且私下還有著少女心的一面。",
   hotStory: "一開始以「我這種人不適合當偶像」為由拒絕，直到艾瑪握住她的手，帶她走向了充滿聚光燈的《Starlight》舞台。",
-  mainSong: "《Starlight》(DiverDiva) / 《VIVID WORLD》(Solo)",
+  mainSong: "《Wake Up!!》(Solo)",
   trivia: "聲優久保田未夢同時也是偶像團體 i☆Ris 的成員，舞台經驗極其豐富。",
   image: "./img/karin2-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/MjVSIM7", mvSong: "VIVID WORLD", audio: "starlight"}
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/MjVSIM7", mvSong: "VIVID WORLD", audio: "wake_up"}
  },
  {
   name: "樱坂雫",
@@ -554,11 +554,11 @@ const characters = [
   subUnit: "無",
   personality: "來自奧地利的音樂天才。起初以死對頭身份登場，性格高傲冷酷，實力碾壓。",
   hotStory: "被擊敗後在三期生時期正式轉入結丘，從高高在上的對手變成了共同前進的夥伴。",
-  mainSong: "《Butterfly Wing》(Solo) / 《Eutopia》(Solo)",
+  mainSong: "《エーデルシュタイン》(Solo) / 《Butterfly Wing》(Solo)",
   trivia: "聲優結那擁有極其恐怖的現場聲壓與演唱功底，初登場便震懾了全場。",
   image: "./img/ven-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "", audio: "butterfly_wing"}
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "edelstein"}
  },
  {
   name: "鬼塚冬毬",
@@ -573,7 +573,21 @@ const characters = [
   image: "./img/tomari-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "", audio: "jump_into_new_world"}
- }
+ },
+ {
+  name: "高咲侑",
+  nameJp: "高咲 侑 (Takasaki Yuyu)",
+  quote: "一緒に輝きましょう！ (让我们一起闪耀吧！)",
+  group: "虹咲",
+  subUnit: "虹咲學園",
+  personality: "性格温柔努力的少女，拥有不服输的韧性。",
+  hotStory: "在虹咲學園中担任重要位置，与伙伴们共同追逐梦想。",
+  mainSong: "《わちゅごなどぅー》(合唱/核心)",
+  trivia: "声优为雨中。",
+  image: "./img/yu-avatar.jpg",
+  themeColor: "#000000",
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "wachugonadu" }
+ },
 ];
 
 const rarities = ["SSR", "SR", "R"];
