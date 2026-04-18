@@ -219,11 +219,28 @@ function renderGallery() {
  grid.innerHTML = '<div style="color:#fff;padding:20px;">Loading...(' + characters.length + ' chars)</div>';
  console.log('renderGallery called, chars:', characters.length);
  
+ // 团体颜色映射
+ var groupColorMap = {
+   "μ's": "#E4007F",
+   "Aqours": "#00AEEF",
+   "Liella!": "#9D5BFF"
+ };
+ 
  var html = '';
  characters.forEach(function(char) {
    var imgSrc = char.image || '';
    var imgHtml = imgSrc ? '<img src="' + imgSrc + '" alt="' + char.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<span style="color:#666;">?</span>';
-   html += '<div class="gallery-item"><div class="gallery-avatar">' + imgHtml + '</div><div class="gallery-name">' + char.name + '</div><div class="gallery-group">' + char.group + '</div></div>';
+   
+   // 根据团体获取颜色样式
+   var groupStyle = '';
+   var group = char.group || '';
+   if (group.indexOf('虹咲') !== -1) {
+     groupStyle = 'style="background:linear-gradient(45deg,#FF6B6B,#FFD93D,#6BCB77,#4D96FF,#B1B2FF);-webkit-background-clip:text;color:transparent;font-weight:bold;"';
+   } else if (groupColorMap[group]) {
+     groupStyle = 'style="color:' + groupColorMap[group] + ';font-weight:bold;"';
+   }
+   
+   html += '<div class="gallery-item"><div class="gallery-avatar">' + imgHtml + '</div><div class="gallery-name">' + char.name + '</div><div class="gallery-group" ' + groupStyle + '>' + char.group + '</div></div>';
  });
  grid.innerHTML = html;
  console.log('renderGallery done, items:', characters.length);
