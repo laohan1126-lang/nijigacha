@@ -38,7 +38,7 @@ const characters = [
   hotStory: "曾面臨去海外學習服裝設計與留在 μ's 之間的抉擇，最終在機場被穗乃果拉回，堅定了與大家共進退的心。",
   mainSong: "《Wonder zone》(Center) / 《ぶる〜べりぃ♡とれいん》(Solo)",
   trivia: "聲優內田彩被粉絲尊稱為「鳥神」。",
-  image: "./img/hanayo-avatar.jpg",
+  image: "./img/kotori-avatar.jpg",
   themeColor: "#ff7e00",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
@@ -337,7 +337,7 @@ const characters = [
   assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/GFeNJBc", mvSong: "Daydream Mermaid" }
  },
  {
-  name: "艾玛·薇德",
+  name: "艾玛·维尔德",
   nameJp: "エマ・ヴェルデ (Emma Verde)",
   quote: "ボーノ！ (Buono! / 很好吃！)",
   group: "虹咲",
@@ -505,7 +505,7 @@ const characters = [
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
  {
-  name: "米田芽衣",
+  name: "米女芽衣",
   nameJp: "米女 メイ (Yoneme Mei)",
   quote: "……っ (……tsu！)",
   group: "Liella!",
