@@ -131,7 +131,12 @@ function renderResultPro(cn, char, rarity) {
 
  // === 套用卡片與頭框樣式 ===
  const mainCard = document.querySelector('.main-card');
- if (char.group.includes('虹咲')) {
+ // 高咲侑特殊樣式：黑色邊框 + 綠色熒光
+ if (char.themeColor === "#000000") {
+  mainCard.classList.remove('rainbow');
+  mainCard.style.borderColor = "#00ff88";
+  mainCard.style.boxShadow = "inset 0 0 20px #00ff8833, 0 0 30px #00ff8866, 0 0 50px #00ff8844";
+ } else if (char.group.includes('虹咲')) {
   mainCard.classList.add('rainbow');
  } else {
   mainCard.classList.remove('rainbow');
