@@ -221,7 +221,7 @@ function renderGallery() {
  
  var html = '';
  characters.forEach(function(char) {
-   var imgSrc = char.image ? (char.image.indexOf('http') === 0 ? char.image : char.image) : '';
+   var imgSrc = char.image || '';
    var imgHtml = imgSrc ? '<img src="' + imgSrc + '" alt="' + char.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<span style="color:#666;">?</span>';
    html += '<div class="gallery-item"><div class="gallery-avatar">' + imgHtml + '</div><div class="gallery-name">' + char.name + '</div><div class="gallery-group">' + char.group + '</div></div>';
  });
