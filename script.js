@@ -243,7 +243,6 @@ function renderResultPro(cn, char, rarity) {
  }
 
  // === 處理圖片預留位 ===
- const imgEl = document.getElementById('card-image');
  const placeholderEl = document.getElementById('art-placeholder');
  if (char.image) {
   imgEl.src = char.image; imgEl.style.display = 'block'; placeholderEl.style.display = 'none';
