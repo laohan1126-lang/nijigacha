@@ -419,6 +419,21 @@ const characters = [
   image: "./img/mia-avatar.jpg",
   themeColor: "#fb7d39",
   assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/W8vCXbS", mvSong: "Like a Treasure", audio: "im_still"}
+ },,
+ ,
+ {
+  name: "高咲侑",
+  nameJp: "高咲 侑 (Takasaki Yu)",
+  quote: "ときめいた！ (我心動了！)",
+  group: "虹咲",
+  subUnit: "學園偶像同好會",
+  personality: "虹咲學園學園偶像同好會的第13名成員（動畫版設定），也是步夢的青梅竹馬。原本是普通科學生，出於對學園偶像的純粹熱愛而加入同好會。雖然自己不上台表演，但作為同好會的「粉絲代表」和心靈導師，始終在背後全力支持著每一位成員。",
+  hotStory: "從最初只是被雪菜的表演吸引而心動的普通粉絲，到後來為了能更好地支持同好會的大家，毅然決然從頭開始學習鋼琴並成功轉入音樂科，最終為同好會譜寫出了充滿大家心意與羈絆的歌曲。",
+  mainSong: "《わちゅごなどぅー》(合唱/核心)",
+  trivia: "高咲侑是動畫原創角色，她的原型是遊戲《Love Live! 學園偶像祭 ALL STARS》中的「玩家」角色（被粉絲暱稱為「小阿娜塔」）。她的名字「侑」讀作「Yu」，正是取自英文「You（你）」的諧音，代表著螢幕前一直支持著學園偶像的每一位粉絲。",
+  image: "./img/yu-avatar.jpg",
+  themeColor: "#000000",
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "wachugonadu" }
  },
  {
   name: "涩谷香音",
@@ -573,21 +588,7 @@ const characters = [
   image: "./img/tomari-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "", audio: "jump_into_new_world"}
- },
- {
-  name: "高咲侑",
-  nameJp: "高咲 侑 (Takasaki Yu)",
-  quote: "ときめいた！ (我心動了！)",
-  group: "虹咲",
-  subUnit: "學園偶像同好會",
-  personality: "虹咲學園學園偶像同好會的第13名成員（動畫版設定），也是步夢的青梅竹馬。原本是普通科學生，出於對學園偶像的純粹熱愛而加入同好會。雖然自己不上台表演，但作為同好會的「粉絲代表」和心靈導師，始終在背後全力支持著每一位成員。",
-  hotStory: "從最初只是被雪菜的表演吸引而心動的普通粉絲，到後來為了能更好地支持同好會的大家，毅然決然從頭開始學習鋼琴並成功轉入音樂科，最終為同好會譜寫出了充滿大家心意與羈絆的歌曲。",
-  mainSong: "《わちゅごなどぅー》(合唱/核心)",
-  trivia: "高咲侑是動畫原創角色，她的原型是遊戲《Love Live! 學園偶像祭 ALL STARS》中的「玩家」角色（被粉絲暱稱為「小阿娜塔」）。她的名字「侑」讀作「Yu」，正是取自英文「You（你）」的諧音，代表著螢幕前一直支持著學園偶像的每一位粉絲。",
-  image: "./img/yu-avatar.jpg",
-  themeColor: "#000000",
-  assets: { avatar: "", bgm: "", videoUrl: "", audio: "wachugonadu" }
- },
+ }
 ];
 
 const rarities = ["SSR", "SR", "R"];
