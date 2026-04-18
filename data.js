@@ -344,7 +344,7 @@ const characters = [
   subUnit: "Qu4rtz",
   personality: "來自瑞士的留學生。性格極其溫柔包容，熱愛日本偶像文化，特別喜歡吃麵包。",
   hotStory: "作為果林身邊最溫柔的推進者，她融化了果林的心防，並將瑞士的自然風光融入了獨唱舞台。",
-  mainSong: "《Evergreen》(Solo) / 《La Bella Patria》(Solo)",
+  mainSong: "《声繋ごうよ》(Solo) / 《La Bella Patria》(Solo)",
   trivia: "聲優指出毬亞氣質優雅文靜，被粉絲和成員們尊稱為「指出老師」。",
   image: "./img/emma-avatar.jpg",
   themeColor: "#fb7d39",
