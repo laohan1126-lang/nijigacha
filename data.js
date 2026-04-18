@@ -106,7 +106,7 @@ const characters = [
   subUnit: "Printemps",
   personality: "性格極度內向的女孩，但只要提到學園偶像就會變成百科全書。超級喜歡吃白飯。",
   hotStory: "從小夢想成為偶像卻不敢跨出第一步。在凜與真姬的推動下，終於鼓起勇氣摘下眼鏡，大聲宣佈「我想做學園偶像」。",
-  mainSong: "《なうとび》(Solo) / 《孤独なHeaven》(Solo)",
+  mainSong: "代表曲：《秸とび》(Solo)",
   trivia: "聲優久保由利香早期曾擔任過模特兒。動畫中對白米飯的狂熱，後來衍生出了官方的「花陽專屬白米」實體周邊販售企劃。",
   image: "./img/hanayo-avatar.jpg",
   themeColor: "#ff7e00",
