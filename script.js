@@ -48,6 +48,29 @@ const cvDictionary = {
  "鬼塚冬毬": "坂倉花"
 };
 
+// === 角色应援色字典 ===
+const charColors = {
+ // μ's
+ "高坂穗乃果": "#F38500", "絢瀨繪里": "#7AEEFF", "南小鳥": "#CEBFBF",
+ "園田海未": "#1769FF", "星空凜": "#FFF832", "西木野真姬": "#FF503E",
+ "東條希": "#C455F6", "小泉花陽": "#6AE673", "矢澤妮可": "#FF4F91",
+ // Aqours
+ "高海千歌": "#F08300", "櫻內梨子": "#FF7A8E", "松浦果南": "#1BA98C",
+ "黑澤黛雅": "#E40011", "渡邊曜": "#26B7E1", "津島善子": "#898989",
+ "國木田花丸": "#E3CB0B", "小原鞠莉": "#C64DA5", "黑澤露比": "#EE5985",
+ // 虹咲
+ "上原步梦": "#ED7D95", "中须霞": "#E7D600", "优木雪菜": "#D81C2F",
+ "天王寺璃奈": "#9CA5B9", "宫下爱": "#FF5800", "近江彼方": "#A664A0",
+ "艾玛·维尔德": "#84C36E", "朝香果林": "#485EC6", "樱坂雫": "#01B7ED",
+ "三船栞子": "#37B484", "钟岚珠": "#F8C8C4", "米雅·泰勒": "#A9A898",
+ "高咲侑": "#000000",
+ // Liella!
+ "涩谷香音": "#FF7F27", "唐可可": "#A0FFF9", "岚千砂都": "#FF6E90",
+ "平安名堇": "#74F466", "叶月恋": "#0000A0", "樱小路希奈子": "#FFF442",
+ "米女芽衣": "#FF3535", "若菜四季": "#B2FFDD", "鬼塚夏美": "#FF51C4",
+ "薇恩·玛格丽特": "#E49DFD", "鬼塚冬毬": "#4CD2E2"
+};
+
 // === Audio 全局状态 ===
 let currentAudio = null;
 let currentAudioBtn = null;
@@ -56,6 +79,7 @@ let autoPlayEnabled = false; // 自动播放开关
 function toggleAudio() {
   const audioEl = document.getElementById('card-audio');
   const btn = document.getElementById('audio-btn');
+  const iconPath = document.getElementById('audio-icon-path');
   
   if (!audioEl.src || audioEl.src === window.location.href) {
     console.log('No audio source set');
@@ -66,17 +90,24 @@ function toggleAudio() {
     currentAudio.pause();
     if (currentAudioBtn) {
       currentAudioBtn.classList.remove('playing');
+      // Reset to play icon
+      const prevPath = document.querySelector('#' + currentAudioBtn.id + ' path');
+      if (prevPath) prevPath.setAttribute('d', 'M8 5v14l11-7z');
     }
   }
   
   if (audioEl.paused) {
     audioEl.play().catch(e => console.log('Play failed:', e));
     btn.classList.add('playing');
+    // Change to pause icon
+    iconPath.setAttribute('d', 'M6 4h4v16H6zM14 4h4v16h-4z');
     currentAudio = audioEl;
     currentAudioBtn = btn;
   } else {
     audioEl.pause();
     btn.classList.remove('playing');
+    // Change back to play icon
+    iconPath.setAttribute('d', 'M8 5v14l11-7z');
     currentAudio = null;
     currentAudioBtn = null;
   }
@@ -85,8 +116,10 @@ function toggleAudio() {
 function stopAudio() {
   const audioEl = document.getElementById('card-audio');
   const btn = document.getElementById('audio-btn');
+  const iconPath = document.getElementById('audio-icon-path');
   if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
   if (btn) { btn.classList.remove('playing'); }
+  if (iconPath) { iconPath.setAttribute('d', 'M8 5v14l11-7z'); }
   currentAudio = null;
   currentAudioBtn = null;
 }
@@ -162,9 +195,18 @@ function renderResultPro(cn, char, rarity) {
  stopAudio();
  const audioEl = document.getElementById('card-audio');
  const btn = document.getElementById('audio-btn');
- btn.classList.remove('playing');
+ const iconPath = document.getElementById('audio-icon-path');
+ btn.classList.remove('playing', 'dark-color');
+ iconPath.setAttribute('fill', 'currentColor');
+ // 设置应援色
+ const color = charColors[char.name] || '#ff4757';
+ btn.style.color = color;
+ // 检查是否为暗色（需要白色glow）
+ const isDark = (color === '#000000' || color === '#0000A0' || parseInt(color.slice(1), 16) < 0x404040);
+ if (isDark) {
+   btn.classList.add('dark-color');
+ }
  if (char.assets && char.assets.audio) {
-   audioEl.src = char.assets.audio;
    audioEl.src = './audio/' + char.assets.audio + '.mp3';
    if (autoPlayEnabled) {
      audioEl.autoplay = true;
