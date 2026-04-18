@@ -316,7 +316,7 @@ const characters = [
   subUnit: "DiverDiva",
   personality: "金髮辣妹外表，實則是熱心腸的大姐姐。極度喜歡講冷笑話，交友廣泛。",
   hotStory: "從小喜歡照顧別人。在發現自己也有無法跨越的障礙時，通過偶像活動找到了與觀眾雙向救贖的道路。",
-  mainSong: "《めっちゃ Going!!》(Solo) / 《Vivid World》(Solo)",
+  mainSong: "《友&愛》(Solo) / 《めっちゃ Going!!》(Solo)",
   trivia: "聲優村上奈津實性格與角色如出一轍，非常陽光，且擅長打爵士鼓。",
   image: "./img/ai-avatar.jpg",
   themeColor: "#fb7d39",
