@@ -173,6 +173,23 @@ body {
  padding: 8px 30px; border-radius: 20px; cursor: pointer;
 }
 
+.btn-back-home {
+ display: block; width: fit-content; margin: 25px auto;
+ background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+ border: 1.5px solid rgba(255,255,255,0.4);
+ color: #fff; padding: 12px 40px; border-radius: 30px; cursor: pointer;
+ font-size: 14px; font-weight: 300; letter-spacing: 2px;
+ backdrop-filter: blur(10px);
+ box-shadow: 0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
+ transition: all 0.3s ease;
+}
+.btn-back-home:hover {
+ background: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
+ border-color: rgba(255,255,255,0.6);
+ transform: translateY(-2px);
+ box-shadow: 0 6px 25px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
 /* 结果页布局容器 */
 .result-container {
  width: 100%;
@@ -222,4 +239,170 @@ body {
 .main-card.rainbow {
  border: 3px solid transparent;
  border-image: linear-gradient(180deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b) 1;
+}
+/* 首页两排图片布局 */
+.group-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto 6px;
+  justify-content: center;
+}
+
+.group-img {
+  width: calc(50% - 3px);
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* 四个角落音乐按钮 */
+.corner-audio {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.corner-btn {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corner-btn:active { transform: scale(0.95); }
+
+.corner-mus {
+  top: 12px; left: 12px;
+  background: rgba(233, 30, 99, 0.75);
+  box-shadow: 0 0 12px rgba(233, 30, 99, 0.6);
+}
+
+.corner-aqours {
+  top: 12px; right: 12px;
+  background: rgba(0, 159, 232, 0.75);
+  box-shadow: 0 0 12px rgba(0, 159, 232, 0.6);
+}
+
+.corner-niji {
+  bottom: 12px; left: 12px;
+  background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  background-size: 300% 300%;
+  animation: rainbowBg 3s ease infinite;
+  box-shadow: 0 0 12px rgba(255, 107, 107, 0.5);
+}
+
+.corner-liella {
+  bottom: 12px; right: 12px;
+  background: rgba(155, 89, 182, 0.75);
+  box-shadow: 0 0 12px rgba(155, 89, 182, 0.6);
+}
+
+@keyframes rainbowBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 图鉴页面 */
+#gallery-page {
+  background: linear-gradient(135deg, #0a0518 0%, #1a0a28 50%, #0a0518 100%);
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 12px 8px 40px;
+  box-sizing: border-box;
+}
+
+.gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #0a0518 0%, #1a0a28 50%, #0a0518 100%);
+  z-index: 10;
+}
+
+.gallery-header h2 {
+  color: #fff;
+  margin: 0;
+  font-size: 18px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.gallery-item {
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 6px;
+  text-align: center;
+}
+
+.gallery-avatar {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.gallery-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-name {
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gallery-group {
+  font-size: 9px;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+.gallery-group.rainbow-text {
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-close {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 16px;
 }

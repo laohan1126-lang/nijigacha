@@ -113,6 +113,19 @@ function renderResultPro(cn, char, rarity) {
  document.getElementById('card-hotstory').innerText = char.hotStory;
  document.getElementById('card-trivia').innerText = char.trivia;
 
+ // === MV 連結 ===
+ const mvBox = document.getElementById('card-mv-box');
+ const mvLink = document.getElementById('card-mv-link');
+ if (char.assets && char.assets.videoUrl) {
+  mvBox.style.display = 'block';
+  mvLink.href = char.assets.videoUrl;
+  // Use mvSong from assets if available, otherwise parse mainSong
+  var songName = (char.assets && char.assets.mvSong) ? char.assets.mvSong : (char.mainSong ? char.mainSong.split('/')[0].replace(/[《》]/g, '').trim() : 'MV');
+  mvLink.innerText = '▶ ' + songName;
+ } else {
+  mvBox.style.display = 'none';
+ }
+
  // === 處理圖片預留位 ===
  const imgEl = document.getElementById('card-image');
  const placeholderEl = document.getElementById('art-placeholder');
@@ -128,6 +141,7 @@ function renderResultPro(cn, char, rarity) {
 function switchPage(pageId) {
  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
  document.getElementById(pageId).classList.add('active');
+ if (pageId === 'gallery-page') renderGallery();
 }
 
 // 5. 返回首頁
@@ -157,9 +171,64 @@ document.addEventListener('DOMContentLoaded', initCards);
 
 // 7. 背景音樂
 let musicPlaying = false;
+let currentGroup = null;
 function toggleMusic() {
  const bgm = document.getElementById('bgm');
  if (!bgm) return;
  if (musicPlaying) { bgm.pause(); musicPlaying = false; }
  else { bgm.play().catch(() => {}); musicPlaying = true; }
 }
+
+// 8. 团体音乐播放（点击播放/暂停）
+function playGroupMusic(group) {
+ var groupMusic = {
+   mus: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/mus_192k.mp3',
+   aqours: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/aqours_192k.mp3',
+   nijigasaki: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/nijigasaki_192k.mp3',
+   liella: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/liella_192k.mp3'
+ };
+ var src = groupMusic[group];
+ if (!src) return;
+ var bgm = document.getElementById('bgm');
+ if (!bgm) return;
+ 
+ // 如果点击的是同一个团体，切换播放/暂停
+ if (currentGroup === group) {
+  if (musicPlaying) {
+   bgm.pause();
+   musicPlaying = false;
+  } else {
+   bgm.play().catch(function() {});
+   musicPlaying = true;
+  }
+  return;
+ }
+ 
+ // 切换到新团体
+ currentGroup = group;
+ bgm.src = src;
+ bgm.play().catch(function() {});
+ musicPlaying = true;
+}
+
+// 9. 图鉴页面渲染
+function renderGallery() {
+ var grid = document.getElementById('galleryGrid');
+ if (!grid) { console.log('grid not found'); return; }
+ if (!characters) { console.log('characters not found'); return; }
+ grid.innerHTML = '<div style="color:#fff;padding:20px;">Loading...(' + characters.length + ' chars)</div>';
+ console.log('renderGallery called, chars:', characters.length);
+ 
+ var html = '';
+ characters.forEach(function(char) {
+   var imgSrc = char.image || '';
+   var imgHtml = imgSrc ? '<img src="' + imgSrc + '" alt="' + char.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<span style="color:#666;">?</span>';
+   html += '<div class="gallery-item"><div class="gallery-avatar">' + imgHtml + '</div><div class="gallery-name">' + char.name + '</div><div class="gallery-group">' + char.group + '</div></div>';
+ });
+ grid.innerHTML = html;
+ console.log('renderGallery done, items:', characters.length);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+ renderGallery();
+});
