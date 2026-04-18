@@ -1,206 +1,110 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>🌈 虹杂 启动！</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { min-height: 100vh; background: linear-gradient(135deg, #0a0518 0%, #1a0a28 50%, #0a0518 100%); font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; color: #fff; overflow-x: hidden; }
-    .particles { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 0; }
-    .p { position: absolute; border-radius: 50%; background: #fff; animation: tw var(--d) ease-in-out infinite; opacity: 0; }
-    @keyframes tw { 0%,100%{opacity:.15;transform:scale(1)} 50%{opacity:.7;transform:scale(1.4)} }
-    .container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-    .header { text-align: center; margin-bottom: 24px; }
-    .header-title { font-size: 20px; font-weight: 800; letter-spacing: 4px; background: linear-gradient(90deg,#ff7090,#c080e0,#6080ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
-    .header-sub { font-size: 10px; color: rgba(255,255,255,.4); letter-spacing: 3px; }
-    .step { display: none; width: 100%; }
-    .step.active { display: block; }
-    .input-card { background: rgba(255,255,255,.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 28px 20px; text-align: center; }
-    .input-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
-    .name-input { width: 100%; padding: 12px 16px; border-radius: 14px; border: 1.5px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff; font-size: 16px; text-align: center; letter-spacing: 2px; outline: none; transition: border-color .3s; margin-bottom: 16px; font-family: inherit; }
-    .name-input:focus { border-color: rgba(200,120,220,.7); }
-    .name-input::placeholder { color: rgba(255,255,255,.25); letter-spacing: 3px; }
-    .draw-btn { width: 100%; padding: 14px; border-radius: 50px; background: linear-gradient(90deg,#e03060,#c02050); border: none; color: #fff; font-size: 15px; font-weight: 700; letter-spacing: 4px; cursor: pointer; box-shadow: 0 6px 24px rgba(200,30,60,.4); transition: all .2s; font-family: inherit; }
-    .draw-btn:active { transform: scale(.96); }
-    .result-wrap { width: 100%; display: none; padding: 8px 0 24px; }
-    .result-wrap.active { display: block; }
-    .rarity-banner { text-align: center; padding: 12px; border-radius: 16px; margin-bottom: 16px; font-size: 13px; font-weight: 800; letter-spacing: 3px; }
-    .rarity-S { background: linear-gradient(90deg,#ffd700,#ff8c00); color:#000; box-shadow: 0 4px 20px rgba(255,200,0,.4); }
-    .rarity-A { background: linear-gradient(90deg,#c080e0,#8060ff); color:#fff; box-shadow: 0 4px 16px rgba(180,100,255,.4); }
-    .rarity-B { background: linear-gradient(90deg,#60a0ff,#40c0e0); color:#fff; box-shadow: 0 4px 16px rgba(80,160,255,.3); }
-    .rarity-C { background: linear-gradient(90deg,#60c080,#40a060); color:#fff; box-shadow: 0 4px 16px rgba(80,180,100,.3); }
-    .main-card { background: rgba(255,255,255,.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.1); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
-    .char-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-    .avatar-wrap { position: relative; flex-shrink: 0; }
-    .avatar-ring { position: absolute; top:-5px; left:-5px; right:-5px; bottom:-5px; border-radius: 50%; border: 4px solid; }
-    .rarity-S .avatar-ring { border-color: #ffd700; box-shadow: 0 0 20px rgba(255,200,0,.6); }
-    .rarity-A .avatar-ring { border-color: #c080e0; box-shadow: 0 0 15px rgba(180,100,255,.5); }
-    .rarity-B .avatar-ring { border-color: #60a0ff; box-shadow: 0 0 12px rgba(80,160,255,.4); }
-    .rarity-C .avatar-ring { border-color: #60c080; box-shadow: 0 0 10px rgba(80,180,100,.3); }
-    .avatar-img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; }
-    .char-info { flex: 1; min-width: 0; }
-    .char-name { font-size: 20px; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .char-sub { font-size: 11px; color: rgba(255,255,255,.45); letter-spacing: 1px; margin-bottom: 3px; }
-    .char-cv-inline { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 3px; letter-spacing: .5px; }
-    .char-attr { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
-    .char-solo { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 4px; letter-spacing: .5px; }
-    .char-mv { font-size: 11px; color: #ffd700; margin-top: 4px; letter-spacing: .5px; }
-    .attr-tag { padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; }
-    .bio-section { margin-bottom: 16px; }
-    .bio-label { font-size: 10px; color: rgba(255,255,255,.35); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-    .bio-text { font-size: 13px; color: rgba(255,255,255,.75); line-height: 1.7; }
-    .char-quote { font-size: 12px; color: rgba(255,255,255,.5); font-style: italic; margin-top: 6px; padding-left: 10px; border-left: 2px solid rgba(255,255,255,.2); }
-    .stats-section { margin-bottom: 16px; }
-    .stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-    .stat-label { font-size: 11px; color: rgba(255,255,255,.4); width: 32px; text-align: right; letter-spacing: 1px; }
-    .stat-bar-bg { flex: 1; height: 7px; background: rgba(255,255,255,.08); border-radius: 4px; overflow: hidden; }
-    .stat-bar { height: 100%; border-radius: 4px; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
-    .stat-S { background: linear-gradient(90deg,#ffd700,#ff8c00); }
-    .stat-A { background: linear-gradient(90deg,#c080e0,#8060ff); }
-    .stat-B { background: linear-gradient(90deg,#60a0ff,#40c0e0); }
-    .stat-C { background: linear-gradient(90deg,#60c080,#40a060); }
-    .fun-fact { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; }
-    .fun-fact-label { font-size: 10px; color: rgba(255,255,255,.3); letter-spacing: 2px; margin-bottom: 4px; }
-    .fun-fact-text { font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.5; }
-    .re-draw { display: inline-block; padding: 10px 24px; border-radius: 50px; border: 1.5px solid rgba(255,255,255,.3); color: rgba(255,255,255,.7); font-size: 13px; letter-spacing: 2px; cursor: pointer; transition: all .2s; background: none; font-family: inherit; }
-    .re-draw:active { transform: scale(.95); }
-    .share-hint { margin-top: 12px; font-size: 11px; color: rgba(255,255,255,.25); text-align: center; }
-    .nfc-hint { margin-top: 16px; font-size: 11px; color: rgba(255,255,255,.2); text-align: center; }
-    @keyframes card-in { 0%{transform:scale(.6) translateY(30px);opacity:0} 60%{transform:scale(1.02) translateY(-3px);opacity:1} 100%{transform:scale(1) translateY(0);opacity:1} }
-    .card-animate { animation: card-in .9s cubic-bezier(.4,0,.2,1) forwards; }
-    .result-username { font-size: 13px; color: rgba(255,255,255,.5); text-align: center; margin-bottom: 4px; letter-spacing: 1px; }
-    .music-btn { position: fixed; top: 12px; right: 12px; z-index: 999; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,.5); border: 2px solid rgba(255,255,255,.3); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); transition: all .2s; }
-    .music-btn:hover { background: rgba(0,0,0,.7); border-color: #e03060; }
-    .music-btn.playing { animation: pulse-music 1s infinite; }
-    @keyframes pulse-music { 0%,100%{box-shadow:0 0 0 0 rgba(224,48,96,.5)} 50%{box-shadow:0 0 0 8px rgba(224,48,96,0)} }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>LoveLive!</title>
+ <link rel="stylesheet" href="style.css?v=20260418u">
 </head>
 <body>
-<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔇</button>
-<div class="particles" id="particles"></div>
-<div class="container">
-  <div class="header">
-    <img src="header-banner.jpg" style="width:100%;border-radius:16px;display:block;" alt="banner">
-    <img src="title-badge.jpg" style="width:160px;margin:12px auto 0;display:block;border-radius:8px;" alt="title">
+
+ <audio id="bgm" loop>
+ <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+ </audio>
+ <audio id="sound-effect">
+ <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+ </audio>
+
+ <!-- 四个角落音乐按钮 -->
+ <div class="corner-audio">
+   <button class="corner-btn corner-mus" onclick="playGroupMusic('mus')">μ's</button>
+   <button class="corner-btn corner-aqours" onclick="playGroupMusic('aqours')">Aqours</button>
+   <button class="corner-btn corner-niji" onclick="playGroupMusic('nijigasaki')">虹咲</button>
+   <button class="corner-btn corner-liella" onclick="playGroupMusic('liella')">Liella!</button>
+ </div>
+
+ <!-- 首页 -->
+ <section id="home-page" class="page active">
+  <div class="home-bg"></div>
+  <div class="home-content">
+   <h1 class="home-title">LoveLive!</h1>
+   <div class="group-row">
+    <img src="./img/mus.jpg" alt="μ's" class="group-img">
+    <img src="./img/aqours.jpg" alt="Aqours" class="group-img">
+   </div>
+   <div class="group-row">
+    <img src="./img/nijigasaki.jpg" alt="虹咲" class="group-img">
+    <img src="./img/liella.jpg" alt="Liella!" class="group-img">
+   </div>
+   <input type="text" id="user-cn" class="home-input" placeholder="输入昵称 选你的角色">
+   <br><br>
+   <button class="draw-btn" onclick="drawCardPro()">拉拉人不灭！</button>
+   <br><br>
+   <button class="draw-btn gallery-btn" onclick="switchPage('gallery-page')">📖 图鉴</button>
   </div>
-  <div class="step active" id="stepInput">
-    <div class="input-card">
-      <div class="input-title">✨ 你的名字是什么？</div>
-      <input class="name-input" id="nameInput" type="text" placeholder="输入cn 请选择你的英雄" maxlength="8">
-      <button class="draw-btn" onclick="startDraw()">抽 卡</button>
+ </section>
+
+ <!-- 结果页 -->
+ <section id="result-page" class="page">
+  <div class="result-container">
+   <div class="user-info-banner">
+    <span id="user-display-name">制作人</span> 抽到了！
+   </div>
+   <div class="rarity-banner" id="rarity-style">
+    <span id="card-rarity"></span>
+   </div>
+   <div class="main-card">
+    <div class="card-header-flex">
+     <div class="avatar-wrapper">
+      <img id="card-image" src="" alt="立绘">
+      <div class="avatar-placeholder" id="art-placeholder">IMAGE</div>
+     </div>
+     <div class="basic-info">
+      <h1 id="card-name">角色名</h1>
+      <p class="jp-name" id="card-name-jp">日文名</p>
+      <p class="cv-info">CV: <span id="card-cv">声优</span></p>
+      <div class="tags-row">
+       <span class="tag-label" id="group-tag">团体</span>
+       <span class="tag-label secondary" id="subunit-tag">subunit</span>
+      </div>
+      <p class="solo-song">Solo曲：<span id="card-song">歌曲</span></p>
+     </div>
     </div>
+    <div class="section-content">
+     <h3 class="section-label">◆ 角色介绍</h3>
+     <p class="desc-text" id="card-personality"></p>
+     <div class="quote-line">「<span id="card-quote"></span>」</div>
+    </div>
+    <div class="section-content">
+     <h3 class="section-label">◆ 高光轨迹</h3>
+     <p class="desc-text" id="card-hotstory"></p>
+    </div>
+    <div class="trivia-footer-box">
+     <h3 class="section-label">✦ 小知识</h3>
+     <p id="card-trivia" class="trivia-text"></p>
+    </div>
+    <div id="card-mv-box" style="display:none;margin-top:12px;padding:10px;background:rgba(255,215,0,0.1);border-radius:8px;border:1px solid rgba(255,215,0,0.3);">
+     <h3 class="section-label" style="color:#ffd700;">✦ MV</h3>
+     <a id="card-mv-link" href="#" target="_blank" style="color:#ffd700;font-size:14px;text-decoration:none;"></a>
+    </div>
+   </div>
   </div>
-  <div class="result-wrap" id="stepResult">
-    <div class="result-username" id="resultUsername"></div>
-    <div class="rarity-banner" id="rarityBanner"></div>
-    <div class="main-card card-animate" id="mainCard">
-      <div class="char-header">
-        <div class="avatar-wrap">
-          <div class="avatar-ring"></div>
-          <img class="avatar-img" id="avatarImg" src="" alt="">
-        </div>
-        <div class="char-info">
-          <div class="char-name" id="charName"></div>
-          <div class="char-sub" id="charSub"></div>
-          <div class="char-cv-inline" id="charCv"></div>
-          <div class="char-attr" id="charAttr"></div>
-          <div class="char-solo" id="charSolo"></div>
-          <div class="char-mv" id="charMv"></div>
-        </div>
-      </div>
-      <div class="bio-section">
-        <div class="bio-label">✦ 角色介绍</div>
-        <div class="bio-text" id="bioText"></div>
-        <div class="char-quote" id="charQuote"></div>
-      </div>
-      <div class="stats-section">
-        <div class="bio-label">✦ 能力值</div>
-        <div id="statsArea"></div>
-      </div>
-      <div class="fun-fact" id="funFact">
-        <div class="fun-fact-label">✦ 小知识</div>
-        <div class="fun-fact-text" id="funFactText"></div>
-      </div>
-    </div>
-    <div style="text-align:center;">
-      <button class="re-draw" onclick="resetDraw()">↺ 再抽一次</button>
-    </div>
-    <div class="share-hint">截图分享给朋友看看你的角色吧！</div>
-    <div class="nfc-hint">🌈 虹杂 启动！</div>
+  <button class="btn-back-home" onclick="backToHomePro()">返回首页</button>
+ </section>
+
+ <!-- 图鉴页 -->
+ <section id="gallery-page" class="page">
+  <div class="gallery-header">
+   <h2>📖 角色图鉴</h2>
+   <button class="btn-close" onclick="switchPage('home-page')">✕</button>
   </div>
-</div>
-<script>
-var CHARACTERS = [
-  {name:'中须霞',sub:'中須かすみ',cv:'CV: 相良茉優',rarity:'A',attr:[['#ff6090','Vocal'],['ffd700','Energy'],['ff90b0','Cute']],stats:{vocal:82,dance:85,visual:90,charm:88},desc:'虹咲学园1年级，自称「甜心小天使」的元气偶像！说话带独特尾音，天然呆但超级努力，是团队的开心果。',quote:'「かすみ〜、私は天使〜！」',solo:'Solo曲：<a href="https://163cn.tv/433Iudb" target="_blank" style="color:#ff7090;">Poppin Up!</a>',funFact:'中须霞的声优相良茉優是虹咲中最年轻的声优之一，但她说冷笑话的功力却意外地深，录音现场经常笑场。',img:'kasumi2-avatar.jpg',mv:'<a href="https://b23.tv/MK7HRES" target="_blank" style="color:#ffd700;">📺 MV：無敵級*ビリーバー</a>'},
-  {name:'朝香果林',sub:'朝香果林',cv:'CV: 久保田未夢',rarity:'S',attr:[['#c080e0','Vocal'],['ff90b0','Visual'],['60c0ff','Elegance']],stats:{vocal:92,dance:85,visual:95,charm:97},desc:'虹咲学园2年级，「气氛制造者」！说话色气满满的大姐姐，但被反问就会脸红，是虹咲最强的反差萌担当。',quote:'「你想看什么样的Live呢？」',solo:'Solo曲：<a href="https://163cn.tv/435oPta" target="_blank" style="color:#ff7090;">Wake Up!!</a>',funFact:'久保田未夢（果林声优）本人其实性格内向，但为了果林这个角色努力演出「色气大姐姐」的气质，录音时经常害羞。',img:'karin2-avatar.jpg',mv:'<a href="https://b23.tv/MjVSIM7" target="_blank" style="color:#ffd700;">📺 MV：VIVID WORLD</a>'},
-  {name:'优木雪菜',sub:'優木雪菜',cv:'CV: 楠木ともり',rarity:'S',attr:[['#4060ff','Vocal'],['60a0ff','Leadership'],['c080e0','Visual']],stats:{vocal:90,dance:92,visual:95,charm:93},desc:'虹咲学园3年级学生会长，外表冷艳内心温柔，作为会长以身作则，背负着「不让同伴失望」的压力，是团队的精神支柱。',quote:'「我是学生会长，優木雪菜。」',solo:'Solo曲：<a href="https://163cn.tv/432QHsB" target="_blank" style="color:#ff7090;">CHASE!</a>',funFact:'優木雪菜的声优楠木ともり同时也是歌手，她清澈的嗓音完美诠释了雪菜「外冷内热」的魅力。',img:'setsuna-avatar.jpg',mv:'<a href="https://b23.tv/ZwJc5PX" target="_blank" style="color:#ffd700;">📺 MV：CHASE!</a>'},
-  {name:'天王寺璃奈',sub:'天王寺璃奈',cv:'CV: 田中ちえ美',rarity:'A',attr:[['#8040ff','Visual'],['c080e0','Art'],['60a0ff','Dance']],stats:{vocal:75,dance:80,visual:98,charm:82},desc:'虹咲学园2年级，总是无表情的文艺少女。私下是表情包达人，喜欢画漫画，对自己没自信，却有惊人的艺术天赋。',quote:'「……嗯。」（无表情）',solo:'Solo曲：<a href="https://163cn.tv/435lWyi" target="_blank" style="color:#ff7090;">テレテレパシー</a>',funFact:'天王寺璃奈的标志性「无表情」表演需要声优田中ちえ美付出巨大努力，据说录音时她自己也忍不住笑场。',img:'rina-avatar.jpg',mv:'<a href="https://b23.tv/5RRjWdx" target="_blank" style="color:#ffd700;">📺 MV：ツナガルコネクト</a>'},
-  {name:'高咲侑',sub:'高咲侑',cv:'CV: 矢野妃菜喜',rarity:'B',attr:[['#ff8040','Vocal'],['ffd700','Motivation'],['60c080','Heart']],stats:{vocal:78,dance:72,visual:74,charm:85},desc:'虹咲学园1年级，因憧憬校园偶像而加入同好会。是虹咲系列的中心视角人物，见证着每个人的成长。',quote:'「我想要更多人知道偶像们的存在！」',solo:'Solo曲：<a href="https://163cn.tv/436BfYd" target="_blank" style="color:#ff7090;">わちゅごなどぅー</a>',funFact:'高咲侑在动画第一季几乎没有Solo曲，是纯粹的「应援者」视角，让观众更有代入感。',img:'ayumu-avatar.jpg',mv:'<a href="https://b23.tv/NGalp6e" target="_blank" style="color:#ffd700;">📺 MV：虹色Passions!</a>'},
-  {name:'上原步梦',sub:'上原歩夢',cv:'CV: 大西亜玖璃',rarity:'S',attr:[['#ff8040','Vocal'],['ffd700','Motivation'],['60c080','Heart']],stats:{vocal:78,dance:72,visual:74,charm:85},desc:'高咲侑的好朋友，性格开朗待人亲切。与侑一起加入偶像同好会，是支持侑追梦的最大后盾。',quote:'「我们一起加油吧，侑！」',solo:'Solo曲：<a href="https://163cn.tv/435GYOd" target="_blank" style="color:#ff7090;">Stellar Stream</a>',funFact:'上原歩夢的声优大西亜玖璃与高咲侑的声优矢野妃菜喜在实际生活中就是关系很好的朋友，两人的声优默契度满分！',img:'extra1-avatar.jpg',mv:'<a href="https://b23.tv/ySIgWvz" target="_blank" style="color:#ffd700;">📺 MV：Dream with You</a>'},
-  {name:'樱坂雫',sub:'桜坂しずく',cv:'CV: 前田佳織里',rarity:'B',attr:[['#a0e0ff','Visual'],['#c0e0ff','Pure'],['#ff90b0','Dance']],stats:{vocal:70,dance:78,visual:88,charm:75},desc:'虹咲学园2年级的治愈系少女，笑容甜美声音温柔。是同伴们的「避风港」，给予他人温暖的支持。',quote:'「大家一起加油吧~」',solo:'Solo曲：<a href="https://163cn.tv/435v7lD" target="_blank" style="color:#ff7090;">Solitude Rain</a>',funFact:'桜坂しずく的舞蹈动作设计中融入了大量柔软优雅的元素，完美契合她「治愈系」的定位。',img:'shizuku-avatar.jpg',mv:'<a href="https://b23.tv/6Di1nVA" target="_blank" style="color:#ffd700;">📺 MV：Solitude Rain</a>'},
-  {name:'钟岚珠',sub:'鐘嵐珠',cv:'CV: 法元明菜',rarity:'S',attr:[['#ff4060','Vocal'],['4060ff','Leader'],['ffd700','Star']],stats:{vocal:95,dance:90,visual:92,charm:96},desc:'来自中国的超新星！以「让世界爱上虹咲」为目标，实力与野心并存，是虹咲最具国际视野的成员。',quote:'「私のことは、絶対忘れないで！」',solo:'Solo曲：<a href="https://163cn.tv/43545wC" target="_blank" style="color:#ff7090;">Eutopia</a>',funFact:'鐘嵐珠的声优法元明菜是虹咲中中文说得最标准的声优，她的演讲式唱腔完美诠释了嵐珠的领袖魅力。',img:'lanzhu-avatar.jpg',mv:'<a href="https://b23.tv/QtgLMHA" target="_blank" style="color:#ffd700;">📺 MV：Eutopia</a>'},
-  {name:'三船栞子',sub:'三船栞子',cv:'CV: 小泉萌香',rarity:'S',attr:[['#60a0ff','Study'],['c080e0','Literature'],['80d0a0','Pure']],stats:{vocal:72,dance:70,visual:80,charm:78},desc:'文静内敛的文学少女，知性优雅。曾对偶像不感兴趣，最终被虹咲的魅力打动而加入。',quote:'「书中的世界很广阔，但偶像的世界……也有它独特的美好。」',solo:'Solo曲：<a href="https://163cn.tv/434oQw4" target="_blank" style="color:#ff7090;">決意の光</a>',funFact:'三船栞子的名字源自三船敏郎和川端康成的《雪国》，是制作组埋下的文学梗，声优小泉萌香为她赋予了知性的气质。',img:'shioriko-avatar.jpg',mv:'<a href="https://b23.tv/DkeUlHr" target="_blank" style="color:#ffd700;">📺 MV：いとしき夢よ いざないて</a>'},
-  {name:'近江彼方',sub:'近江彼方',cv:'CV: 鬼頭明里',rarity:'C',attr:[['#60c080','Vocal'],['ffd700','Dreamy'],['c080e0','Fantasy']],stats:{vocal:75,dance:72,visual:78,charm:80},desc:'自由奔放的梦幻系偶像，舞台风格天马行空。说话轻飘飘的仿佛活在自己的世界里，是虹咲中最具想象力的存在。',quote:'「星星在唱歌，你听到了吗~？」',solo:'Solo曲：<a href="https://163cn.tv/435zEc5" target="_blank" style="color:#ff7090;">Daydream Mermaid</a>',funFact:'近江彼方的歌曲风格在虹咲中独树一帜，大量使用电子音和梦幻音效，声优鬼頭明里用她独特的声线完美演绎了这种「非现实感」。',img:'oumi-avatar.jpg',mv:'<a href="https://b23.tv/GFeNJBc" target="_blank" style="color:#ffd700;">📺 MV：Daydream Mermaid</a>'},
-  {name:'米娅·泰勒',sub:'ミア・テイラー',cv:'CV: 内田秀',rarity:'B',attr:[['#ff6090','Vocal'],['60c0ff','International'],['ffd700','Style']],stats:{vocal:84,dance:80,visual:88,charm:86},desc:'从美国加州转学而来的阳光女孩，性格开朗不认生。将世界各地的音乐风格融入表演，是虹咲国际化的代表。',quote:'「Music has no border! Lets have fun!」',solo:'Solo曲：<a href="https://163cn.tv/435mIt9" target="_blank" style="color:#ff7090;">stars we chase</a>',funFact:'ミア是虹咲中英语台词最多的角色，声优内田秀需要同时完成英语和日语的双语配音工作，发音非常标准！',img:'mia-avatar.jpg',mv:'<a href="https://b23.tv/W8vCXbS" target="_blank" style="color:#ffd700;">📺 MV：Like a Treasure</a>'},
-  {name:'宫下爱',sub:'宮下愛',cv:'CV: 村上奈津実',rarity:'S',attr:[['#ff6090','Vocal'],['ff8090','Dance'],['c080e0','Visual']],stats:{vocal:96,dance:88,visual:94,charm:98},desc:'虹咲学园2年级，人气偶像！性格随和朋友多，实际上是重人情味、孝顺奶奶的暖心女孩。特长是说冷笑话，能连续讲100个不重样！',quote:'「楽しければいいじゃん！」',solo:'Solo曲：<a href="https://163cn.tv/435m0PH" target="_blank" style="color:#ff7090;">Circle of Love</a>',funFact:'宮下愛的声优村上奈津実本人其实不太擅长说冷笑话，但为了角色苦练了大量ダジャレ，录音现场经常笑场。',img:'shiho-avatar.jpg',mv:'<a href="https://b23.tv/Fr0Zfhp" target="_blank" style="color:#ffd700;">📺 MV：Circle of Love</a>'},
-];
-(function(){
-  var c=document.getElementById('particles');
-  for(var i=0;i<35;i++){
-    var p=document.createElement('div');
-    p.className='p';
-    var sz=1+Math.random()*2.5;
-    p.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--d:'+(1.5+Math.random()*2.5)+'s;animation-delay:'+Math.random()*3+'s';
-    c.appendChild(p);
-  }
-})();
-function startDraw(){
-  var name=document.getElementById('nameInput').value.trim()||'神秘人';
-  if(name.length<2){alert('请输入至少2个字的名字~');return;}
-  var char=CHARACTERS[Math.floor(Math.random()*CHARACTERS.length)];
-  document.getElementById('stepInput').classList.remove('active');
-  document.getElementById('stepResult').classList.add('active');
-  document.getElementById('resultUsername').textContent=name+' 抽到了！';
-  var rarityTexts={S:'🎉 S级 · 神级角色',A:'✨ A级 · 超稀有',B:'👍 B级 · 很不错',C:'💚 C级 · 也很棒'};
-  var rarity=char.rarity;
-  var banner=document.getElementById('rarityBanner');
-  banner.className='rarity-banner rarity-'+rarity;
-  banner.textContent=rarityTexts[rarity];
-  var card=document.getElementById('mainCard');
-  card.className='main-card card-animate rarity-'+rarity;
-  document.getElementById('avatarImg').src=char.img;
-  document.getElementById('charName').textContent=char.name;
-  document.getElementById('charSub').textContent=char.sub;
-  var attrHtml='';
-  char.attr.forEach(function(a){attrHtml+='<span class="attr-tag" style="background:'+a[0]+';color:#fff">'+a[1]+'</span>';});
-  document.getElementById('charAttr').innerHTML=attrHtml;
-  document.getElementById('charCv').textContent=(char.cv?'  '+char.cv:'');
-  document.getElementById('charSolo').innerHTML=char.solo||'';
-  document.getElementById('charMv').innerHTML=char.mv||'';
-  document.getElementById('bioText').textContent=char.desc;
-  document.getElementById('charQuote').textContent=char.quote;
-  document.getElementById('funFactText').textContent=char.funFact;
-  var labels={vocal:'歌唱',dance:'舞蹈',visual:'视觉',charm:'魅力'};
-  var statColors={S:'stat-S',A:'stat-A',B:'stat-B',C:'stat-C'};
-  var statsHtml='';
-  Object.keys(char.stats).forEach(function(key){statsHtml+='<div class="stat-row"><span class="stat-label">'+labels[key]+'</span><div class="stat-bar-bg"><div class="stat-bar '+statColors[rarity]+'" style="width:0%"></div></div></div>';});
-  document.getElementById('statsArea').innerHTML=statsHtml;
-  var inner=document.getElementById('mainCard');
-  inner.classList.remove('card-animate');
-  void inner.offsetWidth;
-  inner.classList.add('card-animate');
-  setTimeout(function(){var bars=document.querySelectorAll('.stat-bar');var idx=0;Object.keys(char.stats).forEach(function(key){if(bars[idx])bars[idx].style.width=char.stats[key]+'%';idx++;});},300);
-}
-function resetDraw(){
-  document.getElementById('stepResult').classList.remove('active');
-  document.getElementById('stepInput').classList.add('active');
-  document.getElementById('nameInput').value='';
-  document.getElementById('nameInput').focus();
-}
-document.getElementById('nameInput').addEventListener('keyup',function(e){ if(e.key==='Enter') startDraw(); });
-var musicOn=false; function toggleMusic(){ var bgm=document.getElementById('bgm'); var btn=document.getElementById('musicBtn'); if(musicOn){ bgm.pause(); btn.textContent='🔇'; btn.classList.remove('playing'); musicOn=false; } else { bgm.play().catch(()=>{}); btn.textContent='🎵'; btn.classList.add('playing'); musicOn=true; } }
-</script>
+  <div class="gallery-grid" id="galleryGrid"></div>
+ </section>
+
+ <!-- Toast -->
+ <div id="toast"></div>
+
+ <script src="data.js"></script>
+ <script src="script.js?v=20260418u"></script>
 </body>
 </html>
