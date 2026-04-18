@@ -542,7 +542,7 @@ const characters = [
   hotStory: "在發現大家不計回報的汗水後深受感動，徹底融入團隊並以 C 位大放異彩。",
   mainSong: "《ビタミンSUMMER！》(Center) / 《WE WILL!!》(參與)",
   trivia: "聲優繪森彩年紀非常小，卻有著與夏美一樣古靈精怪的企劃能力。",
-  image: "./img/tomari-avatar.jpg",
+  image: "./img/tomari2-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "" }
  },
