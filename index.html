@@ -53,35 +53,33 @@
    <div class="rarity-banner" id="rarity-style">
     <span id="card-rarity"></span>
    </div>
-   <div class="main-card">
-    <div class="card-header-flex">
+   <div class="char-modal" id="charModal">
+    <div class="modal-header">
      <div class="avatar-wrapper">
-      <img id="card-image" src="" alt="立绘">
+      <img id="card-image" src="" alt="立绘" class="avatar">
       <div class="avatar-placeholder" id="art-placeholder">IMAGE</div>
      </div>
-     <div class="basic-info">
-      <h1 id="card-name">角色名</h1>
-      <p class="jp-name" id="card-name-jp">日文名</p>
+     <div class="info-wrapper">
+      <h2 class="char-name" id="card-name">角色名</h2>
+      <p class="char-subname" id="card-name-jp">日文名</p>
       <p class="cv-info">CV: <span id="card-cv">声优</span></p>
-      <div class="tags-row">
-       <span class="tag-label" id="group-tag">团体</span>
-       <span class="tag-label secondary" id="subunit-tag">subunit</span>
+      <div class="tags-container">
+       <span class="tag" id="group-tag">团体</span>
+       <span class="tag" id="subunit-tag">subunit</span>
       </div>
-      <p class="solo-song">代表曲：<span id="card-song">歌曲</span> <svg id="audio-btn" class="audio-btn" onclick="toggleAudio()" viewBox="0 0 24 24" width="20" height="20"><path id="audio-icon-path" d="M8 5v14l11-7z" fill="currentColor"/></svg><audio id="card-audio" style="display:none;"></audio></p>
      </div>
     </div>
-    <div class="section-content">
-     <h3 class="section-label">◆ 角色介绍</h3>
-     <p class="desc-text" id="card-personality"></p>
-     <div class="quote-line">「<span id="card-quote"></span>」</div>
+    <div class="song-box">
+     <svg id="audio-btn" class="audio-btn" onclick="toggleAudio()" viewBox="0 0 24 24" width="20" height="20"><path id="audio-icon-path" d="M8 5v14l11-7z" fill="currentColor"/></svg>
+     <audio id="card-audio" style="display:none;"></audio>
+     <span id="card-song">歌曲</span>
     </div>
-    <div class="section-content">
-     <h3 class="section-label">◆ 高光轨迹</h3>
-     <p class="desc-text" id="card-hotstory"></p>
-    </div>
-    <div class="trivia-footer-box">
-     <h3 class="section-label">✦ 小知识</h3>
-     <p id="card-trivia" class="trivia-text"></p>
+    <div class="section-title">角色介绍</div>
+    <p class="desc-text" id="card-personality"></p>
+    <div class="quote-box">「<span id="card-quote"></span>」</div>
+    <div class="trivia-box">
+     <div class="section-title">小知识</div>
+     <p id="card-trivia"></p>
     </div>
     <div id="card-mv-box" style="display:none;margin-top:12px;padding:10px;background:rgba(255,215,0,0.1);border-radius:8px;border:1px solid rgba(255,215,0,0.3);">
      <h3 class="section-label" style="color:#ffd700;">✦ MV</h3>
