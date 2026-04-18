@@ -47,6 +47,49 @@ const cvDictionary = {
  "鬼塚冬毬": "坂倉花"
 };
 
+// === Audio 全局状态 ===
+let currentAudio = null;
+let currentAudioBtn = null;
+let autoPlayEnabled = false; // 自动播放开关
+
+function toggleAudio() {
+  const audioEl = document.getElementById('card-audio');
+  const btn = document.getElementById('audio-btn');
+  
+  if (!audioEl.src || audioEl.src === window.location.href) {
+    console.log('No audio source set');
+    return;
+  }
+  
+  if (currentAudio && currentAudio !== audioEl) {
+    currentAudio.pause();
+    if (currentAudioBtn) {
+      currentAudioBtn.classList.remove('playing');
+    }
+  }
+  
+  if (audioEl.paused) {
+    audioEl.play().catch(e => console.log('Play failed:', e));
+    btn.classList.add('playing');
+    currentAudio = audioEl;
+    currentAudioBtn = btn;
+  } else {
+    audioEl.pause();
+    btn.classList.remove('playing');
+    currentAudio = null;
+    currentAudioBtn = null;
+  }
+}
+
+function stopAudio() {
+  const audioEl = document.getElementById('card-audio');
+  const btn = document.getElementById('audio-btn');
+  if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
+  if (btn) { btn.classList.remove('playing'); }
+  currentAudio = null;
+  currentAudioBtn = null;
+}
+
 // 2. 抽卡模擬邏輯
 function drawCardPro() {
  const cn = document.getElementById('user-cn').value;
@@ -108,6 +151,21 @@ function renderResultPro(cn, char, rarity) {
  document.getElementById('group-tag').innerText = char.group;
  document.getElementById('subunit-tag').innerText = char.subUnit || "Solo";
  document.getElementById('card-song').innerText = char.mainSong ? char.mainSong.split('/')[0] : "未知";
+ 
+ // === 音频设置 ===
+ stopAudio();
+ const audioEl = document.getElementById('card-audio');
+ const btn = document.getElementById('audio-btn');
+ btn.classList.remove('playing');
+ if (char.assets && char.assets.audio) {
+   audioEl.src = char.assets.audio;
+   audioEl.src = './audio/' + char.assets.audio + '.mp3';
+   if (autoPlayEnabled) {
+     audioEl.autoplay = true;
+   }
+ } else {
+   audioEl.src = '';
+ }
  document.getElementById('card-quote').innerText = char.quote || "...";
  document.getElementById('card-personality').innerText = char.personality;
  document.getElementById('card-hotstory').innerText = char.hotStory;
@@ -157,6 +215,7 @@ function initCards() {
  document.getElementById('card-cv').innerText = '';
  document.getElementById('card-rarity').innerText = '';
  document.getElementById('card-song').innerText = '';
+ stopAudio();
  document.getElementById('card-quote').innerText = '';
  document.getElementById('card-personality').innerText = '';
  document.getElementById('card-hotstory').innerText = '';
