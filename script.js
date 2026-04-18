@@ -200,12 +200,22 @@ function renderResultPro(cn, char, rarity) {
  iconPath.setAttribute('fill', 'currentColor');
  // 设置应援色
  const color = charColors[char.name] || '#ff4757';
- btn.style.color = color;
  // 检查是否为暗色（需要白色glow）
  const isDark = (color === '#000000' || color === '#0000A0' || parseInt(color.slice(1), 16) < 0x404040);
- if (isDark) {
-   btn.classList.add('dark-color');
- }
+ 
+ // 应用到播放按钮
+ btn.style.color = color;
+ if (isDark) { btn.classList.add('dark-color'); }
+ 
+ // 应用到人名
+ const nameEl = document.getElementById('card-name');
+ nameEl.style.color = color;
+ if (isDark) { nameEl.style.textShadow = '0 0 8px rgba(255,255,255,0.8), 0 0 15px rgba(255,255,255,0.4)'; }
+ 
+ // 应用到头像框
+ const imgEl = document.getElementById('card-image');
+ imgEl.style.borderColor = color;
+ if (isDark) { imgEl.style.boxShadow = '0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.3)'; }
  if (char.assets && char.assets.audio) {
    audioEl.src = './audio/' + char.assets.audio + '.mp3';
    if (autoPlayEnabled) {
