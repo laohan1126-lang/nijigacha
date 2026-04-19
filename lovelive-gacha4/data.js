@@ -10,9 +10,9 @@ const characters = [
   hotStory: "從在空無一人的禮堂唱出《START:DASH!!》，到雨中重病倒下經歷挫折，最終重新振作帶領團隊奪得大賽冠軍，書寫了真正的奇蹟。",
   mainSong: "《Snow halation》(Center) / 《Someday of my life》(Solo)",
   trivia: "聲優新田惠海擁有極強的肺活量。角色設定中，穗乃果家裡經營著和果子店「穗村」，其現實原型為著名的「竹むら」。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/honoka-avatar.jpg",
+  image: "./img/honoka-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "snow_halation"}
  },
  {
   name: "絢瀨繪里",
@@ -24,9 +24,9 @@ const characters = [
   hotStory: "最初為了保護學校而极力反對 μ's，在認清自己內心對舞台的渴望後，在希的引導下入團，成為團隊無可替代的舞蹈指導。",
   mainSong: "《Angelic Angel》(Center) / 《ありふれた悲しみの果て》(Solo)",
   trivia: "聲優南條愛乃同時是知名團體 fripSide 的主唱。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/eli-avatar.jpg",
+  image: "./img/eli-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "angelic_angel"}
  },
  {
   name: "南小鳥",
@@ -38,9 +38,9 @@ const characters = [
   hotStory: "曾面臨去海外學習服裝設計與留在 μ's 之間的抉擇，最終在機場被穗乃果拉回，堅定了與大家共進退的心。",
   mainSong: "《Wonder zone》(Center) / 《ぶる〜べりぃ♡とれいん》(Solo)",
   trivia: "聲優內田彩被粉絲尊稱為「鳥神」。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/kotori2-avatar.jpg",
+  image: "./img/kotori-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "wonder_zone"}
  },
  {
   name: "園田海未",
@@ -52,9 +52,9 @@ const characters = [
   hotStory: "一開始覺得穿短裙當偶像太過羞恥。在穗乃果迷失方向準備放棄時，是她給予了最嚴厲但也最真摯的一巴掌打醒了隊長。",
   mainSong: "《だってだって噫無情》(Center) / 《私たちは未来の花》(Solo)",
   trivia: "聲優三森鈴子擁有深厚的音樂劇底子。動畫中海未在合宿時打撲克牌抽到鬼牌的極致顏藝，成為了不朽的迷因。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/umi-avatar.jpg",
+  image: "./img/umi-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "daddeda_utamusaware"}
  },
  {
   name: "星空凜",
@@ -66,9 +66,9 @@ const characters = [
   hotStory: "在二年級修學旅行期間被委任為臨時隊長，在花陽的鼓勵下，終於克服心魔穿上婚紗風格服裝，找回了作為女孩子的自信。",
   mainSong: "《Love wing bell》(Center) / 《恋のシグナルRin rin rin!》(Solo)",
   trivia: "聲優飯田里穗童星出道，從小學就活躍於演藝圈。凜雖然喜歡貓，但其實對貓過敏。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/rin-avatar.jpg",
+  image: "./img/rin-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "love_wing_bell"}
  },
  {
   name: "西木野真姬",
@@ -80,9 +80,9 @@ const characters = [
   hotStory: "獨自在音樂教室彈唱被穗乃果發現。表面上裝作不在乎，卻默默為團隊寫出了出道曲。",
   mainSong: "《Music S.T.A.R.T!!》(Center) / 《Daring!!》(Solo)",
   trivia: "聲優 Pile 是中韓混血兒，唱功紮實。真姬「相信聖誕老人」的設定源自 Pile 在廣播中的無心發言。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/maki-avatar.jpg",
+  image: "./img/maki-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "music_start"}
  },
  {
   name: "東條希",
@@ -94,9 +94,9 @@ const characters = [
   hotStory: "她是「μ's」的命名者，一直在幕後暗中引導、撮合九人聚在一起，完成共同的奇蹟。",
   mainSong: "《Dancing stars on me!》(Center) / 《純愛レンズ》(Solo)",
   trivia: "聲優楠田亞衣奈與絢瀨繪里的聲優南條愛乃私交甚篤。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/nozomi-avatar.jpg",
+  image: "./img/nozomi-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "dancing_stars"}
  },
  {
   name: "小泉花陽",
@@ -106,11 +106,11 @@ const characters = [
   subUnit: "Printemps",
   personality: "性格極度內向的女孩，但只要提到學園偶像就會變成百科全書。超級喜歡吃白飯。",
   hotStory: "從小夢想成為偶像卻不敢跨出第一步。在凜與真姬的推動下，終於鼓起勇氣摘下眼鏡，大聲宣佈「我想做學園偶像」。",
-  mainSong: "《我省略》(Center) / 《孤独なHeaven》(Solo)",
+  mainSong: "代表曲：《\u306a\u308f\u3068\u3073》(Solo)",
   trivia: "聲優久保由利香早期曾擔任過模特兒。動畫中對白米飯的狂熱，後來衍生出了官方的「花陽專屬白米」實體周邊販售企劃。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/hanayo-avatar.jpg",
+  image: "./img/hanayo-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "watashino_nanohashi"}
  },
  {
   name: "矢澤妮可",
@@ -122,9 +122,9 @@ const characters = [
   hotStory: "曾獨自死守偶像研究部。起初對半吊子的 μ's 充滿敵意，但在感受到她們的真心後，成為了可信賴的前輩。",
   mainSong: "《夏色えがおで1,2,Jump!》(Center) / 《にこぷり♡女子道》(Solo)",
   trivia: "聲優德井青空也從事漫畫創作。其標誌性的「Nico Nico Ni」在全球範圍內成為了現象級的出圈網路迷因。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/nico-avatar.jpg",
+  image: "./img/nico-avatar.jpg",
   themeColor: "#ff7e00",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "natsuiro_egaka"}
  },
  {
   name: "高海千歌",
@@ -136,9 +136,9 @@ const characters = [
   hotStory: "經歷了東京演出的「零票」打擊後，在海灘邊留下了不甘的淚水。但也正是那一刻，她帶領 Aqours 重新起步，完成從 0 到 1 的蛻變。",
   mainSong: "《君のこころは輝いてるかい？》(Center) / 《One More Sunshine Story》(Solo)",
   trivia: "聲優伊波杏樹在 2nd Live 中親自完成了超高難度的前手翻動作（呼應《MIRACLE WAVE》劇情），成為 LoveLive! 歷史上的傳說。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/chika-avatar.jpg",
+  image: "./img/chika-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "kimi_no_kokoro"}
  },
  {
   name: "櫻內梨子",
@@ -150,9 +150,9 @@ const characters = [
   hotStory: "曾因鋼琴比賽失利而陷入低谷。在第一季動畫中，為了回應千歌的期待，克服壓力在鋼琴比賽與 Aqours 的初次預選賽中達成了完美的「想念合一」。",
   mainSong: "《想いよひとつになれ》(Center) / 《Pianoforte Monologue》(Solo)",
   trivia: "聲優逢田梨香子在 1st Live 中彈奏鋼琴時曾因緊張失誤而崩潰落淚，隨後在全場粉絲與 Aqours 成員的聲援下重新完美演奏，成就了名場面。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/riko-avatar.jpg",
+  image: "./img/riko-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "omoi_yo_hitotsu"}
  },
  {
   name: "松浦果南",
@@ -164,9 +164,9 @@ const characters = [
   hotStory: "曾為了保護受傷的鞠莉而主動扮黑臉解散了初代的 Aqours。在經歷了漫長的誤會與糾葛後，兩人在雨中擁抱和解，成為了全劇最感人的高光時刻之一。",
   mainSong: "《HAPPY PARTY TRAIN》(Center) / 《さかなかなんだか？》(Solo)",
   trivia: "聲優諏訪奈奈香非常喜歡抱其他成員，被戲稱為「抱抱魔」。",
-  image: "",
+  image: "./img/kanan-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "happy_party_train"}
  },
  {
   name: "黑澤黛雅",
@@ -178,9 +178,9 @@ const characters = [
   hotStory: "初期极力阻撓千歌成立偶像部，其實是為了避免妹妹和學妹們重蹈自己當年失敗的覆轍。暗中為 Aqours 鋪平了道路，是團隊真正的守護者。",
   mainSong: "《MY Mai☆TONIGHT》(Center) / 《WHITE FIRST LOVE》(Solo)",
   trivia: "聲優小宮有紗是特攝演員出身（曾出演《特命戰隊Go Busters》的黃戰士），氣質出眾且極具成熟魅力。",
-  image: "",
+  image: "./img/daiya-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "my_mai_tonight"}
  },
  {
   name: "渡邊曜",
@@ -192,9 +192,9 @@ const characters = [
   hotStory: "因為千歌與梨子關係逐漸親密，內心曾感到強烈的孤單與嫉妒。在與千歌坦誠相見並聽到「曜才是最初陪伴我的人」後，解開心結並獻上了絕佳的演出。",
   mainSong: "《恋になりたいAQUARIUM》(Center) / 《Beginner's Sailing》(Solo)",
   trivia: "聲優齊藤朱夏的舞蹈力度極大，動作乾淨俐落，被稱為 Aqours 的「舞蹈機器」。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/you-avatar.jpg",
+  image: "./img/you-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "koi_naru_aquarium"}
  },
  {
   name: "津島善子",
@@ -206,9 +206,9 @@ const characters = [
   hotStory: "因為中二病在學校遭到孤立，一度想放棄自我。在千歌等人的包容下，她意識到「展現真實的自己也沒關係」，從而確立了自己獨特的偶像風格。",
   mainSong: "《Deep Resonance》(Center) / 《in this unstable world》(Solo)",
   trivia: "聲優小林愛香唱歌非常有爆發力與張力。官方後來為善子推出了專屬的奇幻平行世界動畫《幻日夜羽 -鏡中暉光-》。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/kanan-avatar.jpg",
+  image: "./img/yoshiko-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "deep_resonance"}
  },
  {
   name: "國木田花丸",
@@ -220,9 +220,9 @@ const characters = [
   hotStory: "原本認為自己「毫無亮點、不適合當偶像」，只是為了支持露比才加入。在露比的反向鼓勵下，她終於承認了自己內心深處對舞台的渴望。",
   mainSong: "《未体験HORIZON》(Center) / 《おやす！你们》(Solo)",
   trivia: "聲優高槻加奈子身高 164.5cm，是 Aqours 中最高的一位。她的歌聲極具穿透力與厚度。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/hanamaru-avatar.jpg",
+  image: "./img/hanamaru-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "mitaiken_horizon"}
  },
  {
   name: "小原鞠莉",
@@ -234,9 +234,9 @@ const characters = [
   hotStory: "曾因為腳傷與誤會與果南、黛雅分道揚鑣。歸來後以理事長身份暗中支持 Aqours，最終在雨中與果南解開了兩年的心結，三人重新找回了丟失的青春。",
   mainSong: "《New winding road》(Solo) / 《Shiny Racers》(Solo)",
   trivia: "聲優鈴木愛奈擁有深厚的民謠功底，曾獲得全日本民謠大賞冠軍。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/mari-avatar.jpg",
+  image: "./img/mari-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "new_winding_road"}
  },
  {
   name: "黑澤露比",
@@ -248,9 +248,9 @@ const characters = [
   hotStory: "在北海道的函館，為了鼓勵姐姐們安心畢業，露比主動策劃了與 Saint Snow 成員理亞的合作舞台，展現了從躲在姐姐背後到獨當一面的巨大成長。",
   mainSong: "《Awaken the power》(雙Center之一) / 《コットンキャンディえいえいおー！》(Solo)",
   trivia: "聲優降幡愛極具繪畫天賦。她的 Solo 曲《コットンキャンディえいえいおー！》在 YouTube 上獲得了數千萬播放，成為火出圈的神曲。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/ruby3-avatar.jpg",
+  image: "./img/ruby3-avatar.jpg",
   themeColor: "#009fe8",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "awaken_the_power"}
  },
  {
   name: "上原步梦",
@@ -262,9 +262,9 @@ const characters = [
   hotStory: "因為察覺到侑的夢想與自己漸行漸遠，產生了強烈的不安與佔有慾，在天橋上將侑撲倒並坦白心聲，成為了被粉絲津津樂道的「重女」名場面。",
   mainSong: "《夢への一歩》(Solo) / 《Awakening Promise》(Solo)",
   trivia: "聲優大西亞玖璃的外號是「阿古碰」。步夢的代表動作是雙手比出一個「A」的形狀。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/ayumu-avatar.jpg",
+  image: "./img/shioriko2-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/ySIgWvz", mvSong: "Dream with You", audio: "yume_e_no_ish"}
  },
  {
   name: "中须霞",
@@ -276,9 +276,9 @@ const characters = [
   hotStory: "在同好會面臨廢部危機時，她是唯一一個死守社團不願放棄的人。表面傲嬌，其實比任何人都珍視這個充滿愛與包容的地方。",
   mainSong: "《無敵級*Believer》(Solo/首張動畫PV) / 《ダイアモンド》(Solo)",
   trivia: "聲優相良茉優在試音時，因為完美展現了霞那種「有點煩人但又讓人討厭不起來」的特質而被選中。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/kasumi2-avatar.jpg",
+  image: "./img/kasumi2-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/MK7HRES", mvSong: "無敵級*ビリーバー", audio: "mutekikyuu_believer"}
  },
  {
   name: "优木雪菜",
@@ -290,9 +290,9 @@ const characters = [
   hotStory: "曾因為對偶像的要求過高而導致同好會分崩離析，甚至一度想引退。在侑的開導下，重新戴上麥克風，唱出《CHASE!》宣告王者歸來。",
   mainSong: "《CHASE!》(Solo) / 《DIVE!》(Solo)",
   trivia: "雪菜經歷過聲優更替：初代聲優楠木燈因身體原因退出，由林鼓子完美接棒，兩位聲優都擁有極強的現場演唱爆發力。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/setsuna-avatar.jpg",
+  image: "./img/setsuna-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/ZwJc5PX", mvSong: "CHASE!", audio: "chase"}
  },
  {
   name: "天王寺璃奈",
@@ -304,9 +304,9 @@ const characters = [
   hotStory: "為了能在舞台上向觀眾傳達笑容，她運用自己的技術開發了會發光的電子「璃奈板」，成功突破了物理的限制，展現了最耀眼的微笑。",
   mainSong: "《ドキピポ☆エモーション》(Solo) / 《ツナガルコネクト》(Solo)",
   trivia: "聲優田中千惠美在現實的 Live 演出中，也曾戴著特製的 LED 發光璃奈板進行唱跳還原。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/rina-avatar.jpg",
+  image: "./img/rina-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/5RRjWdx", mvSong: "ツナガルコネクト", audio: "dokipopo_emotion"}
  },
  {
   name: "宫下爱",
@@ -316,11 +316,11 @@ const characters = [
   subUnit: "DiverDiva",
   personality: "金髮辣妹外表，實則是熱心腸的大姐姐。極度喜歡講冷笑話，交友廣泛。",
   hotStory: "從小喜歡照顧別人。在發現自己也有無法跨越的障礙時，通過偶像活動找到了與觀眾雙向救贖的道路。",
-  mainSong: "《めっちゃ Going!!》(Solo) / 《Vivid World》(Solo)",
+  mainSong: "《友&愛》(Solo) / 《めっちゃ Going!!》(Solo)",
   trivia: "聲優村上奈津實性格與角色如出一轍，非常陽光，且擅長打爵士鼓。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/mia-avatar.jpg",
+  image: "./img/ai-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/Fr0Zfhp", mvSong: "Circle of Love", audio: "yuai"}
  },
  {
   name: "近江彼方",
@@ -332,23 +332,23 @@ const characters = [
   hotStory: "為了守護妹妹遙的夢想而努力的溫柔姐姐。在舞台上化身沉睡森林的精靈，展現了作為姐姐的實力與威嚴。",
   mainSong: "《眠れる森に行きたいな》(Solo) / 《Butterfly》(Solo)",
   trivia: "聲優鬼頭明里（曾配音《鬼滅之刃》祢豆子）在演唱會上常表演「在床上唱歌」的橋段。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/emma-avatar.jpg",
+  image: "./img/konoe-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/GFeNJBc", mvSong: "Daydream Mermaid", audio: "nemeru_mori"}
  },
  {
-  name: "艾玛·薇德",
+  name: "艾玛·维尔德",
   nameJp: "エマ・ヴェルデ (Emma Verde)",
   quote: "ボーノ！ (Buono! / 很好吃！)",
   group: "虹咲",
   subUnit: "Qu4rtz",
   personality: "來自瑞士的留學生。性格極其溫柔包容，熱愛日本偶像文化，特別喜歡吃麵包。",
   hotStory: "作為果林身邊最溫柔的推進者，她融化了果林的心防，並將瑞士的自然風光融入了獨唱舞台。",
-  mainSong: "《Evergreen》(Solo) / 《La Bella Patria》(Solo)",
+  mainSong: "《声繋ごうよ》(Solo) / 《La Bella Patria》(Solo)",
   trivia: "聲優指出毬亞氣質優雅文靜，被粉絲和成員們尊稱為「指出老師」。",
-  image: "",
+  image: "./img/emma-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "voice_go_yo"}
  },
  {
   name: "朝香果林",
@@ -358,11 +358,11 @@ const characters = [
   subUnit: "DiverDiva",
   personality: "擁有模特身材的性感前輩。外表成熟冷豔，實際上卻是個無可救藥的路癡，而且私下還有著少女心的一面。",
   hotStory: "一開始以「我這種人不適合當偶像」為由拒絕，直到艾瑪握住她的手，帶她走向了充滿聚光燈的《Starlight》舞台。",
-  mainSong: "《Starlight》(DiverDiva) / 《VIVID WORLD》(Solo)",
+  mainSong: "《Wake Up!!》(Solo)",
   trivia: "聲優久保田未夢同時也是偶像團體 i☆Ris 的成員，舞台經驗極其豐富。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/karin2-avatar.jpg",
+  image: "./img/karin2-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/MjVSIM7", mvSong: "VIVID WORLD", audio: "wake_up"}
  },
  {
   name: "樱坂雫",
@@ -374,9 +374,9 @@ const characters = [
   hotStory: "在霞的鼓勵下，終於卸下偽裝，在黑白舞台上與真實的自己和解，唱出了經典的《Solitude Rain》。",
   mainSong: "《あなたの理想のヒロイン》(Solo) / 《Solitude Rain》(Solo)",
   trivia: "聲優前田佳織里個子嬌小（146cm），但在綜藝節目中因極其豪爽的性格和酒量被稱為「狂犬」。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/shizuku-avatar.jpg",
+  image: "./img/shizuku-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/6Di1nVA", mvSong: "Solitude Rain", audio: "anata_no_riso"}
  },
  {
   name: "三船栞子",
@@ -388,9 +388,9 @@ const characters = [
   hotStory: "因姐姐在偶像之路上失敗而封閉了嚮往。在同好會的感化下，終於釋放熱情，展露鋒芒。",
   mainSong: "《決意の光》(Solo) / 《Ketsui no Hikari》(Solo)",
   trivia: "聲優小泉萌香在某次直播中創造了「哈拉修」的爆笑笑面。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/shioriko-avatar.jpg",
+  image: "./img/shiori-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/DkeUlHr", mvSong: "いとしき夢よ いざないて", audio: "ketsui_no_hikari"}
  },
  {
   name: "钟岚珠",
@@ -402,9 +402,9 @@ const characters = [
   hotStory: "一度試圖吞併同好會。經歷孤立與挫折後，明白了共同成長的意義，結下了真正的羈絆。",
   mainSong: "《Queendom》(Solo) / 《Eutopia》(Solo)",
   trivia: "聲優法元明菜在中國大陸生活過很長時間，普通話與粵語極度流利。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lanzhu-avatar.jpg",
+  image: "./img/lanzhu-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/QtgLMHA", mvSong: "Eutopia", audio: "queendom"}
  },
  {
   name: "米雅·泰勒",
@@ -416,9 +416,24 @@ const characters = [
   hotStory: "受困於家族盛名的壓力不敢唱歌。在聽到璃奈的呼喚後，終於拿起麥克風證明了自己。",
   mainSong: "《I'm Still...》(Solo) / 《New World》(Solo)",
   trivia: "聲優內田秀出身於澳大利亞，英語發音淳粹，完美駕馭全英文曲目。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/oumi-avatar.jpg",
+  image: "./img/mia-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "https://b23.tv/W8vCXbS", mvSong: "Like a Treasure", audio: "im_still"}
+ },,
+ ,
+ {
+  name: "高咲侑",
+  nameJp: "高咲 侑 (Takasaki Yu)",
+  quote: "ときめいた！ (我心動了！)",
+  group: "虹咲",
+  subUnit: "學園偶像同好會",
+  personality: "虹咲學園學園偶像同好會的第13名成員（動畫版設定），也是步夢的青梅竹馬。原本是普通科學生，出於對學園偶像的純粹熱愛而加入同好會。雖然自己不上台表演，但作為同好會的「粉絲代表」和心靈導師，始終在背後全力支持著每一位成員。",
+  hotStory: "從最初只是被雪菜的表演吸引而心動的普通粉絲，到後來為了能更好地支持同好會的大家，毅然決然從頭開始學習鋼琴並成功轉入音樂科，最終為同好會譜寫出了充滿大家心意與羈絆的歌曲。",
+  mainSong: "《わちゅごなどぅー》(合唱/核心)",
+  trivia: "高咲侑是動畫原創角色，她的原型是遊戲《Love Live! 學園偶像祭 ALL STARS》中的「玩家」角色（被粉絲暱稱為「小阿娜塔」）。她的名字「侑」讀作「Yu」，正是取自英文「You（你）」的諧音，代表著螢幕前一直支持著學園偶像的每一位粉絲。",
+  image: "./img/yu-avatar.jpg",
+  themeColor: "#000000",
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "wachugonadu" }
  },
  {
   name: "涩谷香音",
@@ -430,9 +445,9 @@ const characters = [
   hotStory: "在可可的鼓勵下克服恐懼，在街頭唱出《Tiny Stars》。她是 Liella! 絕對的精神領袖。",
   mainSong: "《始まりは君の空》(Center) / 《Tiny Stars》(w/ 可可)",
   trivia: "聲優伊達小百合是以一般公募嶄露頭角的天才。香音家的咖啡館現實原型位於表參道。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/shiho-avatar.jpg",
+  image: "./img/kanon-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "hajimari_kimi_no_sora"}
  },
  {
   name: "唐可可",
@@ -444,9 +459,9 @@ const characters = [
   hotStory: "揹負著做不出成績就要回國的壓力，與香音互相救贖，締造了偶像部的基石。",
   mainSong: "《Tiny Stars》(雙人神曲) / 《Sukini Kuretai》(Solo)",
   trivia: "聲優 Liyuu 是中國著名 Cosplayer，這是正傳首次啟用外籍聲優擔當主角。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/extra1-avatar.jpg",
+  image: "./img/kotori2-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "tiny_stars"}
  },
  {
   name: "岚千砂都",
@@ -456,11 +471,11 @@ const characters = [
   subUnit: "5yncri5e!",
   personality: "香音的青梅竹馬。舞蹈實力極強，性格圓滑溫柔，非常重視與香音的約定。",
   hotStory: "為了能挺起胸膛站在香音身邊，刻意保持距離進行地獄特訓，奪冠後正式加入。",
-  mainSong: "《みらくるステイチューン！》(Center) / 《Memories》(Solo)",
+  mainSong: "《常夏☆サンシャイン》(Solo) / 《Memories》(Solo)",
   trivia: "聲優岬奈子非常喜歡圓形事物，性格溫柔，被愛稱為「岬親」。",
-  image: "",
+  image: "./img/natsumi-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "natsukasa_sunshine"}
  },
  {
   name: "平安名堇",
@@ -472,9 +487,9 @@ const characters = [
   hotStory: "在團隊找到了認可自己的人。在《Nonfiction!!》中擔任 C 位，完成了人生的逆襲。",
   mainSong: "《ノンフィクション!!》(Center) / 《Galaxy》(Solo)",
   trivia: "聲優 Naomi Payton 是日美混血，擁有極強的 Rap 功底與舞台表現力。",
-  image: "",
+  image: "./img/shioriko3-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "nonfiction"}
  },
  {
   name: "叶月恋",
@@ -486,9 +501,9 @@ const characters = [
   hotStory: "在找出母親當年熱愛偶像的真相後，解開心結，將學校傳統與偶像完美結合。",
   mainSong: "《Wish Song》(Center) / 《Stella!》(Solo)",
   trivia: "聲優青山渚氣質極佳，但在節目中經常有令人捧腹的搞笑發言，反差極大。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/ren-avatar.jpg",
+  image: "./img/ren-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "wish_song"}
  },
  {
   name: "樱小路希奈子",
@@ -500,12 +515,12 @@ const characters = [
   hotStory: "作為第一個加入的新生承受了巨大壓力。在特訓中堅持下來，成為了連結前後輩的橋樑。",
   mainSong: "《WE WILL!!》(參與) / 《Vitamin Summer!》(Solo)",
   trivia: "聲優鈴原希實與角色一樣，是從零開始展現出驚人成長速度的代表。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/kinako-avatar.jpg",
+  image: "./img/kinako-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "we_will"}
  },
  {
-  name: "米田芽衣",
+  name: "米女芽衣",
   nameJp: "米女 メイ (Yoneme Mei)",
   quote: "……っ (……tsu！)",
   group: "Liella!",
@@ -514,9 +529,9 @@ const characters = [
   hotStory: "在摯友四季的推動與設計下，終於無法掩飾熱愛，流淚接過了接力棒。",
   mainSong: "《Sing！Shine！Smile！》(參與) / 《Second Sparkle》(Solo)",
   trivia: "聲優薮島朱音在現實中也是個資深的 LoveLive! 粉絲。",
-  image: "",
+  image: "./img/mei-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "sing_shine_smile"}
  },
  {
   name: "若菜四季",
@@ -528,9 +543,9 @@ const characters = [
   hotStory: "為了解開芽衣的心結，主動先加入偶像部作為誘餌，展現了看似冰冷實則熱烈的友情。",
   mainSong: "《Sing！Shine！Smile！》(參與) / 《Second Sparkle》(Solo)",
   trivia: "聲優大熊和奏舞台爆發力極強，MC 時的表現非常有個人特色。",
-  image: "",
+  image: "./img/shiki-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "sing_shine_smile"}
  },
  {
   name: "鬼塚夏美",
@@ -542,9 +557,9 @@ const characters = [
   hotStory: "在發現大家不計回報的汗水後深受感動，徹底融入團隊並以 C 位大放異彩。",
   mainSong: "《ビタミンSUMMER！》(Center) / 《WE WILL!!》(參與)",
   trivia: "聲優繪森彩年紀非常小，卻有著與夏美一樣古靈精怪的企劃能力。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/natsumi-avatar.jpg",
+  image: "./img/tomari2-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "vitamin_summer"}
  },
  {
   name: "薇恩·玛格丽特",
@@ -554,11 +569,11 @@ const characters = [
   subUnit: "無",
   personality: "來自奧地利的音樂天才。起初以死對頭身份登場，性格高傲冷酷，實力碾壓。",
   hotStory: "被擊敗後在三期生時期正式轉入結丘，從高高在上的對手變成了共同前進的夥伴。",
-  mainSong: "《Butterfly Wing》(Solo) / 《Eutopia》(Solo)",
+  mainSong: "《エーデルシュタイン》(Solo) / 《Butterfly Wing》(Solo)",
   trivia: "聲優結那擁有極其恐怖的現場聲壓與演唱功底，初登場便震懾了全場。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/ven-avatar.jpg",
+  image: "./img/ven-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "edelstein"}
  },
  {
   name: "鬼塚冬毬",
@@ -570,9 +585,9 @@ const characters = [
   hotStory: "見證了姐姐和團隊不可量化的奇蹟後，打破了數據庫，加入了這個充滿變數的團隊。",
   mainSong: "《Jump Into the New World》(參與) / 《New World》(Solo)",
   trivia: "聲優坂倉花作為三期生加入，為團隊注入了全新的活力。",
-  image: "https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/lovelive-gacha4/fuyuki-avatar.jpg",
+  image: "./img/tomari-avatar.jpg",
   themeColor: "#ff7e1f",
-  assets: { avatar: "", bgm: "", videoUrl: "" }
+  assets: { avatar: "", bgm: "", videoUrl: "", audio: "jump_into_new_world"}
  }
 ];
 

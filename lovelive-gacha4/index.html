@@ -4,7 +4,7 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>LoveLive!</title>
- <link rel="stylesheet" href="style.css?v=20260415">
+ <link rel="stylesheet" href="style.css?v=20260418u">
 </head>
 <body>
 
@@ -15,83 +15,94 @@
  <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
  </audio>
 
- <button class="bgm-toggle" id="bgmBtn" onclick="toggleMusic()">🎵</button>
+ <!-- 四个角落音乐按钮 -->
+ <div class="corner-audio">
+   <button class="corner-btn corner-mus" onclick="playGroupMusic('mus')">μ's</button>
+   <button class="corner-btn corner-aqours" onclick="playGroupMusic('aqours')">Aqours</button>
+   <button class="corner-btn corner-niji" onclick="playGroupMusic('nijigasaki')">虹咲</button>
+   <button class="corner-btn corner-liella" onclick="playGroupMusic('liella')">Liella!</button>
+ </div>
 
  <!-- 首页 -->
  <section id="home-page" class="page active">
   <div class="home-bg"></div>
   <div class="home-content">
    <h1 class="home-title">LoveLive!</h1>
-   <input type="text" id="user-cn" class="home-input" placeholder="輸入cn 選擇你的英雄">
-   <br>
-   <button class="draw-btn" onclick="drawCardPro()">拉拉人 啟動！</button>
-   <button class="draw-btn gallery-btn" onclick="switchPage('gallery-page')">📖 圖鑑</button>
+   <div class="group-row">
+    <img src="./img/mus.jpg" alt="μ's" class="group-img">
+    <img src="./img/aqours.jpg" alt="Aqours" class="group-img">
+   </div>
+   <div class="group-row">
+    <img src="./img/nijigasaki.jpg" alt="虹咲" class="group-img">
+    <img src="./img/liella.jpg" alt="Liella!" class="group-img">
+   </div>
+   <input type="text" id="user-cn" class="home-input" placeholder="输入昵称 选你的角色">
+   <br><br>
+   <button class="draw-btn" onclick="drawCardPro()">拉拉人不灭！</button>
+   <br><br>
+   <button class="draw-btn gallery-btn" onclick="switchPage('gallery-page')">📖 图鉴</button>
   </div>
  </section>
 
  <!-- 结果页 -->
- <section id="result-page" class="page result-view">
+ <section id="result-page" class="page">
   <div class="result-container">
    <div class="user-info-banner">
-    <span id="user-display-name">製作人</span> 抽到了！
+    <span id="user-display-name">制作人</span> 抽到了！
    </div>
    <div class="rarity-banner" id="rarity-style">
-    <span id="card-rarity">SSR · 神級角色</span>
+    <span id="card-rarity"></span>
    </div>
-
-   <div class="main-card">
-    <div class="card-header-flex">
+   <div class="char-modal" id="charModal">
+    <div class="modal-header">
      <div class="avatar-wrapper">
-      <img id="card-image" src="" alt="立繪">
+      <img id="card-image" src="" alt="立绘" class="avatar">
       <div class="avatar-placeholder" id="art-placeholder">IMAGE</div>
      </div>
-     <div class="basic-info">
-      <h1 id="card-name">優木雪菜</h1>
-      <p class="jp-name" id="card-name-jp">優木 せつ菜</p>
-      <p class="cv-info">CV: <span id="card-cv">楠木ともり</span></p>
-      <div class="tags-row">
-       <span class="tag-label" id="group-tag">虹咲學園</span>
-       <span class="tag-label secondary" id="subunit-tag">A·ZU·NA</span>
+     <div class="info-wrapper">
+      <h2 class="char-name" id="card-name">角色名</h2>
+      <p class="char-subname" id="card-name-jp">日文名</p>
+      <p class="cv-info">CV: <span id="card-cv">声优</span></p>
+      <div class="tags-container">
+       <span class="tag" id="group-tag">团体</span>
+       <span class="tag" id="subunit-tag">subunit</span>
       </div>
-      <p class="solo-song">Solo曲：<span id="card-song">CHASE!</span></p>
      </div>
     </div>
-
-    <div class="section-content">
-     <h3 class="section-label">◆ 角色介紹</h3>
-     <p class="desc-text" id="card-personality"></p>
-     <div class="quote-line">
-      「<span id="card-quote"></span>」
-     </div>
+    <div class="song-box">
+     <svg id="audio-btn" class="audio-btn" onclick="toggleAudio()" viewBox="0 0 24 24" width="20" height="20"><path id="audio-icon-path" d="M8 5v14l11-7z" fill="currentColor"/></svg>
+     <audio id="card-audio" style="display:none;"></audio>
+     <span id="card-song">歌曲</span>
     </div>
-
-    <div class="section-content">
-     <h3 class="section-label">◆ 高光軌跡</h3>
-     <p class="desc-text" id="card-hotstory"></p>
+    <div class="section-title">角色介绍</div>
+    <p class="desc-text" id="card-personality"></p>
+    <div class="quote-box">「<span id="card-quote"></span>」</div>
+    <div class="trivia-box">
+     <div class="section-title">小知识</div>
+     <div id="card-trivia" class="desc-text"></div>
     </div>
-
-    <div class="trivia-footer-box">
-     <h3 class="section-label">✦ 小知識</h3>
-     <p id="card-trivia" class="trivia-text"></p>
+    <div id="card-mv-box" style="display:none;margin-top:12px;padding:10px;background:rgba(255,215,0,0.1);border-radius:8px;border:1px solid rgba(255,215,0,0.3);">
+     <h3 class="section-label" style="color:#ffd700;">✦ MV</h3>
+     <a id="card-mv-link" href="#" target="_blank" style="color:#ffd700;font-size:14px;text-decoration:none;"></a>
     </div>
    </div>
   </div>
-  <button class="btn-close" onclick="backToHomePro()">關閉檔案</button>
+  <button class="btn-back-home" onclick="backToHomePro()">返回首页</button>
  </section>
 
- <!-- 圖鑑頁 -->
+ <!-- 图鉴页 -->
  <section id="gallery-page" class="page">
   <div class="gallery-header">
-   <h2>📖 角色圖鑑</h2>
+   <h2>📖 角色图鉴</h2>
    <button class="btn-close" onclick="switchPage('home-page')">✕</button>
   </div>
   <div class="gallery-grid" id="galleryGrid"></div>
  </section>
 
- <!-- Toast 提示 -->
+ <!-- Toast -->
  <div id="toast"></div>
 
  <script src="data.js"></script>
- <script src="script.js?v=20260415a"></script>
+ <script src="script.js?v=20260418u"></script>
 </body>
 </html>

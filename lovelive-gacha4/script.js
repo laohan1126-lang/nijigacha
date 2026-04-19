@@ -20,6 +20,7 @@ const cvDictionary = {
  "國木田花丸": "高槻加奈子",
  "小原鞠莉": "鈴木愛奈",
  "黑澤露比": "降幡愛",
+ "高咲侑": "矢野妃菜喜",
  // 虹咲
  "上原步梦": "大西亞玖璃",
  "中须霞": "相良茉優",
@@ -47,6 +48,82 @@ const cvDictionary = {
  "鬼塚冬毬": "坂倉花"
 };
 
+// === 角色应援色字典 ===
+const charColors = {
+ // μ's
+ "高坂穗乃果": "#F38500", "絢瀨繪里": "#7AEEFF", "南小鳥": "#CEBFBF",
+ "園田海未": "#1769FF", "星空凜": "#FFF832", "西木野真姬": "#FF503E",
+ "東條希": "#C455F6", "小泉花陽": "#6AE673", "矢澤妮可": "#FF4F91",
+ // Aqours
+ "高海千歌": "#F08300", "櫻內梨子": "#FF7A8E", "松浦果南": "#1BA98C",
+ "黑澤黛雅": "#E40011", "渡邊曜": "#26B7E1", "津島善子": "#898989",
+ "國木田花丸": "#E3CB0B", "小原鞠莉": "#C64DA5", "黑澤露比": "#EE5985",
+ // 虹咲
+ "上原步梦": "#ED7D95", "中须霞": "#E7D600", "优木雪菜": "#D81C2F",
+ "天王寺璃奈": "#9CA5B9", "宫下爱": "#FF5800", "近江彼方": "#A664A0",
+ "艾玛·维尔德": "#84C36E", "朝香果林": "#485EC6", "樱坂雫": "#01B7ED",
+ "三船栞子": "#37B484", "钟岚珠": "#F8C8C4", "米雅·泰勒": "#A9A898",
+ "高咲侑": "#000000",
+ // Liella!
+ "涩谷香音": "#FF7F27", "唐可可": "#A0FFF9", "岚千砂都": "#FF6E90",
+ "平安名堇": "#74F466", "叶月恋": "#0000A0", "樱小路希奈子": "#FFF442",
+ "米女芽衣": "#FF3535", "若菜四季": "#B2FFDD", "鬼塚夏美": "#FF51C4",
+ "薇恩·玛格丽特": "#E49DFD", "鬼塚冬毬": "#4CD2E2"
+};
+
+// === Audio 全局状态 ===
+let currentAudio = null;
+let currentAudioBtn = null;
+let autoPlayEnabled = false; // 自动播放开关
+
+function toggleAudio() {
+  const audioEl = document.getElementById('card-audio');
+  const btn = document.getElementById('audio-btn');
+  const iconPath = document.getElementById('audio-icon-path');
+  
+  if (!audioEl.src || audioEl.src === window.location.href) {
+    console.log('No audio source set');
+    return;
+  }
+  
+  if (currentAudio && currentAudio !== audioEl) {
+    currentAudio.pause();
+    if (currentAudioBtn) {
+      currentAudioBtn.classList.remove('playing');
+      // Reset to play icon
+      const prevPath = document.querySelector('#' + currentAudioBtn.id + ' path');
+      if (prevPath) prevPath.setAttribute('d', 'M8 5v14l11-7z');
+    }
+  }
+  
+  if (audioEl.paused) {
+    audioEl.play().catch(e => console.log('Play failed:', e));
+    btn.classList.add('playing');
+    // Change to pause icon
+    iconPath.setAttribute('d', 'M6 4h4v16H6zM14 4h4v16h-4z');
+    currentAudio = audioEl;
+    currentAudioBtn = btn;
+  } else {
+    audioEl.pause();
+    btn.classList.remove('playing');
+    // Change back to play icon
+    iconPath.setAttribute('d', 'M8 5v14l11-7z');
+    currentAudio = null;
+    currentAudioBtn = null;
+  }
+}
+
+function stopAudio() {
+  const audioEl = document.getElementById('card-audio');
+  const btn = document.getElementById('audio-btn');
+  const iconPath = document.getElementById('audio-icon-path');
+  if (audioEl) { audioEl.pause(); audioEl.currentTime = 0; }
+  if (btn) { btn.classList.remove('playing'); }
+  if (iconPath) { iconPath.setAttribute('d', 'M8 5v14l11-7z'); }
+  currentAudio = null;
+  currentAudioBtn = null;
+}
+
 // 2. 抽卡模擬邏輯
 function drawCardPro() {
  const cn = document.getElementById('user-cn').value;
@@ -63,7 +140,12 @@ function drawCardPro() {
 function renderResultPro(cn, char, rarity) {
  document.getElementById('user-display-name').innerText = cn;
 
- // === 稀有度色彩 ===
+ // === 获取角色应援色（动态应用）===
+ const color = charColors[char.name] || '#FFFFFF';
+ const modal = document.getElementById('charModal');
+ modal.style.setProperty('--theme-color', color);
+
+ // === 套用稀有度 banner ===
  const rarityMap = { "SSR": "#f39c12", "SR": "#9b59b6", "R": "#3498db" };
  const rarityColor = rarityMap[rarity] || "#f39c12";
  const rarityEl = document.getElementById('card-rarity');
@@ -73,34 +155,6 @@ function renderResultPro(cn, char, rarity) {
  bannerEl.style.backgroundColor = rarityColor;
  bannerEl.style.boxShadow = `0 4px 15px ${rarityColor}66`;
 
- // === 團體色彩（先定義，再套用）===
- const groupColorMap = {
-  "μ's": "#e91e63",
-  "Aqours": "#009fe8",
-  "虹咲學園": "#f39c12",
-  "Liella!": "#9b59b6"
- };
- let groupColor = "#ff758c";
- if (char.group.includes("μ's")) groupColor = groupColorMap["μ's"];
- else if (char.group.includes("Aqours")) groupColor = groupColorMap["Aqours"];
- else if (char.group.includes("虹咲")) groupColor = groupColorMap["虹咲學園"];
- else if (char.group.includes("Liella")) groupColor = groupColorMap["Liella!"];
-
- // === 套用卡片與頭框樣式 ===
- const mainCard = document.querySelector('.main-card');
- if (char.group.includes('虹咲')) {
-  mainCard.classList.add('rainbow');
- } else {
-  mainCard.classList.remove('rainbow');
-  mainCard.style.borderColor = groupColor;
-  mainCard.style.boxShadow = `inset 0 0 30px ${groupColor}15, 0 10px 40px ${groupColor}22`;
- }
- document.getElementById('group-tag').style.backgroundColor = groupColor;
- document.querySelector('.quote-line').style.borderLeftColor = groupColor;
- document.querySelectorAll('.section-label').forEach(el => {
-  el.style.color = groupColor;
- });
-
  // === 填充核心文本 ===
  document.getElementById('card-name').innerText = char.name;
  document.getElementById('card-name-jp').innerText = char.nameJp || "Secret";
@@ -108,10 +162,41 @@ function renderResultPro(cn, char, rarity) {
  document.getElementById('group-tag').innerText = char.group;
  document.getElementById('subunit-tag').innerText = char.subUnit || "Solo";
  document.getElementById('card-song').innerText = char.mainSong ? char.mainSong.split('/')[0] : "未知";
+ 
+ // === 音频设置 ===
+ stopAudio();
+ const audioEl = document.getElementById('card-audio');
+ const btn = document.getElementById('audio-btn');
+ const iconPath = document.getElementById('audio-icon-path');
+ btn.classList.remove('playing', 'dark-color');
+ iconPath.setAttribute('fill', 'currentColor');
+ btn.style.color = color;
+ const isDark = (color === '#000000' || color === '#0000A0' || parseInt(color.slice(1), 16) < 0x404040);
+ if (isDark) { btn.classList.add('dark-color'); }
+ if (char.assets && char.assets.audio) {
+   audioEl.src = './audio/' + char.assets.audio + '.mp3';
+   if (autoPlayEnabled) {
+     audioEl.autoplay = true;
+   }
+ } else {
+   audioEl.src = '';
+ }
  document.getElementById('card-quote').innerText = char.quote || "...";
  document.getElementById('card-personality').innerText = char.personality;
- document.getElementById('card-hotstory').innerText = char.hotStory;
  document.getElementById('card-trivia').innerText = char.trivia;
+
+ // === MV 連結 ===
+ const mvBox = document.getElementById('card-mv-box');
+ const mvLink = document.getElementById('card-mv-link');
+ if (char.assets && char.assets.videoUrl) {
+  mvBox.style.display = 'block';
+  mvLink.href = char.assets.videoUrl;
+  // Use mvSong from assets if available, otherwise parse mainSong
+  var songName = (char.assets && char.assets.mvSong) ? char.assets.mvSong : (char.mainSong ? char.mainSong.split('/')[0].replace(/[《》]/g, '').trim() : 'MV');
+  mvLink.innerText = '▶ ' + songName;
+ } else {
+  mvBox.style.display = 'none';
+ }
 
  // === 處理圖片預留位 ===
  const imgEl = document.getElementById('card-image');
@@ -144,9 +229,9 @@ function initCards() {
  document.getElementById('card-cv').innerText = '';
  document.getElementById('card-rarity').innerText = '';
  document.getElementById('card-song').innerText = '';
+ stopAudio();
  document.getElementById('card-quote').innerText = '';
  document.getElementById('card-personality').innerText = '';
- document.getElementById('card-hotstory').innerText = '';
  document.getElementById('card-trivia').innerText = '';
  document.getElementById('card-image').src = '';
  document.getElementById('card-image').style.display = 'none';
@@ -158,6 +243,7 @@ document.addEventListener('DOMContentLoaded', initCards);
 
 // 7. 背景音樂
 let musicPlaying = false;
+let currentGroup = null;
 function toggleMusic() {
  const bgm = document.getElementById('bgm');
  if (!bgm) return;
@@ -165,43 +251,73 @@ function toggleMusic() {
  else { bgm.play().catch(() => {}); musicPlaying = true; }
 }
 
-// 8. 圖鑑頁
-function renderGallery() {
- const grid = document.getElementById('galleryGrid');
- if (!grid) return;
- grid.innerHTML = '';
+// 8. 团体音乐播放（点击播放/暂停）
+function playGroupMusic(group) {
+ var groupMusic = {
+   mus: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/mus_192k.mp3',
+   aqours: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/aqours_192k.mp3',
+   nijigasaki: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/nijigasaki_192k.mp3',
+   liella: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/liella_192k.mp3'
+ };
+ var src = groupMusic[group];
+ if (!src) return;
+ var bgm = document.getElementById('bgm');
+ if (!bgm) return;
  
- characters.forEach(char => {
-   const card = document.createElement('div');
-   card.className = 'gallery-item';
-   
-   const hasImg = char.image && char.image.trim() !== '';
-   const imgSrc = hasImg ? char.image : '';
-   const missing = hasImg ? '' : '（缺圖）';
-   
-   card.innerHTML = `
-     <div class="gallery-avatar" style="background:#1a1a2e;">
-       ${hasImg ? `<img src="${imgSrc}" alt="${char.name}" loading="lazy">` : `<span style="color:#666;font-size:12px;">${missing}</span>`}
-     </div>
-     <div class="gallery-name">${char.name}</div>
-     <div class="gallery-group" style="color:${char.group === "μ's" ? '#e91e63' : char.group === 'Aqours' ? '#009fe8' : char.group === '虹咲學園' ? '#f39c12' : '#9b59b6'}">${char.group}</div>
-   `;
-   grid.appendChild(card);
- });
+ // 如果点击的是同一个团体，切换播放/暂停
+ if (currentGroup === group) {
+  if (musicPlaying) {
+   bgm.pause();
+   musicPlaying = false;
+  } else {
+   bgm.play().catch(function() {});
+   musicPlaying = true;
+  }
+  return;
+ }
+ 
+ // 切换到新团体
+ currentGroup = group;
+ bgm.src = src;
+ bgm.play().catch(function() {});
+ musicPlaying = true;
 }
 
-// Render gallery when page loads
-document.addEventListener('DOMContentLoaded', () => {
- renderGallery();
- // Re-render when gallery page opens
- const observer = new MutationObserver(() => {
-   const galleryPage = document.getElementById('gallery-page');
-   if (galleryPage && galleryPage.classList.contains('active')) {
-     renderGallery();
+// 9. 图鉴页面渲染
+function renderGallery() {
+ var grid = document.getElementById('galleryGrid');
+ if (!grid) { console.log('grid not found'); return; }
+ if (!characters) { console.log('characters not found'); return; }
+ grid.innerHTML = '<div style="color:#fff;padding:20px;">Loading...(' + characters.length + ' chars)</div>';
+ console.log('renderGallery called, chars:', characters.length);
+ 
+ // 团体颜色映射
+ var groupColorMap = {
+   "μ's": "#E4007F",
+   "Aqours": "#00AEEF",
+   "Liella!": "#9D5BFF"
+ };
+ 
+ var html = '';
+ characters.forEach(function(char) {
+   var imgSrc = char.image || '';
+   var imgHtml = imgSrc ? '<img src="' + imgSrc + '" alt="' + char.name + '" style="width:100%;height:100%;object-fit:cover;">' : '<span style="color:#666;">?</span>';
+   
+   // 根据团体获取颜色样式
+   var groupStyle = '';
+   var group = char.group || '';
+   if (group.indexOf('虹咲') !== -1) {
+     groupStyle = 'style="display:inline-block;background:linear-gradient(to right,#FF4500,#FFA500,#FFD700,#32CD32,#1E90FF,#8A2BE2);-webkit-background-clip:text;color:transparent;font-weight:bold;background-size:200% 100%;"';
+   } else if (groupColorMap[group]) {
+     groupStyle = 'style="color:' + groupColorMap[group] + ';font-weight:bold;"';
    }
+   
+   html += '<div class="gallery-item"><div class="gallery-avatar">' + imgHtml + '</div><div class="gallery-name">' + char.name + '</div><div class="gallery-group" ' + groupStyle + '>' + char.group + '</div></div>';
  });
- const app = document.getElementById('home-page');
- if (app) {
-   observer.observe(app, { attributes: true, attributeFilter: ['class'] });
- }
+ grid.innerHTML = html;
+ console.log('renderGallery done, items:', characters.length);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+ renderGallery();
 });
