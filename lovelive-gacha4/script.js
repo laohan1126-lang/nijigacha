@@ -174,7 +174,7 @@ function renderResultPro(cn, char, rarity) {
  const isDark = (color === '#000000' || color === '#0000A0' || parseInt(color.slice(1), 16) < 0x404040);
  if (isDark) { btn.classList.add('dark-color'); }
  if (char.assets && char.assets.audio) {
-   audioEl.src = './audio/' + char.assets.audio + '.mp3';
+   audioEl.src = '../audio/' + char.assets.audio + '.mp3';
    if (autoPlayEnabled) {
      audioEl.autoplay = true;
    }
