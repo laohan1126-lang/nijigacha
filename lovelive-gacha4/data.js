@@ -591,3 +591,4 @@ const characters = [
  }
 ];
 
+const rarities = ["SSR", "SR", "R"];
