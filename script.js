@@ -165,11 +165,12 @@ function renderResultPro(cn, char, rarity) {
 
  // === 套用卡片與頭框樣式 ===
  const mainCard = document.querySelector('.char-modal');
- // 高咲侑特殊樣式：使用綠色邊框而非黑色
+ // 高咲侑特殊样式：黑色部分改用绿色荧光边框与光晕
  if (char.themeColor === "#000000") {
   mainCard.classList.remove('rainbow');
   mainCard.style.borderColor = "#00ff88";
-  mainCard.style.boxShadow = "inset 0 0 20px #00ff8833, 0 0 30px #00ff8866, 0 0 50px #00ff8844";
+  mainCard.style.boxShadow = "inset 0 0 20px #00ff8844, 0 0 30px #00ff8866, 0 0 60px #00ff8833, 0 0 80px #00ff5522";
+  mainCard.style.background = "linear-gradient(135deg, #000000 0%, #001a0d 50%, #000000 100%)";
  } else if (char.group.includes('虹咲')) {
   mainCard.classList.add('rainbow');
  } else {
