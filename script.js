@@ -124,13 +124,32 @@ function stopAudio() {
   currentAudioBtn = null;
 }
 
+// === Toast 提示 ===
+function showToast(msg, duration = 2000) {
+  var toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.innerText = msg;
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); }, duration);
+}
+
 // 2. 抽卡模擬邏輯
 function drawCardPro() {
  const cn = document.getElementById('user-cn').value;
  if (!cn) { alert("請輸入您的稱呼！"); return; }
 
- const char = characters[Math.floor(Math.random() * characters.length)];
- const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+ // 密技：輸入角色名稱必中該角色
+ const matchedChar = characters.find(c => c.name === cn || c.nameJp === cn || c.nameJp.includes(cn) || cn.length >= 2 && (c.name.includes(cn) || c.nameJp.includes(cn)));
+
+ let char, rarity;
+ if (matchedChar) {
+  char = matchedChar;
+  rarity = "SSR"; // 密技角色固定SSR
+  showToast("✦ 密技啟動！✦");
+ } else {
+  char = characters[Math.floor(Math.random() * characters.length)];
+  rarity = rarities[Math.floor(Math.random() * rarities.length)];
+ }
 
  setTimeout(() => { renderResultPro(cn, char, rarity); }, 500);
  switchPage('result-page');
