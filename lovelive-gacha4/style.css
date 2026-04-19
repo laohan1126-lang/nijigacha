@@ -226,6 +226,9 @@ body {
  padding: 16px;
  margin-top: 10px;
 }
+.trivia-box .section-title {
+ margin-top: 0;
+}
 
 /* 头像边框（应援色） */
 #card-image {
