@@ -183,6 +183,7 @@ function renderResultPro(cn, char, rarity) {
  }
  document.getElementById('card-quote').innerText = char.quote || "...";
  document.getElementById('card-personality').innerText = char.personality;
+ document.getElementById('card-hotstory').innerText = char.hotStory || "";
  document.getElementById('card-trivia').innerText = char.trivia;
 
  // === MV 連結 ===
@@ -232,6 +233,7 @@ function initCards() {
  stopAudio();
  document.getElementById('card-quote').innerText = '';
  document.getElementById('card-personality').innerText = '';
+ document.getElementById('card-hotstory').innerText = '';
  document.getElementById('card-trivia').innerText = '';
  document.getElementById('card-image').src = '';
  document.getElementById('card-image').style.display = 'none';
