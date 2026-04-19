@@ -348,7 +348,7 @@ const characters = [
   trivia: "聲優指出毬亞氣質優雅文靜，被粉絲和成員們尊稱為「指出老師」。",
   image: "./img/emma-avatar.jpg",
   themeColor: "#fb7d39",
-  assets: { avatar: "", bgm: "", videoUrl: "https://1e72ca711d4c21b1-106-53-185-132.serveousercontent.com/【中字渣翻】鬼头明里：请告诉亚玖璃你是艾玛推.mp4", mvSong: "你毫无疑问", audio: "voice_go_yo"}
+  assets: { avatar: "", bgm: "", videoUrl: "./video/【中字渣翻】鬼头明里：请告诉亚玖璃你是艾玛推.mp4", mvSong: "你毫无疑问", audio: "voice_go_yo"}
  },
  {
   name: "朝香果林",
