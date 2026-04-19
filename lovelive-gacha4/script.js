@@ -130,14 +130,13 @@ function drawCardPro() {
  if (!cn) { alert("請輸入您的稱呼！"); return; }
 
  const char = characters[Math.floor(Math.random() * characters.length)];
- const rarity = rarities[Math.floor(Math.random() * rarities.length)];
 
- setTimeout(() => { renderResultPro(cn, char, rarity); }, 500);
+ setTimeout(() => { renderResultPro(cn, char); }, 500);
  switchPage('result-page');
 }
 
 // 3. UI 渲染邏輯
-function renderResultPro(cn, char, rarity) {
+function renderResultPro(cn, char) {
  document.getElementById('user-display-name').innerText = cn;
 
  // === 获取角色应援色（动态应用）===
@@ -145,15 +144,6 @@ function renderResultPro(cn, char, rarity) {
  const modal = document.getElementById('charModal');
  modal.style.setProperty('--theme-color', color);
 
- // === 套用稀有度 banner ===
- const rarityMap = { "SSR": "#f39c12", "SR": "#9b59b6", "R": "#3498db" };
- const rarityColor = rarityMap[rarity] || "#f39c12";
- const rarityEl = document.getElementById('card-rarity');
- const bannerEl = document.getElementById('rarity-style');
- let rarityText = rarity === "SSR" ? "神級角色" : (rarity === "SR" ? "精英角色" : "稀有角色");
- rarityEl.innerText = `${rarity} · ${rarityText}`;
- bannerEl.style.backgroundColor = rarityColor;
- bannerEl.style.boxShadow = `0 4px 15px ${rarityColor}66`;
 
  // === 填充核心文本 ===
  document.getElementById('card-name').innerText = char.name;
@@ -206,7 +196,7 @@ function renderResultPro(cn, char, rarity) {
   imgEl.src = char.image; imgEl.style.display = 'block'; placeholderEl.style.display = 'none';
  } else {
   imgEl.style.display = 'none'; placeholderEl.style.display = 'block';
-  placeholderEl.style.color = rarityColor;
+
  }
 }
 
@@ -228,8 +218,7 @@ function initCards() {
  document.getElementById('card-name').innerText = '';
  document.getElementById('card-name-jp').innerText = '';
  document.getElementById('card-cv').innerText = '';
- document.getElementById('card-rarity').innerText = '';
- document.getElementById('card-song').innerText = '';
+  document.getElementById('card-song').innerText = '';
  stopAudio();
  document.getElementById('card-quote').innerText = '';
  document.getElementById('card-personality').innerText = '';
