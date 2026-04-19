@@ -459,7 +459,7 @@ const characters = [
   hotStory: "揹負著做不出成績就要回國的壓力，與香音互相救贖，締造了偶像部的基石。",
   mainSong: "《Tiny Stars》(雙人神曲) / 《Sukini Kuretai》(Solo)",
   trivia: "聲優 Liyuu 是中國著名 Cosplayer，這是正傳首次啟用外籍聲優擔當主角。",
-  image: "./img/kotori2-avatar.jpg",
+  image: "./img/keke-avatar.jpg",
   themeColor: "#ff7e1f",
   assets: { avatar: "", bgm: "", videoUrl: "", audio: "tiny_stars"}
  },
