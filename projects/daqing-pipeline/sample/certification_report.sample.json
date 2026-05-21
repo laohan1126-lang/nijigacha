@@ -1,0 +1,19 @@
+{
+  "rating": "ADVANCED_AUDITABLE_DRAFT",
+  "metrics": {
+    "primary_evidence_count": 6017,
+    "verified_evidence_count": 0,
+    "secondary_scholarship_count": 20,
+    "style_profile_count": 4,
+    "format_rule_count": 4,
+    "format_rubric_count": 10
+  },
+  "blockers": [],
+  "warnings": [
+    {
+      "code": "VERIFIED_EVIDENCE_COUNT_LOW",
+      "detail": "需要人工批准至少 30 条高质量证据。"
+    }
+  ],
+  "updated_at": "2026-05-22T01:33:00"
+}
