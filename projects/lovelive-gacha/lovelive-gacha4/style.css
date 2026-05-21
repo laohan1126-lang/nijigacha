@@ -43,6 +43,9 @@ body {
 }
 
 .home-content { position: relative; z-index: 1; text-align: center; padding: 20px; }
+.home-content > .home-input,
+.home-content > .draw-btn { display: inline-block; vertical-align: middle; }
+.home-content > .gallery-btn { display: block; margin: 16px auto 0; width: 260px; }
 .home-title {
  font-size: 2.5rem; font-weight: 900;
  background: linear-gradient(90deg, #ffd700, #ff9a3c, #ffd700);
@@ -61,13 +64,13 @@ body {
  text-align: center;
  outline: none;
  transition: border-color 0.3s;
- margin-bottom: 24px;
+ margin-bottom: 0;
 }
 .home-input::placeholder { color: rgba(255,255,255,0.35); }
 .home-input:focus { border-color: rgba(255,215,0,0.6); }
 
 .draw-btn {
- margin-top: 22px;
+ margin-top: 0;
  background: linear-gradient(135deg, #ffd700, #ffaa00);
  color: #111;
  border: none;
