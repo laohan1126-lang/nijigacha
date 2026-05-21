@@ -74,7 +74,7 @@ const charColors = {
 // === Audio 全局状态 ===
 let currentAudio = null;
 let currentAudioBtn = null;
-let autoPlayEnabled = false; // 自动播放开关
+let autoPlayEnabled = true; // 自动播放开关（角色抽到后放音乐）
 
 function toggleAudio() {
   const audioEl = document.getElementById('card-audio');
