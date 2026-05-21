@@ -245,10 +245,10 @@ function toggleMusic() {
 // 8. 团体音乐播放（点击播放/暂停）
 function playGroupMusic(group) {
  var groupMusic = {
-   mus: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/mus_192k.mp3',
-   aqours: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/aqours_192k.mp3',
-   nijigasaki: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/nijigasaki_192k.mp3',
-   liella: 'https://raw.githubusercontent.com/laohan1126-lang/nijigacha/main/audio/liella_192k.mp3'
+   mus: '/gacha/audio/mus_192k.mp3',
+   aqours: '/gacha/audio/aqours_192k.mp3',
+   nijigasaki: '/gacha/audio/nijigasaki_192k.mp3',
+   liella: '/gacha/audio/liella_192k.mp3'
  };
  var src = groupMusic[group];
  if (!src) return;
