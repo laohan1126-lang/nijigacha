@@ -1,0 +1,1140 @@
+{
+  "days": [
+    {
+      "day": 1,
+      "date": "2026-05-19",
+      "theme": "青岛夜拍·栈桥",
+      "nodes": [
+        {
+          "time": "17:52",
+          "location": "G6976 17:52曲阜东→19:46青岛西（2h54m）",
+          "type": "transport",
+          "tips": "¥234（二等座）",
+          "coordinates": [
+            116.99,
+            35.56
+          ]
+        },
+        {
+          "time": "19:46",
+          "location": "青岛西站，地铁1号线→3号线",
+          "type": "transport",
+          "tips": "¥4",
+          "coordinates": [
+            120.43,
+            35.97
+          ]
+        },
+        {
+          "time": "20:00",
+          "location": "栈桥·回澜阁夜景拍摄",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "21:30",
+          "location": "中山路扫街·霓虹老街",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "22:00",
+          "location": "入住栈桥附近酒店",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        }
+      ],
+      "day_label": "Day1"
+    },
+    {
+      "day": 2,
+      "date": "2026-05-20",
+      "theme": "青岛暴走 — 八大关+大学路+啤酒文化",
+      "nodes": [
+        {
+          "time": "06:30",
+          "location": "栈桥看日出",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "07:30",
+          "location": "营口路海鲜市场·早市扫街",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            120.38,
+            36.06
+          ]
+        },
+        {
+          "time": "08:30",
+          "location": "八大关风景区（公主楼/花石楼）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.39,
+            36.05
+          ]
+        },
+        {
+          "time": "10:30",
+          "location": "第二海水浴场·德式建筑临海视角",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.39,
+            36.04
+          ]
+        },
+        {
+          "time": "12:00",
+          "location": "劈柴院·锅贴+排骨米饭",
+          "type": "food",
+          "tips": "¥35",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "13:30",
+          "location": "大学路/鱼山路网红墙打卡",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "15:00",
+          "location": "青岛啤酒博物馆",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "17:30",
+          "location": "啤酒街·原浆啤酒+德式香肠",
+          "type": "food",
+          "tips": "¥30",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "18:30",
+          "location": "五四广场→奥帆中心，浮山湾夜景",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.38,
+            36.06
+          ]
+        },
+        {
+          "time": "20:30",
+          "location": "营口路本地啤酒屋",
+          "type": "food",
+          "tips": "¥30",
+          "coordinates": [
+            120.38,
+            36.06
+          ]
+        },
+        {
+          "time": "22:00",
+          "location": "入住中山路酒店（第2晚）",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        }
+      ],
+      "day_label": "Day2"
+    },
+    {
+      "day": 3,
+      "date": "2026-05-21",
+      "theme": "青岛收尾 → 宿K字夜车赴威海",
+      "nodes": [
+        {
+          "time": "06:00",
+          "location": "起床退房",
+          "type": "transition",
+          "tips": "—",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "07:00",
+          "location": "地铁1号线→109路公交赴崂山（太清宫线）",
+          "type": "transport",
+          "tips": "¥60",
+          "coordinates": [
+            120.62,
+            36.15
+          ]
+        },
+        {
+          "time": "09:00",
+          "location": "崂山·太清宫",
+          "type": "poi",
+          "tips": "¥60",
+          "coordinates": [
+            120.62,
+            36.15
+          ]
+        },
+        {
+          "time": "12:00",
+          "location": "崂山脚下农家宴",
+          "type": "food",
+          "tips": "¥20",
+          "coordinates": [
+            120.62,
+            36.15
+          ]
+        },
+        {
+          "time": "13:30",
+          "location": "返程，金沙滩最后一瞥",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.23,
+            35.98
+          ]
+        },
+        {
+          "time": "15:00",
+          "location": "中山路买特产",
+          "type": "poi",
+          "tips": "¥15",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "17:00",
+          "location": "青岛站寄存行李",
+          "type": "service",
+          "tips": "",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "18:00",
+          "location": "栈桥附近最后海鲜",
+          "type": "food",
+          "tips": "¥30",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        },
+        {
+          "time": "20:00",
+          "location": "K8254 20:00青岛站→23:30威海站（约3.5h，宿车上）",
+          "type": "transport",
+          "tips": "¥50（普通车）",
+          "coordinates": [
+            120.38,
+            36.07
+          ]
+        }
+      ],
+      "day_label": "Day3"
+    },
+    {
+      "day": 4,
+      "date": "2026-05-22",
+      "theme": "威海·刘公岛历史沉浸 + 环海路废土浪漫",
+      "nodes": [
+        {
+          "time": "07:00",
+          "location": "抵达威海站，直奔韩乐坊酒店放行李",
+          "type": "transport",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "08:00",
+          "location": "刘公岛渡轮",
+          "type": "poi",
+          "tips": "¥65",
+          "coordinates": [
+            122.18,
+            37.5
+          ]
+        },
+        {
+          "time": "09:30",
+          "location": "甲午战争博物馆→定远舰复制舰",
+          "type": "poi",
+          "tips": "已含在门票内",
+          "coordinates": [
+            122.18,
+            37.5
+          ]
+        },
+        {
+          "time": "12:00",
+          "location": "刘公岛景区简餐（海肠捞饭）",
+          "type": "food",
+          "tips": "¥20",
+          "coordinates": [
+            122.18,
+            37.5
+          ]
+        },
+        {
+          "time": "13:30",
+          "location": "刘公岛博览园→海军公所",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.18,
+            37.5
+          ]
+        },
+        {
+          "time": "15:30",
+          "location": "出岛，返回威海市区",
+          "type": "transport",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "16:00",
+          "location": "猫头山",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            122.12,
+            37.52
+          ]
+        },
+        {
+          "time": "17:00",
+          "location": "火炬八街",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "18:00",
+          "location": "国际海水浴场（日落绝杀）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.08,
+            37.53
+          ]
+        },
+        {
+          "time": "19:30",
+          "location": "韩乐坊韩国料理",
+          "type": "food",
+          "tips": "¥50",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "21:00",
+          "location": "入住韩乐坊附近酒店",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        }
+      ],
+      "day_label": "Day4"
+    },
+    {
+      "day": 5,
+      "date": "2026-05-23",
+      "theme": "威海·荣成海岸线 + 沉船废土浪漫",
+      "nodes": [
+        {
+          "time": "07:00",
+          "location": "起床退房，行李放酒店",
+          "type": "transition",
+          "tips": "—",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "08:00",
+          "location": "38路公交赴那香海·钻石沙滩",
+          "type": "transport",
+          "tips": "¥2",
+          "coordinates": [
+            122.3,
+            37.34
+          ]
+        },
+        {
+          "time": "09:30",
+          "location": "布鲁威斯号搁浅船",
+          "type": "poi",
+          "tips": "¥0，已含在船票内",
+          "coordinates": [
+            122.3,
+            37.33
+          ]
+        },
+        {
+          "time": "11:00",
+          "location": "金石湾艺术园区（宫崎骏海草房）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.42,
+            37.34
+          ]
+        },
+        {
+          "time": "12:30",
+          "location": "荣成渔家乐午餐",
+          "type": "food",
+          "tips": "¥35",
+          "coordinates": [
+            122.42,
+            37.34
+          ]
+        },
+        {
+          "time": "14:00",
+          "location": "海源公园",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "15:30",
+          "location": "幸福门（威海地标）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "16:30",
+          "location": "威海公园（大相框打卡）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "17:30",
+          "location": "悦海公园（灯塔+秋千）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "18:30",
+          "location": "东城路夜市",
+          "type": "food",
+          "tips": "",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "20:30",
+          "location": "续住韩乐坊（第2晚）",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        }
+      ],
+      "day_label": "Day5"
+    },
+    {
+      "day": 6,
+      "date": "2026-05-24",
+      "theme": "威海收尾 → 烟台",
+      "nodes": [
+        {
+          "time": "07:00",
+          "location": "古陌早市",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "08:30",
+          "location": "韩乐坊·恒瑞街早餐",
+          "type": "food",
+          "tips": "¥20",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "09:30",
+          "location": "新威附路citywalk",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "10:30",
+          "location": "威海公园大相框最终打卡",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "11:30",
+          "location": "威海站附近午餐（聚朋大鲅鱼饺子）",
+          "type": "food",
+          "tips": "¥30",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "12:30",
+          "location": "威海站→烟台",
+          "type": "transport",
+          "tips": "¥75（C字城际）",
+          "coordinates": [
+            122.12,
+            37.51
+          ]
+        },
+        {
+          "time": "14:00",
+          "location": "抵达烟台，入住酒店",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "15:00",
+          "location": "烟台山·灯塔+领事馆建筑群",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "17:30",
+          "location": "滨海广场→第一海水浴场（日落）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "19:30",
+          "location": "烟台·十字街晚海鲜",
+          "type": "food",
+          "tips": "¥50",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        }
+      ],
+      "day_label": "Day6"
+    },
+    {
+      "day": 7,
+      "date": "2026-05-25",
+      "theme": "烟台·蓬莱阁+黄渤海分界线",
+      "nodes": [
+        {
+          "time": "08:30",
+          "location": "蓬莱阁（5A）",
+          "type": "poi",
+          "tips": "¥60",
+          "coordinates": [
+            120.78,
+            37.81
+          ]
+        },
+        {
+          "time": "10:30",
+          "location": "田横山·黄渤海分界线",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.78,
+            37.81
+          ]
+        },
+        {
+          "time": "12:30",
+          "location": "蓬莱·海鲜馆（蓬莱小面）",
+          "type": "food",
+          "tips": "¥30",
+          "coordinates": [
+            120.78,
+            37.81
+          ]
+        },
+        {
+          "time": "14:00",
+          "location": "八仙过海/三仙山（选一）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            120.8,
+            37.81
+          ]
+        },
+        {
+          "time": "16:00",
+          "location": "返程烟台",
+          "type": "transport",
+          "tips": "无费用",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "17:00",
+          "location": "烟台张裕酒文化博物馆",
+          "type": "poi",
+          "tips": "¥40",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "19:30",
+          "location": "烟台·十字街",
+          "type": "food",
+          "tips": "¥40",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "21:00",
+          "location": "入住烟台（第2晚）",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        }
+      ],
+      "day_label": "Day7"
+    },
+    {
+      "day": 8,
+      "date": "2026-05-26",
+      "theme": "烟台·养马岛+芝罘区老建筑",
+      "nodes": [
+        {
+          "time": "07:00",
+          "location": "61路/17路公交赴养马岛（约1h）",
+          "type": "transport",
+          "tips": "¥2",
+          "coordinates": [
+            121.57,
+            37.45
+          ]
+        },
+        {
+          "time": "08:30",
+          "location": "养马岛·环岛骑行（租车）",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            121.57,
+            37.45
+          ]
+        },
+        {
+          "time": "12:00",
+          "location": "养马岛渔家乐",
+          "type": "food",
+          "tips": "¥35",
+          "coordinates": [
+            121.57,
+            37.45
+          ]
+        },
+        {
+          "time": "13:30",
+          "location": "返回烟台市区",
+          "type": "transport",
+          "tips": "¥10",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "14:30",
+          "location": "芝罘岛·开埠博物馆+朝阳街",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "17:00",
+          "location": "滨海广场看夜景",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "19:00",
+          "location": "烟台·所城里老街",
+          "type": "food",
+          "tips": "",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "21:00",
+          "location": "入住烟台（第3晚）",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        }
+      ],
+      "day_label": "Day8"
+    },
+    {
+      "day": 9,
+      "date": "2026-05-27",
+      "theme": "烟台收尾 → 宿轮渡赴大连",
+      "nodes": [
+        {
+          "time": "08:00",
+          "location": "烟台·金沙滩海滨公园",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.25,
+            37.55
+          ]
+        },
+        {
+          "time": "10:00",
+          "location": "烟台站最后补购特产",
+          "type": "poi",
+          "tips": "¥15",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "11:30",
+          "location": "K8751 11:30烟台站→18:30大连港（轮渡，7h，夕发朝至）",
+          "type": "transport",
+          "tips": "¥230（船票含卧铺）",
+          "coordinates": [
+            121.42,
+            37.54
+          ]
+        },
+        {
+          "time": "18:00",
+          "location": "轮渡上看渤海日落，自带食物",
+          "type": "food",
+          "tips": "¥0，已含在船票内",
+          "coordinates": [
+            121.77,
+            38.15
+          ]
+        }
+      ],
+      "day_label": "Day9"
+    },
+    {
+      "day": 10,
+      "date": "2026-05-28",
+      "theme": "大连·星海广场+俄式建筑",
+      "nodes": [
+        {
+          "time": "07:00",
+          "location": "轮渡早班抵达大连港",
+          "type": "transport",
+          "tips": "¥110（已在船票内）",
+          "coordinates": [
+            121.65,
+            38.93
+          ]
+        },
+        {
+          "time": "08:00",
+          "location": "入住星海广场附近酒店",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            121.62,
+            38.92
+          ]
+        },
+        {
+          "time": "09:30",
+          "location": "星海广场（百年城雕+跨海大桥）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.62,
+            38.92
+          ]
+        },
+        {
+          "time": "11:00",
+          "location": "星海公园→付家庄公园",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.6,
+            38.94
+          ]
+        },
+        {
+          "time": "13:00",
+          "location": "星海广场·海鲜餐厅",
+          "type": "food",
+          "tips": "¥40",
+          "coordinates": [
+            121.62,
+            38.92
+          ]
+        },
+        {
+          "time": "14:30",
+          "location": "俄罗斯风情街",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.63,
+            38.91
+          ]
+        },
+        {
+          "time": "16:30",
+          "location": "歹街/中原街小吃街",
+          "type": "food",
+          "tips": "",
+          "coordinates": [
+            121.63,
+            38.91
+          ]
+        },
+        {
+          "time": "18:00",
+          "location": "星海广场音乐喷泉",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.62,
+            38.92
+          ]
+        },
+        {
+          "time": "20:00",
+          "location": "天津街/青泥洼桥，大连老菜馆",
+          "type": "food",
+          "tips": "¥35",
+          "coordinates": [
+            121.63,
+            38.91
+          ]
+        },
+        {
+          "time": "21:30",
+          "location": "续住大连（第2晚）",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            121.62,
+            38.92
+          ]
+        }
+      ],
+      "day_label": "Day10"
+    },
+    {
+      "day": 11,
+      "date": "2026-05-29",
+      "theme": "大连·金石滩+旅顺口历史",
+      "nodes": [
+        {
+          "time": "07:00",
+          "location": "出发，金石滩（轻轨3号线）",
+          "type": "transport",
+          "tips": "¥10",
+          "coordinates": [
+            121.9,
+            39.05
+          ]
+        },
+        {
+          "time": "09:00",
+          "location": "金石滩·黄金海岸→地质公园",
+          "type": "poi",
+          "tips": "¥20",
+          "coordinates": [
+            121.9,
+            39.05
+          ]
+        },
+        {
+          "time": "12:30",
+          "location": "金石滩·海鲜农家乐",
+          "type": "food",
+          "tips": "¥35",
+          "coordinates": [
+            121.9,
+            39.05
+          ]
+        },
+        {
+          "time": "14:00",
+          "location": "旅顺口（日俄战争遗址）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.27,
+            38.8
+          ]
+        },
+        {
+          "time": "15:00",
+          "location": "白玉山（日俄战争遗址）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.27,
+            38.8
+          ]
+        },
+        {
+          "time": "17:00",
+          "location": "返程大连市区",
+          "type": "transport",
+          "tips": "¥10",
+          "coordinates": [
+            121.63,
+            38.9
+          ]
+        },
+        {
+          "time": "19:00",
+          "location": "歹街/中原街，最后大连味道",
+          "type": "food",
+          "tips": "¥50",
+          "coordinates": [
+            121.63,
+            38.91
+          ]
+        },
+        {
+          "time": "21:00",
+          "location": "续住大连（第3晚）",
+          "type": "hotel",
+          "tips": "¥110",
+          "coordinates": [
+            121.62,
+            38.92
+          ]
+        }
+      ],
+      "day_label": "Day11"
+    },
+    {
+      "day": 12,
+      "date": "2026-05-30",
+      "theme": "大连·收尾 → 返程曲阜",
+      "nodes": [
+        {
+          "time": "08:30",
+          "location": "付家庄晨光（最后海岸线）",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            121.6,
+            38.94
+          ]
+        },
+        {
+          "time": "10:00",
+          "location": "老虎滩海洋公园（极地馆）",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            121.68,
+            38.87
+          ]
+        },
+        {
+          "time": "12:00",
+          "location": "青泥洼桥商圈最后采购，随身带回家",
+          "type": "poi",
+          "tips": "",
+          "coordinates": [
+            121.63,
+            38.91
+          ]
+        },
+        {
+          "time": "13:00",
+          "location": "大连站附近，最后海鲜",
+          "type": "food",
+          "tips": "¥30",
+          "coordinates": [
+            121.63,
+            38.9
+          ]
+        },
+        {
+          "time": "14:00",
+          "location": "抵达大连站",
+          "type": "transition",
+          "tips": "—",
+          "coordinates": [
+            121.63,
+            38.9
+          ]
+        },
+        {
+          "time": "14:30",
+          "location": "G389 14:30大连北→18:52济南西（4h22m）",
+          "type": "transport",
+          "tips": "¥550（二等座）",
+          "coordinates": [
+            121.63,
+            38.9
+          ]
+        },
+        {
+          "time": "18:52",
+          "location": "济南西站出站，步行至济南站（约800m）",
+          "type": "transport",
+          "tips": "约10分钟",
+          "coordinates": [
+            116.97,
+            36.66
+          ]
+        },
+        {
+          "time": "19:30",
+          "location": "济南→曲阜 大巴（流水发车，约2h）",
+          "type": "transport",
+          "tips": "¥80",
+          "coordinates": [
+            116.99,
+            35.56
+          ]
+        },
+        {
+          "time": "21:30",
+          "location": "抵达曲阜，旅程结束",
+          "type": "poi",
+          "tips": "无费用",
+          "coordinates": [
+            116.99,
+            35.56
+          ]
+        }
+      ],
+      "day_label": "Day12"
+    }
+  ]
+}
