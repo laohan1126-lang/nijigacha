@@ -3,10 +3,18 @@
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/favicon.ico", "dest": "/favicon.ico" },
     { "src": "/home-logo.jpg", "dest": "/home-logo.jpg" },
-    { "src": "/projects/(.*)", "dest": "/projects/$1" },
+    { "src": "/gacha/script.js", "dest": "/projects/lovelive-gacha/lovelive-gacha4/script.js" },
+    { "src": "/gacha/data.js", "dest": "/projects/lovelive-gacha/lovelive-gacha4/data.js" },
+    { "src": "/gacha/style.css", "dest": "/projects/lovelive-gacha/lovelive-gacha4/style.css" },
+    { "src": "/gacha/img/(.*)", "dest": "/projects/lovelive-gacha/lovelive-gacha4/img/$1" },
+    { "src": "/gacha/img_opt/(.*)", "dest": "/projects/lovelive-gacha/lovelive-gacha4/img_opt/$1" },
+    { "src": "/gacha/audio/(.*)", "dest": "/projects/lovelive-gacha/lovelive-gacha4/audio/$1" },
+    { "src": "/gacha/audio_opt/(.*)", "dest": "/projects/lovelive-gacha/lovelive-gacha4/audio_opt/$1" },
+    { "src": "/gacha/video/(.*)", "dest": "/projects/lovelive-gacha/lovelive-gacha4/video/$1" },
+    { "src": "/gacha(/.*)?", "dest": "/projects/lovelive-gacha/lovelive-gacha4/index.html" },
     { "src": "/star(/.*)?", "dest": "/projects/star-travel/index.html" },
     { "src": "/niji(/.*)?", "dest": "/projects/nijigacha-start/index.html" },
-    { "src": "/gacha(/.*)?", "dest": "/projects/lovelive-gacha/lovelive-gacha4/index.html" },
+    { "src": "/projects/(.*)", "dest": "/projects/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
