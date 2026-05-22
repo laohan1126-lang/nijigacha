@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "siteTitle": "虎子的小鹿社",
+  "hero": {
+    "kicker": "此刻悄然而生的 tokimeki",
+    "title": "鹿出来了",
+    "subtitle": "热爱是一切的理由和答案",
+    "logoSrc": "assets/logo-placeholder.svg",
+    "mascotSrc": "assets/mascot-placeholder.svg"
+  },
+  "categories": [
+    {
+      "id": "gacha",
+      "icon": "🎰",
+      "name": "扭蛋机",
+      "description": "角色、卡牌、抽取、收藏相关项目",
+      "defaultOpen": true,
+      "projects": [
+        {
+          "title": "拉拉人不灭 — LoveLive! 角色扭蛋",
+          "subtitle": "μ's / Aqours / 虹咲 / Liella! 全角色",
+          "href": "/gacha/",
+          "status": "online",
+          "tags": ["LoveLive", "角色", "扭蛋"]
+        },
+        {
+          "title": "虹咲学园偶像祭",
+          "subtitle": "虹咲学园同好会",
+          "href": "/niji/",
+          "status": "online",
+          "tags": ["虹咲", "同好会", "偶像"]
+        },
+        {
+          "title": "GACHA CARD STUDIO V2",
+          "subtitle": "在线扭蛋卡牌制作工具（独立站）",
+          "href": "https://studio.koshikorato.top/",
+          "status": "online",
+          "tags": ["卡牌", "编辑器", "工具"]
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "icon": "🌏",
+      "name": "旅行与地图",
+      "description": "路线规划、地图、旅行策略工具",
+      "defaultOpen": true,
+      "projects": [
+        {
+          "title": "星空旅游战略地图",
+          "subtitle": "LLer 专属出行规划工具",
+          "href": "/star/",
+          "status": "online",
+          "tags": ["地图", "旅行", "路线"]
+        }
+      ]
+    },
+    {
+      "id": "creative-tools",
+      "icon": "🧰",
+      "name": "创作工具箱",
+      "description": "后续放图片、网页、编辑器、AI 工具",
+      "defaultOpen": false,
+      "projects": []
+    },
+    {
+      "id": "archive",
+      "icon": "✨",
+      "name": "此后会诞生的项目",
+      "description": "预留分类，新增项目只需要往这里填",
+      "defaultOpen": false,
+      "projects": []
+    }
+  ]
+}

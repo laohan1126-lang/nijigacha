@@ -1,0 +1,19 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">鹿出来了 Logo Placeholder</title>
+  <desc id="desc">A soft blue deer emblem placeholder for Tokimeki workspace.</desc>
+  <rect width="256" height="256" rx="72" fill="url(#bg)"/>
+  <path d="M78 102C59 78 56 55 68 39C86 45 99 65 101 89" stroke="#4D7CFF" stroke-width="14" stroke-linecap="round"/>
+  <path d="M178 102C197 78 200 55 188 39C170 45 157 65 155 89" stroke="#4D7CFF" stroke-width="14" stroke-linecap="round"/>
+  <path d="M66 92C86 78 106 77 128 95C150 77 170 78 190 92" stroke="#7EA0FF" stroke-width="10" stroke-linecap="round"/>
+  <path d="M64 133C64 92 93 70 128 70C163 70 192 92 192 133C192 179 166 212 128 212C90 212 64 179 64 133Z" fill="white" stroke="#4D7CFF" stroke-width="10"/>
+  <circle cx="104" cy="132" r="8" fill="#1E2A44"/>
+  <circle cx="152" cy="132" r="8" fill="#1E2A44"/>
+  <path d="M115 165C122 172 134 172 141 165" stroke="#1E2A44" stroke-width="8" stroke-linecap="round"/>
+  <path d="M128 145L119 156H137L128 145Z" fill="#4D7CFF"/>
+  <defs>
+    <linearGradient id="bg" x1="42" y1="20" x2="221" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9FBFF"/>
+      <stop offset="1" stop-color="#DDE7FF"/>
+    </linearGradient>
+  </defs>
+</svg>

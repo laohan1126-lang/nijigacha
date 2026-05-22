@@ -1,0 +1,26 @@
+<svg width="420" height="310" viewBox="0 0 420 310" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Mascot Placeholder</title>
+  <desc id="desc">Two soft mascot silhouettes for the right corner decoration.</desc>
+  <ellipse cx="236" cy="280" rx="150" ry="20" fill="#DDE7FF" opacity="0.8"/>
+  <g transform="translate(76 34)">
+    <path d="M42 68L18 20L74 48" fill="#1D2A44"/>
+    <path d="M148 68L172 20L116 48" fill="#1D2A44"/>
+    <rect x="30" y="50" width="130" height="174" rx="52" fill="#243451"/>
+    <circle cx="72" cy="118" r="9" fill="#E7F0FF"/>
+    <circle cx="118" cy="118" r="9" fill="#E7F0FF"/>
+    <path d="M85 146C91 151 101 151 107 146" stroke="#E7F0FF" stroke-width="7" stroke-linecap="round"/>
+    <path d="M26 172C10 188 12 216 42 220" stroke="#243451" stroke-width="22" stroke-linecap="round"/>
+    <path d="M164 172C180 188 178 216 148 220" stroke="#243451" stroke-width="22" stroke-linecap="round"/>
+    <rect x="52" y="188" width="86" height="58" rx="23" fill="#1E2A44"/>
+  </g>
+  <g transform="translate(210 20)">
+    <path d="M88 20C44 28 26 64 26 118V242H178V112C178 56 142 10 88 20Z" fill="#FFD6C4"/>
+    <path d="M104 28C150 46 178 78 202 132C210 150 226 154 240 142C224 218 178 254 126 254C78 254 42 222 42 176C42 132 72 100 104 28Z" fill="#F0B27B"/>
+    <path d="M30 126C46 98 90 92 126 118C154 138 166 170 158 205C148 248 76 254 44 212C24 186 14 154 30 126Z" fill="#FFFFFF"/>
+    <path d="M42 164H160V246H42V164Z" fill="#FF6B6B"/>
+    <circle cx="78" cy="144" r="7" fill="#1E2A44"/>
+    <circle cx="124" cy="144" r="7" fill="#1E2A44"/>
+    <path d="M92 170C100 176 112 176 120 170" stroke="#1E2A44" stroke-width="6" stroke-linecap="round"/>
+    <path d="M58 204L72 214L58 224L44 214L58 204Z" fill="#FFE7A8"/>
+  </g>
+</svg>

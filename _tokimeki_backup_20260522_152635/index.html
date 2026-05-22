@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f9ff" />
+  <title>虎子的小鹿社｜鹿出来了</title>
+  <meta name="description" content="此刻悄然而生的 tokimeki。热爱是一切的理由和答案。" />
+  <link rel="preload" href="assets/tokimeki-workspace.css" as="style" />
+  <link rel="stylesheet" href="assets/tokimeki-workspace.css" />
+</head>
+<body>
+  <noscript>
+    <div class="noscript">这个页面需要启用 JavaScript 才能渲染项目导航。</div>
+  </noscript>
+
+  <div class="page-shell" id="pageShell">
+    <aside class="sidebar" id="sidebar" aria-label="项目导航栏">
+      <div class="brand-row">
+        <a class="brand" href="/" aria-label="返回虎子的小鹿社首页">
+          <span class="brand-mark" aria-hidden="true">🦌</span>
+          <span class="brand-copy">
+            <span class="brand-title">虎子的小鹿社</span>
+            <span class="brand-subtitle">tokimeki hub</span>
+          </span>
+        </a>
+        <button class="icon-button collapse-button" id="collapseButton" type="button" aria-label="折叠侧边栏" aria-expanded="true">
+          <span aria-hidden="true">‹</span>
+        </button>
+      </div>
+
+      <button class="create-button" type="button" id="createButton" title="预留给后续新增项目入口">
+        <span aria-hidden="true">＋</span>
+        <span>把新的热爱放进来</span>
+      </button>
+
+      <label class="search-box" for="projectSearch">
+        <span aria-hidden="true">⌕</span>
+        <input id="projectSearch" type="search" autocomplete="off" placeholder="搜索项目、扭蛋机、地图…" />
+      </label>
+
+      <nav class="nav-scroll" id="projectNav" aria-label="项目分类"></nav>
+
+      <div class="sidebar-footer">
+        <span class="footer-avatar" aria-hidden="true">鹿</span>
+        <span class="footer-copy">热爱收藏中</span>
+      </div>
+    </aside>
+
+    <div class="mobile-overlay" id="mobileOverlay" hidden></div>
+
+    <main class="main-stage">
+      <header class="mobile-topbar">
+        <button class="icon-button" id="mobileMenuButton" type="button" aria-label="打开项目导航">
+          <span aria-hidden="true">☰</span>
+        </button>
+        <span>虎子的小鹿社</span>
+      </header>
+
+      <section class="hero" aria-labelledby="heroTitle">
+        <p class="hero-kicker">此刻悄然而生的 tokimeki</p>
+
+        <div class="logo-orbit" aria-label="站点 Logo 区域">
+          <img id="heroLogo" src="assets/logo-placeholder.svg" alt="鹿出来了 Logo" />
+        </div>
+
+        <h1 id="heroTitle">鹿出来了</h1>
+        <p class="hero-subtitle">热爱是一切的理由和答案</p>
+
+        <div class="launch-panel" role="region" aria-label="快速启动项目">
+          <div class="launch-input" aria-live="polite">
+            <span class="launch-placeholder" id="launchHint">选择左侧分类，或搜索项目后直接进入。</span>
+            <a class="launch-link" id="activeProjectLink" href="#" hidden>进入项目</a>
+          </div>
+          <div class="launch-actions" id="heroActions"></div>
+        </div>
+      </section>
+
+      <section class="project-preview" aria-labelledby="previewTitle">
+        <div class="section-heading">
+          <p>PROJECTS</p>
+          <h2 id="previewTitle">最近可以出发的地方</h2>
+        </div>
+        <div class="preview-grid" id="previewGrid"></div>
+      </section>
+    </main>
+
+    <aside class="mascot-dock" aria-label="装饰角色区域">
+      <img id="mascotImage" src="assets/mascot-placeholder.svg" alt="小鹿社看板角色" />
+    </aside>
+  </div>
+
+  <script src="assets/tokimeki-workspace.js" defer></script>
+</body>
+</html>

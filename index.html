@@ -1,49 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>虎子的小鹿社</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: system-ui, sans-serif; background: #fdfbf7; color: #333; min-height: 100vh; }
-    .header { background: #fff; border-bottom: 1px solid #F2E8CF; padding: 1rem 2rem; display: flex; align-items: center; }
-    .header h1 { font-size: 1.25rem; font-weight: bold; color: #C5A059; }
-    .main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    .section { margin-bottom: 2rem; }
-    .section-title { font-size: 0.85rem; color: #999; margin-bottom: 0.75rem; padding-left: 0.5rem; }
-    .card { display: block; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; text-decoration: none; color: #333; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .card:hover { border-color: #C5A059; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(197,160,89,0.15); }
-    .card-title { font-weight: 600; margin-bottom: 0.25rem; }
-    .card-desc { font-size: 0.85rem; color: #888; }
-    .footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #aaa; }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f0e4" />
+  <title>虎子的小鹿社｜鹿出来了</title>
+  <meta name="description" content="此刻悄然而生的 tokimeki。鹿出来了。热爱是一切的理由和答案。" />
+  <link rel="preload" href="assets/tokimeki.css" as="style" />
+  <link rel="stylesheet" href="assets/tokimeki.css" />
 </head>
 <body>
-  <div class="header">
-    <h1>🦌 虎子的小鹿社</h1>
+  <noscript>
+    <div class="noscript">这个页面需要启用 JavaScript 才能渲染左侧项目导航。</div>
+  </noscript>
+
+  <div class="app-shell" id="appShell" data-sidebar="expanded" data-mobile-nav="closed">
+    <aside class="sidebar" id="sidebar" aria-label="项目导航">
+      <div class="sidebar-head">
+        <a class="brand" href="/" aria-label="返回虎子的小鹿社首页">
+          <span class="brand-emblem" aria-hidden="true">鹿</span>
+          <span class="brand-text">
+            <span class="brand-title">虎子的小鹿社</span>
+            <span class="brand-subtitle">tokimeki</span>
+          </span>
+        </a>
+
+        <button class="icon-button sidebar-collapse" id="sidebarCollapse" type="button" aria-label="折叠侧边栏" aria-expanded="true">
+          <span aria-hidden="true">‹</span>
+        </button>
+
+        <button class="icon-button mobile-close" id="mobileClose" type="button" aria-label="关闭导航">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <label class="search-field" for="projectSearch">
+        <span aria-hidden="true">⌕</span>
+        <input id="projectSearch" type="search" autocomplete="off" placeholder="搜索项目" />
+      </label>
+
+      <nav class="nav-list" id="projectNav" aria-label="项目分类列表"></nav>
+    </aside>
+
+    <button class="rail-expand" id="railExpand" type="button" aria-label="展开侧边栏">
+      <span aria-hidden="true">›</span>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay" hidden></div>
+
+    <main class="main-stage" aria-labelledby="heroTitle">
+      <header class="mobile-topbar">
+        <button class="icon-button" id="mobileMenu" type="button" aria-label="打开项目导航">
+          <span aria-hidden="true">☰</span>
+        </button>
+        <span class="mobile-title">虎子的小鹿社</span>
+      </header>
+
+      <section class="hero-card">
+        <p class="hero-kicker" id="heroKicker">此刻悄然而生的 tokimeki</p>
+        <div class="logo-frame" aria-label="站点 Logo 区域">
+          <img id="heroLogo" src="assets/logo-placeholder.svg" alt="鹿出来了 Logo" />
+        </div>
+        <h1 id="heroTitle">鹿出来了</h1>
+      </section>
+
+      <p class="bottom-motto" id="bottomMotto">热爱是一切的理由和答案</p>
+    </main>
   </div>
-  <div class="main">
-    <div class="section">
-      <div class="section-title">工作台 WORKSPACE</div>
-      <a class="card" href="/gacha/">
-        <div class="card-title">🎰 拉拉人不灭 — LoveLive! 角色扭蛋</div>
-        <div class="card-desc">μ's / Aqours / 虹咲 / Liella! 全角色</div>
-      </a>
-      <a class="card" href="/niji/">
-        <div class="card-title">🌈 虹咲学园偶像祭</div>
-        <div class="card-desc">虹咲学园学园偶像同好会</div>
-      </a>
-      <a class="card" href="/star/">
-        <div class="card-title">🌏 星空旅游战略地图</div>
-        <div class="card-desc">LLer 专属出行规划工具</div>
-      </a>
-      <a class="card" href="https://studio.koshikorato.top/">
-        <div class="card-title">🎴 GACHA CARD STUDIO V2</div>
-        <div class="card-desc">在线扭蛋卡牌制作工具（独立站）</div>
-      </a>
-    </div>
-  </div>
-  <div class="footer">_虎子亲 · WORKSPACE</div>
+
+  <script src="assets/tokimeki.js" defer></script>
 </body>
 </html>

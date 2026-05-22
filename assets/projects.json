@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "siteTitle": "虎子的小鹿社",
+  "hero": {
+    "kicker": "此刻悄然而生的 tokimeki",
+    "title": "鹿出来了",
+    "motto": "热爱是一切的理由和答案",
+    "logoSrc": "assets/logo-placeholder.svg"
+  },
+  "categories": [
+    {
+      "id": "gacha",
+      "icon": "🎰",
+      "name": "扭蛋机",
+      "defaultOpen": true,
+      "projects": [
+        {
+          "title": "拉拉人不灭 — LoveLive! 角色扭蛋",
+          "subtitle": "μ's / Aqours / 虹咲 / Liella! 全角色",
+          "href": "/gacha/",
+          "status": "online",
+          "tags": ["LoveLive", "角色", "扭蛋"]
+        },
+        {
+          "title": "虹咲学园偶像祭",
+          "subtitle": "虹咲学园同好会",
+          "href": "/niji/",
+          "status": "online",
+          "tags": ["虹咲", "同好会", "偶像"]
+        },
+        {
+          "title": "GACHA CARD STUDIO V2",
+          "subtitle": "在线扭蛋卡牌制作工具",
+          "href": "https://studio.koshikorato.top/",
+          "status": "online",
+          "tags": ["卡牌", "编辑器", "工具"]
+        }
+      ]
+    },
+    {
+      "id": "travel-map",
+      "icon": "🌏",
+      "name": "旅行与地图",
+      "defaultOpen": false,
+      "projects": [
+        {
+          "title": "星空旅游战略地图",
+          "subtitle": "LLer 专属出行规划工具",
+          "href": "/star/",
+          "status": "online",
+          "tags": ["地图", "旅行", "路线"]
+        }
+      ]
+    }
+  ]
+}
