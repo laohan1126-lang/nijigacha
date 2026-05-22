@@ -235,11 +235,77 @@ document.addEventListener('DOMContentLoaded', initCards);
 // 7. 背景音樂
 let musicPlaying = false;
 let currentGroup = null;
+let bgmPlayRequestId = 0;
+let bgmLoading = false;
+
+function reportBgmError(stage, error) {
+ const name = error && error.name ? error.name : 'UnknownError';
+ const message = error && error.message ? error.message : String(error || 'unknown audio error');
+ console.warn('[BGM] ' + stage + ' failed:', name, message, error);
+}
+
+function safePauseBgm(bgm) {
+ if (!bgm) return;
+ bgmPlayRequestId += 1; // 让所有旧 canplay / play 回调失效
+ bgmLoading = false;
+ if (!bgm.paused || bgm.readyState > 0) {
+  bgm.pause();
+ }
+ musicPlaying = false;
+}
+
+function playBgmWhenReady(bgm, group, src) {
+ bgmPlayRequestId += 1;
+ const requestId = bgmPlayRequestId;
+ const absoluteSrc = new URL(src, window.location.href).href;
+ currentGroup = group;
+ musicPlaying = true;
+ bgmLoading = true;
+
+ if (bgm.src !== absoluteSrc) {
+  bgm.src = src;
+ }
+ bgm.load();
+
+ const startPlayback = function() {
+  if (requestId !== bgmPlayRequestId || currentGroup !== group || bgm.src !== absoluteSrc) return;
+  bgmLoading = false;
+  var playPromise = bgm.play();
+  if (playPromise && typeof playPromise.then === 'function') {
+   playPromise.then(function() {
+    if (requestId === bgmPlayRequestId && currentGroup === group) {
+     musicPlaying = true;
+    }
+   }).catch(function(error) {
+    if (requestId !== bgmPlayRequestId) return;
+    musicPlaying = false;
+    bgmLoading = false;
+    reportBgmError('play', error);
+   });
+  }
+ };
+
+ if (bgm.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+  startPlayback();
+ } else {
+  bgm.addEventListener('canplay', startPlayback, { once: true });
+  bgm.addEventListener('error', function() {
+   if (requestId !== bgmPlayRequestId) return;
+   musicPlaying = false;
+   bgmLoading = false;
+   reportBgmError('load', bgm.error || new Error('audio load error'));
+  }, { once: true });
+ }
+}
+
 function toggleMusic() {
  const bgm = document.getElementById('bgm');
  if (!bgm) return;
- if (musicPlaying) { bgm.pause(); musicPlaying = false; }
- else { bgm.play().catch(() => {}); musicPlaying = true; }
+ if (musicPlaying || bgmLoading) {
+  safePauseBgm(bgm);
+ } else if (currentGroup && bgm.src) {
+  playBgmWhenReady(bgm, currentGroup, bgm.src);
+ }
 }
 
 // 8. 团体音乐播放（点击播放/暂停）
@@ -254,24 +320,19 @@ function playGroupMusic(group) {
  if (!src) return;
  var bgm = document.getElementById('bgm');
  if (!bgm) return;
- 
- // 如果点击的是同一个团体，切换播放/暂停
+
+ // 同一团体：已经播放或正在缓冲时，视为用户要暂停；否则重新播放。
  if (currentGroup === group) {
-  if (musicPlaying) {
-   bgm.pause();
-   musicPlaying = false;
+  if (musicPlaying || bgmLoading || !bgm.paused) {
+   safePauseBgm(bgm);
   } else {
-   bgm.play().catch(function() {});
-   musicPlaying = true;
+   playBgmWhenReady(bgm, group, src);
   }
   return;
  }
- 
- // 切换到新团体
- currentGroup = group;
- bgm.src = src;
- bgm.play().catch(function() {});
- musicPlaying = true;
+
+ // 切换团体：不再对 pending play 直接 pause，而是让旧请求失效，等新音频 canplay 后再 play。
+ playBgmWhenReady(bgm, group, src);
 }
 
 // 9. 图鉴页面渲染
