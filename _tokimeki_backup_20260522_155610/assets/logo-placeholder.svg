@@ -1,0 +1,21 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">鹿出来了 Logo 占位图</title>
+  <desc id="desc">香槟金色的鹿字 Logo 占位图，可替换为正式图片。</desc>
+  <defs>
+    <linearGradient id="g" x1="43" y1="25" x2="202" y2="215" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF8EA"/>
+      <stop offset="0.52" stop-color="#D8B879"/>
+      <stop offset="1" stop-color="#8F6735"/>
+    </linearGradient>
+    <filter id="s" x="0" y="0" width="240" height="240" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#8F6735" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect x="18" y="18" width="204" height="204" rx="52" fill="url(#g)" filter="url(#s)"/>
+  <rect x="28" y="28" width="184" height="184" rx="44" stroke="#FFF8EA" stroke-opacity="0.72" stroke-width="2"/>
+  <path d="M70 83c17-25 35-31 54-18 17-10 34-8 51 6" stroke="#4D341B" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M82 74 66 48m93 24 18-25" stroke="#4D341B" stroke-width="10" stroke-linecap="round"/>
+  <path d="M121 68c-14 27-20 55-18 84 2 31 24 42 46 24 16-13 18-35 7-57" stroke="#4D341B" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M92 121c-19 5-29 20-28 45m42-24c-21 18-38 29-55 33" stroke="#4D341B" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="150" cy="107" r="5" fill="#4D341B"/>
+</svg>

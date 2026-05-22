@@ -10,7 +10,7 @@
     categories: [
       {
         id: "gacha",
-        icon: "🧸",
+        icon: "🎰",
         name: "扭蛋机",
         defaultOpen: true,
         projects: [
@@ -22,7 +22,7 @@
       {
         id: "travel",
         icon: "🌏",
-        name: "工具",
+        name: "旅行与地图",
         defaultOpen: false,
         projects: [
           { title: "星空旅游战略地图", subtitle: "LLer 专属出行规划工具", href: "/travel-map/", status: "online", tags: ["地图", "旅行", "路线"] }
@@ -96,9 +96,13 @@
 
   function projectMatches(project, category, query) {
     if (!query) return true;
-    const haystack = [project.title, project.subtitle, project.href, category.name, ...(project.tags || [])]
-      .map(normalize)
-      .join(" ");
+    const haystack = [
+      project.title,
+      project.subtitle,
+      project.href,
+      category.name,
+      ...(project.tags || [])
+    ].map(normalize).join(" ");
     return haystack.includes(query);
   }
 
@@ -131,14 +135,19 @@
   function toggleCategory(categoryId) {
     const shell = $(ids.shell);
     const isMobile = window.matchMedia("(max-width: 860px)").matches;
+
     if (shell.dataset.sidebar === "collapsed" && !isMobile) {
       expandDesktopSidebar();
       state.openCategories.add(categoryId);
       renderNav();
       return;
     }
-    if (state.openCategories.has(categoryId)) state.openCategories.delete(categoryId);
-    else state.openCategories.add(categoryId);
+
+    if (state.openCategories.has(categoryId)) {
+      state.openCategories.delete(categoryId);
+    } else {
+      state.openCategories.add(categoryId);
+    }
     renderNav();
   }
 
@@ -149,6 +158,7 @@
     nav.innerHTML = "";
 
     let matchCount = 0;
+
     categories.forEach((category) => {
       const categoryNameMatches = normalize(category.name).includes(query);
       const projects = category.projects.filter((project) => projectMatches(project, category, query));
@@ -165,6 +175,7 @@
       toggle.addEventListener("click", () => toggleCategory(category.id));
 
       toggle.append(el("span", "category-icon", category.icon || "•"));
+
       const meta = el("span", "category-meta");
       meta.append(el("span", "category-name", category.name));
       meta.append(el("span", "category-count", `${category.projects.length} 个项目`));
@@ -174,6 +185,7 @@
 
       const list = el("div", "project-list");
       list.hidden = !isOpen;
+
       projects.forEach((project) => {
         matchCount += 1;
         const link = el("a", "project-link");
@@ -194,12 +206,16 @@
         link.append(el("div", "project-subtitle", project.subtitle || ""));
         list.append(link);
       });
+
       section.append(list);
       nav.append(section);
     });
 
-    if (categories.length === 0) nav.append(el("div", "nav-empty", "还没有项目。请在 assets/projects.json 里添加分类和链接。"));
-    else if (query && matchCount === 0) nav.append(el("div", "nav-no-result", "没有找到匹配项目。"));
+    if (categories.length === 0) {
+      nav.append(el("div", "nav-empty", "还没有项目。请在 assets/projects.json 里添加分类和链接。"));
+    } else if (query && matchCount === 0) {
+      nav.append(el("div", "nav-no-result", "没有找到匹配项目。"));
+    }
   }
 
   function initCategoryState() {
@@ -227,7 +243,9 @@
       collapse.setAttribute("aria-expanded", String(next !== "collapsed"));
       localStorage.setItem("tokimeki-sidebar", next);
     });
+
     railExpand?.addEventListener("click", expandDesktopSidebar);
+
     search?.addEventListener("input", (event) => {
       state.query = event.target.value;
       renderNav();
@@ -244,6 +262,7 @@
         setActiveHref("");
       }
     });
+
     window.addEventListener("resize", () => {
       if (!window.matchMedia("(max-width: 860px)").matches) closeMobileNav();
     });
@@ -258,6 +277,9 @@
     renderNav();
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
-  else init();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
 })();

@@ -5,7 +5,7 @@
       kicker: "此刻悄然而生的 tokimeki",
       title: "鹿出来了",
       motto: "热爱是一切的理由和答案",
-      logoSrc: "assets/logo-placeholder.svg"
+      logoSrc: "assets/deer-pipe-logo.png"
     },
     categories: [
       {
